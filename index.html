@@ -311,7 +311,7 @@
     /* ── PROJECTS ── */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5px;
       background: var(--border);
     }
@@ -337,6 +337,11 @@
     }
 
     .project-card:hover::after { width: 100%; }
+
+    /* Special accent color for the DB project */
+    .project-card.db-card::after {
+      background: var(--accent2);
+    }
 
     .project-number {
       font-family: 'Space Mono', monospace;
@@ -377,6 +382,11 @@
       text-transform: uppercase;
     }
 
+    .tag.tag-db {
+      color: var(--accent2);
+      border-color: rgba(255,61,110,0.3);
+    }
+
     .project-arrow {
       position: absolute;
       top: 3rem; right: 3rem;
@@ -388,6 +398,25 @@
     .project-card:hover .project-arrow {
       transform: translate(4px, -4px);
       color: var(--accent);
+    }
+
+    .project-card.db-card:hover .project-arrow {
+      color: var(--accent2);
+    }
+
+    /* DB badge */
+    .project-badge {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+      background: rgba(255,61,110,0.12);
+      color: var(--accent2);
+      border: 1px solid rgba(255,61,110,0.25);
     }
 
     /* ── SKILLS ── */
@@ -580,13 +609,16 @@
     }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { gap: 1.5rem; }
       #hero, section { padding: 5rem 1.5rem; }
       #hero { padding-top: 6rem; }
       .about-grid, .skills-layout { grid-template-columns: 1fr; gap: 3rem; }
-      .projects-grid { grid-template-columns: 1fr; }
       .stats-row { gap: 2rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
       .hero-scroll { left: 1.5rem; }
@@ -619,8 +651,7 @@
       <p class="hero-tag">// Engineering Student · Kathmandu</p>
       <h1 class="hero-name">
         Bhuwan<br>
-        <span class="highlight"></span><br>
-        Adhikari
+        <span class="highlight">"Adhikari"</span><br>
       </h1>
       <p class="hero-subtitle">
         Engineering student building autonomous systems, robotics,
@@ -655,7 +686,7 @@
         </p>
         <div class="stats-row reveal">
           <div class="stat-item">
-            <div class="stat-number">2+</div>
+            <div class="stat-number">3+</div>
             <div class="stat-label">Projects Built</div>
           </div>
           <div class="stat-item">
@@ -675,7 +706,7 @@
         </div>
         <div class="about-card reveal" style="animation-delay: 0.1s;">
           <div class="about-card-title">Focus Areas</div>
-          <div class="about-card-content">Robotics · Autonomous Systems · AI</div>
+          <div class="about-card-content">Robotics · Autonomous Systems · AI · Databases</div>
         </div>
         <div class="about-card reveal" style="animation-delay: 0.2s;">
           <div class="about-card-title">Based In</div>
@@ -689,6 +720,7 @@
   <section id="projects">
     <p class="section-label">02 — Projects</p>
     <div class="projects-grid reveal">
+
       <div class="project-card">
         <div class="project-number">Project 01</div>
         <div class="project-arrow">↗</div>
@@ -704,6 +736,7 @@
           <span class="tag">ML</span>
         </div>
       </div>
+
       <div class="project-card">
         <div class="project-number">Project 02</div>
         <div class="project-arrow">↗</div>
@@ -719,6 +752,26 @@
           <span class="tag">Sensors</span>
         </div>
       </div>
+
+      <div class="project-card db-card">
+        <div class="project-number">Project 03</div>
+        <div class="project-arrow">↗</div>
+        <div class="project-badge">DBMS Subject</div>
+        <h3 class="project-title">Cricket Tournament Database</h3>
+        <p class="project-desc">
+          A fully normalized relational database system for managing cricket
+          tournaments — tracking players, teams, matches, innings, scores,
+          and player statistics. Includes complex SQL queries for live
+          standings, top run-scorers, and head-to-head match history.
+        </p>
+        <div class="project-tags">
+          <span class="tag tag-db">SQL</span>
+          <span class="tag tag-db">PostgreSQL</span>
+          <span class="tag tag-db">ER Diagram</span>
+          <span class="tag tag-db">Normalization</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -763,6 +816,13 @@
           <div class="skill-meta">
             <span class="skill-level">Learning</span>
             <div class="skill-bar-wrap"><div class="skill-bar" data-width="50"></div></div>
+          </div>
+        </div>
+        <div class="skill-row reveal">
+          <span class="skill-name">Database Design</span>
+          <div class="skill-meta">
+            <span class="skill-level">Intermediate</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="60"></div></div>
           </div>
         </div>
       </div>
@@ -823,7 +883,6 @@
 
     document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => {
-        cursor.style.transform += ' scale(2)';
         ring.style.width = '60px';
         ring.style.height = '60px';
       });
