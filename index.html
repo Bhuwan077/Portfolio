@@ -417,6 +417,9 @@
       padding:.6rem 1.4rem; text-decoration:none; border:1px solid; transition:all .25s;
     }
     .cert-modal-verify:hover { opacity:.8; }
+    .cert-modal-preview { width:100%; height:320px; margin-bottom:1.4rem; border:1px solid var(--border2); background:#000; }
+    .cert-modal-preview img { width:100%; height:100%; object-fit:contain; display:block; }
+    .cert-modal-preview iframe { width:100%; height:100%; border:none; display:block; }
 
     /* ─── CONTACT ─── */
     #contact { background:var(--surface); }
@@ -747,6 +750,7 @@
     <div id="cert-modal-badge" class="cert-modal-badge-wrap"></div>
     <div id="cert-modal-name" class="cert-modal-name"></div>
     <div id="cert-modal-date" class="cert-modal-date"></div>
+    <div id="cert-modal-preview" class="cert-modal-preview" style="display:none"></div>
     <div id="cert-modal-desc" class="cert-modal-desc"></div>
     <a id="cert-modal-btn" href="#" target="_blank" rel="noopener" class="cert-modal-verify">Verify Credential &#x2197;</a>
   </div>
@@ -910,6 +914,20 @@ window.addEventListener('scroll',()=>{
       btn.style.opacity = '0.4'; btn.style.pointerEvents = 'none';
     } else {
       btn.style.opacity = ''; btn.style.pointerEvents = '';
+    }
+    // Preview: image or PDF
+    var previewEl = document.getElementById('cert-modal-preview');
+    if(cert.image_url){
+      previewEl.style.display = '';
+      var isImg = /\.(png|jpg|jpeg|gif|webp)$/i.test(cert.image_url);
+      if(isImg){
+        previewEl.innerHTML = '<img src="' + cert.image_url + '" alt="' + (cert.name||'') + '" />';
+      } else {
+        previewEl.innerHTML = '<iframe src="' + cert.image_url + '" title="' + (cert.name||'') + '"></iframe>';
+      }
+    } else {
+      previewEl.style.display = 'none';
+      previewEl.innerHTML = '';
     }
     modal.setAttribute('aria-hidden','false');
     modal.classList.add('open');
