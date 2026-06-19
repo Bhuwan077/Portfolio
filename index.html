@@ -361,6 +361,12 @@
     .cert-issuer-badge.google { background:rgba(66,133,244,.1); color:#4285f4; border:1px solid rgba(66,133,244,.2); }
     .cert-issuer-badge.forage { background:rgba(124,58,237,.1); color:#7c3aed; border:1px solid rgba(124,58,237,.2); }
     .cert-issuer-badge.simplilearn { background:rgba(34,197,94,.1); color:#22c55e; border:1px solid rgba(34,197,94,.2); }
+    .cert-card.ibm::before { background:#3b82f6; }
+    .cert-issuer-badge.ibm { background:rgba(59,130,246,.1); color:#3b82f6; border:1px solid rgba(59,130,246,.2); }
+    .cert-card.udemy::before { background:#a435f0; }
+    .cert-issuer-badge.udemy { background:rgba(164,53,240,.1); color:#a435f0; border:1px solid rgba(164,53,240,.2); }
+    .cert-card.deloitte::before { background:#86bc25; }
+    .cert-issuer-badge.deloitte { background:rgba(134,188,37,.1); color:#86bc25; border:1px solid rgba(134,188,37,.2); }
 
     .cert-name { font-size:.9rem; font-weight:500; color:var(--text); line-height:1.4; margin-bottom:.5rem; }
     .cert-date { font-family:"DM Mono",monospace; font-size:.62rem; color:var(--muted); letter-spacing:.08em; }
@@ -808,7 +814,6 @@ const barObs=new IntersectionObserver(entries=>{
 },{threshold:0.4});
 document.querySelectorAll('.skill-fill').forEach(b=>{b.style.width='0';barObs.observe(b);});
 
-// ── ACTIVE NAV ──
 const secs=[...document.querySelectorAll('section[id]')];
 const links=[...document.querySelectorAll('.nav-links a')];
 window.addEventListener('scroll',()=>{
@@ -819,7 +824,6 @@ window.addEventListener('scroll',()=>{
   });
 },{ passive:true });
 
-/* ─── CERTIFICATIONS: SUPABASE DYNAMIC LOAD ─── */
 (async function(){
   const SUPA_URL = 'https://tnuguievqklrdtkkcwhg.supabase.co';
   const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRudWd1aWV2cWtscmR0a2tjd2hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMzIzMTIsImV4cCI6MjA5NDYwODMxMn0.YLrlpFAE-32QXRrY-UjKQxhKNVggeP0VIA-N2_-uvOU';
@@ -830,10 +834,15 @@ window.addEventListener('scroll',()=>{
   const modalClose = document.getElementById('cert-modal-close');
 
   const issuerMap = {
-    'amazon web services': { cls:'aws', color:'#ff9900', bg:'rgba(255,153,0,.1)', border:'rgba(255,153,0,.2)' },
-    'google':              { cls:'google', color:'#4285f4', bg:'rgba(66,133,244,.1)', border:'rgba(66,133,244,.2)' },
-    'forage':              { cls:'forage', color:'#7c3aed', bg:'rgba(124,58,237,.1)', border:'rgba(124,58,237,.2)' },
-    'simplilearn':         { cls:'simplilearn', color:'#22c55e', bg:'rgba(34,197,94,.1)', border:'rgba(34,197,94,.2)' },
+    'amazon web services':      { cls:'aws', color:'#ff9900', bg:'rgba(255,153,0,.1)', border:'rgba(255,153,0,.2)' },
+    'amazon web services (aws)':{ cls:'aws', color:'#ff9900', bg:'rgba(255,153,0,.1)', border:'rgba(255,153,0,.2)' },
+    'google':                   { cls:'google', color:'#4285f4', bg:'rgba(66,133,244,.1)', border:'rgba(66,133,244,.2)' },
+    'google developer experts': { cls:'google', color:'#4285f4', bg:'rgba(66,133,244,.1)', border:'rgba(66,133,244,.2)' },
+    'forage':                   { cls:'forage', color:'#7c3aed', bg:'rgba(124,58,237,.1)', border:'rgba(124,58,237,.2)' },
+    'simplilearn':              { cls:'simplilearn', color:'#22c55e', bg:'rgba(34,197,94,.1)', border:'rgba(34,197,94,.2)' },
+    'ibm':                      { cls:'ibm', color:'#3b82f6', bg:'rgba(59,130,246,.1)', border:'rgba(59,130,246,.2)' },
+    'udemy':                    { cls:'udemy', color:'#a435f0', bg:'rgba(164,53,240,.1)', border:'rgba(164,53,240,.2)' },
+    'deloitte':                 { cls:'deloitte', color:'#86bc25', bg:'rgba(134,188,37,.1)', border:'rgba(134,188,37,.2)' },
   };
 
   function getIssuerStyle(issuer){
@@ -869,7 +878,7 @@ window.addEventListener('scroll',()=>{
     } else {
       btn.style.opacity = ''; btn.style.pointerEvents = '';
     }
-    // Preview: image or PDF
+  
     var previewEl = document.getElementById('cert-modal-preview');
     if(cert.image_url){
       previewEl.style.display = '';
@@ -917,29 +926,54 @@ window.addEventListener('scroll',()=>{
     });
   }
 
-  grid.innerHTML = '<div class="cert-loading">Fetching certificates…</div>';
+  grid.innerHTML = '<div class="cert-loading">Loading certificates&hellip;</div>';
 
-  try {
-    var res = await fetch(SUPA_URL + '/rest/v1/certificates?select=*&order=id.asc', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
-    });
-    if(!res.ok) throw new Error('fetch failed');
-    var certs = await res.json();
-    if(!Array.isArray(certs) || !certs.length) throw new Error('empty');
+  var CERTS = [
+    { name:'AWS Cloud Quest: Machine Learning \u2014 Training Badge', issuer:'Amazon Web Services (AWS)', issued_date:'May 2026', category:'AI / ML', color:'#ff9900', credential_url:'#', description:'Hands-on AWS Cloud Quest role building and deploying machine learning solutions on AWS.' },
+    { name:'AWS Cloud Quest: Generative AI Practitioner \u2014 Training Badge', issuer:'Amazon Web Services (AWS)', issued_date:'May 2026', category:'AI / ML', color:'#ff9900', credential_url:'https://www.credly.com/badges/dd398919-ca80-4d96-b61e-5cdbd338a29d/public_url', description:'Hands-on AWS Cloud Quest role focused on building generative AI solutions on AWS.' },
+    { name:'AWS Cloud Quest: Data Analytics \u2014 Training Badge', issuer:'Amazon Web Services (AWS)', issued_date:'May 2026', category:'Data', color:'#ff9900', credential_url:'#', description:'Hands-on AWS Cloud Quest role building data analytics pipelines and dashboards on AWS.' },
+    { name:'AWS Cloud Quest: Security \u2014 Training Badge', issuer:'Amazon Web Services (AWS)', issued_date:'May 2026', category:'Cloud', color:'#ff9900', credential_url:'#', description:'Hands-on AWS Cloud Quest role implementing security best practices and controls on AWS.' },
+    { name:'AWS Cloud Quest: Solutions Architect \u2014 Training Badge', issuer:'Amazon Web Services (AWS)', issued_date:'May 2026', category:'Cloud', color:'#ff9900', credential_url:'#', description:'Hands-on AWS Cloud Quest role designing resilient, scalable cloud architectures on AWS.' },
+    { name:'AWS Cloud Quest: Serverless Developer \u2014 Training Badge', issuer:'Amazon Web Services (AWS)', issued_date:'May 2026', category:'Cloud', color:'#ff9900', credential_url:'#', description:'Hands-on AWS Cloud Quest role building serverless applications with Lambda and managed services.' },
+    { name:'AWS Solutions Architect Associate', issuer:'Udemy', issued_date:'May 2026', category:'Cloud', color:'#a435f0', credential_url:'#', description:'Course preparing for the AWS Certified Solutions Architect \u2013 Associate exam, covering core AWS services and architecture.' },
+    { name:'Web Development Fundamentals', issuer:'IBM', issued_date:'May 2026', category:'Web Dev', color:'#3b82f6', credential_url:'#', description:'IBM credential covering web development and front-end development fundamentals. Skills: Web Development, Front-End Development, +3 skills.' },
+    { name:'Getting Started with Docker', issuer:'Simplilearn', issued_date:'May 2026', category:'DevOps', color:'#22c55e', credential_url:'#', description:'Introduction to containerization with Docker \u2014 images, containers, and basic orchestration.' },
+    { name:'Work Meets Play: Metrics in Motion', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade challenge. Credential ID 23373798.' },
+    { name:'Arcade Voyage: AI and Cloud Deployment', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade challenge on AI and cloud deployment. Credential ID 23325145.' },
+    { name:'Arcade Base Camp March 2026', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade challenge. Credential ID 23350890.' },
+    { name:'Arcade Adventure: Security, Data, and Cloud Operations', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade challenge on security, data, and cloud operations.' },
+    { name:'Arcade Trail: Automation and Analytics', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade challenge on automation and analytics. Credential ID 23093177.' },
+    { name:'Arcade March 2026 Sprint 4', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade sprint. Credential ID 22832765.' },
+    { name:'Holi-istic Infrastructures', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade challenge on cloud infrastructure.' },
+    { name:'Arcade March 2026 Sprint 2', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade sprint. Credential ID 22727165.' },
+    { name:'Arcade March 2026 Sprint 1', issuer:'Google', issued_date:'Mar 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade sprint. Credential ID 22724232.' },
+    { name:'Skills At The Pitch', issuer:'Google', issued_date:'Feb 2026', category:'Google Cloud', color:'#4285f4', credential_url:'#', description:'Google Cloud Arcade challenge.' },
+    { name:'AWS Academy Graduate \u2014 Cloud Foundations', issuer:'Amazon Web Services (AWS)', issued_date:'Nov 2025', category:'Cloud', color:'#ff9900', credential_url:'https://www.credly.com/badges/9f0fea66-1703-4caf-b00a-8f41d6942662/public_url', description:'Foundational AWS certification covering core cloud concepts, services, and architecture.' },
+    { name:'Google Skill Badge: BigQuery for Data Analysts', issuer:'Google Developer Experts', issued_date:'Nov 2025', category:'Data', color:'#4285f4', credential_url:'#', description:'Skill badge for querying and analyzing data with BigQuery. Skills: Data Analysis, Google Sheets, +3 skills.' },
+    { name:'Machine Learning using Python', issuer:'Simplilearn', issued_date:'Nov 2025', category:'AI / ML', color:'#22c55e', credential_url:'#', description:'Hands-on machine learning course covering supervised, unsupervised learning and model evaluation using Python. Skills: Machine Learning, scikit-learn, +1 skill.' },
+    { name:'AWS \u2014 Solutions Architecture Job Simulation', issuer:'Forage', issued_date:'Nov 2025', category:'Cloud', color:'#7c3aed', credential_url:'#', description:'Virtual job simulation designing scalable AWS solutions for real-world business scenarios. Credential ID FfLsirNugQx8nKXzX.' },
+    { name:'Deloitte Australia \u2014 Data Analytics Job Simulation', issuer:'Forage', issued_date:'Nov 2025', category:'Data', color:'#86bc25', credential_url:'#', description:'Virtual job simulation analyzing data and building dashboards for Deloitte Australia client scenarios.' },
+  ];
+
+  function render(certs){
     grid.innerHTML = '';
     buildFilters(certs);
     certs.forEach(function(cert){ grid.appendChild(buildCard(cert)); });
-  } catch(e) {
-    var fallback = [
-      { name:'AWS Academy Graduate — Cloud Foundations', issuer:'Amazon Web Services', issued_date:'Nov 2025', category:'Cloud', color:'#ff9900', credential_url:'https://www.credly.com/badges/9f0fea66-1703-4caf-b00a-8f41d6942662/public_url', description:'Foundational AWS certification covering core cloud concepts, services, and architecture.' },
-      { name:'Machine Learning using Python', issuer:'Simplilearn', issued_date:'Nov 2025', category:'AI / ML', color:'#22c55e', credential_url:'#', description:'Hands-on machine learning course covering supervised, unsupervised learning and model evaluation using Python.' },
-      { name:'AWS — Solutions Architecture Job Simulation', issuer:'Forage', issued_date:'Nov 2025', category:'Cloud', color:'#7c3aed', credential_url:'#', description:'Virtual job simulation designing scalable AWS solutions for real-world business scenarios.' },
-      { name:'AWS Cloud Quest: Generative AI Practitioner', issuer:'Amazon Web Services', issued_date:'May 2026', category:'AI / ML', color:'#ff9900', credential_url:'https://www.credly.com/badges/dd398919-ca80-4d96-b61e-5cdbd338a29d/public_url', description:'Hands-on AWS Cloud Quest role focused on building generative AI solutions on AWS.' },
-    ];
-    grid.innerHTML = '';
-    buildFilters(fallback);
-    fallback.forEach(function(cert){ grid.appendChild(buildCard(cert)); });
   }
+
+  render(CERTS);
+
+
+  (async function(){
+    try {
+      var res = await fetch(SUPA_URL + '/rest/v1/certificates?select=*&order=id.asc', {
+        headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+      });
+      if(!res.ok) throw new Error('fetch failed');
+      var live = await res.json();
+      if(Array.isArray(live) && live.length >= CERTS.length){ render(live); }
+    } catch(e) { /* keep embedded list */ }
+  })();
 })();
 </script>
 </body>
