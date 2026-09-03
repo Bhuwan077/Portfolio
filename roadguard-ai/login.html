@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RoadGuard AI — Admin Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="login.css" />
+</head>
+<body>
+
+<header>
+  <h1>RoadGuard AI — Admin Login</h1>
+  <a href="index.html" id="back-link">← Home</a>
+</header>
+
+<main>
+  <form id="loginForm">
+    <label for="email">Email</label>
+    <input type="email" id="email" required />
+
+    <label for="password">Password</label>
+    <input type="password" id="password" required />
+
+    <button type="submit">Log In</button>
+    <div id="error"></div>
+  </form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="login.js"></script>
+</body>
+</html>
