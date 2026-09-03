@@ -58,7 +58,7 @@ async function captureAndAnalyze() {
     const formData = new FormData();
     formData.append('file', blob, 'capture.jpg');
 
-    const url = `http://127.0.0.1:8000/detect?latitude=${currentLat}&longitude=${currentLng}`;
+    const url = `https://roadguard-ai-backend-3tzd.onrender.com/detect?latitude=${currentLat}&longitude=${currentLng}`;
 
     try {
       const res = await fetch(url, { method: 'POST', body: formData });

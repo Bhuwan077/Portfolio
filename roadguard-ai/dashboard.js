@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/reports";
+const API_URL = "https://roadguard-ai-backend-3tzd.onrender.com/reports";
 
 const severityColor = {
   Severe: "#E4572E",
