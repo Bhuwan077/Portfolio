@@ -7,7 +7,7 @@ const resultEl = document.getElementById('result');
 let currentLat = null;
 let currentLng = null;
 let isScanning = false;
-let scanInterval = null;
+let isProcessing = false; // prevents overlapping slow requests
 
 async function startCamera() {
   try {
@@ -40,46 +40,56 @@ function startLocation() {
   );
 }
 
+// Each scan schedules the next one only after it fully finishes —
+// so slow requests on the free tier never pile up
 function startScanning() {
   isScanning = true;
   captureBtn.style.display = "none";
-  statusEl.textContent = "🟢 No damage detected. Scanning…";
-  scanInterval = setInterval(captureAndAnalyze, 3000);
+  scanLoop();
+}
+
+async function scanLoop() {
+  await captureAndAnalyze();
+  setTimeout(scanLoop, 1000);
 }
 
 async function captureAndAnalyze() {
   if (currentLat === null || currentLng === null) return;
+  if (isProcessing) return;
+
+  isProcessing = true;
+  statusEl.textContent = "🔍 Analyzing frame — can take up to 1-2 min on our free server…";
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0);
 
-  canvas.toBlob(async (blob) => {
-    const formData = new FormData();
-    formData.append('file', blob, 'capture.jpg');
+  await new Promise((resolve) => {
+    canvas.toBlob(async (blob) => {
+      const formData = new FormData();
+      formData.append('file', blob, 'capture.jpg');
 
-    const url = `https://roadguard-ai-backend-3tzd.onrender.com/detect?latitude=${currentLat}&longitude=${currentLng}`;
+      const url = `https://roadguard-ai-backend-3tzd.onrender.com/detect?latitude=${currentLat}&longitude=${currentLng}`;
 
-    try {
-      const res = await fetch(url, { method: 'POST', body: formData });
-      const data = await res.json();
+      try {
+        const res = await fetch(url, { method: 'POST', body: formData });
+        const data = await res.json();
 
-      if (data.detections && data.detections.length > 0) {
-        showResult(data.detections);
-        statusEl.textContent = "⚠️ Damage found! Pausing 8s before next scan…";
-
-        clearInterval(scanInterval);
-        setTimeout(() => {
-          statusEl.textContent = "🟢 No damage detected. Scanning…";
-          scanInterval = setInterval(captureAndAnalyze, 3000);
-        }, 8000);
-      } else {
-        statusEl.textContent = "🟢 No damage detected. Scanning…";
+        if (data.detections && data.detections.length > 0) {
+          showResult(data.detections);
+          statusEl.textContent = " Damage found! Resuming scan shortly…";
+        } else {
+          statusEl.textContent = " No damage detected. Scanning…";
+        }
+      } catch (err) {
+        statusEl.textContent = "Connection error: " + err.message;
       }
-    } catch (err) {
-      statusEl.textContent = "Connection error: " + err.message;
-    }
-  }, 'image/jpeg', 0.85);
+
+      resolve();
+    }, 'image/jpeg', 0.85);
+  });
+
+  isProcessing = false;
 }
 
 function showResult(detections) {
