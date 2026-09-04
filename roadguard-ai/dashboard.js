@@ -50,7 +50,7 @@ async function markAsFixed(reportId, buttonEl) {
 
   const { error } = await supabaseClient
     .from('reports')
-    .update({ status: 'fixed' })
+    .update({ status: 'fixed', fixed_at: new Date().toISOString() })
     .eq('id', reportId);
 
   if (error) {
@@ -73,50 +73,49 @@ async function loadReports() {
     // Clear old markers before redrawing
     Object.values(markers).forEach(m => map.removeLayer(m));
 
-    if (!data.length) {
-      listEl.innerHTML = '<div id="empty">No reports yet.</div>';
-      statsEl.textContent = '0 reports';
+    // Fixed reports stay in the database (for the 60-day window) but never
+    // show on the dashboard once marked fixed
+    const openReports = data.filter(r => r.status !== 'fixed');
+
+    if (!openReports.length) {
+      listEl.innerHTML = '<div id="empty">No open reports.</div>';
+      statsEl.textContent = '0 open reports';
       return;
     }
 
-    statsEl.textContent = `${data.length} reports`;
+    statsEl.textContent = `${openReports.length} open reports`;
     listEl.innerHTML = '';
 
-    data.forEach(report => {
+    openReports.forEach(report => {
       const color = severityColor[report.severity] || '#999';
-      const isFixed = report.status === 'fixed';
 
       const imageHtml = report.image_url
         ? `<img src="${report.image_url}" style="width:220px;max-width:100%;border-radius:6px;margin-top:8px;display:block;">`
         : '';
 
-      // Skip drawing a marker for fixed reports (or show it differently — dimmed)
-      if (!isFixed) {
-        const marker = L.circleMarker([report.latitude, report.longitude], {
-          radius: 8,
-          fillColor: color,
-          color: '#fff',
-          weight: 1,
-          fillOpacity: 0.9
-        }).addTo(map);
+      const marker = L.circleMarker([report.latitude, report.longitude], {
+        radius: 8,
+        fillColor: color,
+        color: '#fff',
+        weight: 1,
+        fillOpacity: 0.9
+      }).addTo(map);
 
-        marker.bindPopup(`
-          <b>${report.damage_type}</b><br>
-          ${report.severity} · ${(report.confidence * 100).toFixed(0)}%
-          ${imageHtml}
-        `);
-        markers[report.id] = marker;
-      }
+      marker.bindPopup(`
+        <b>${report.damage_type}</b><br>
+        ${report.severity} · ${(report.confidence * 100).toFixed(0)}%
+        ${imageHtml}
+      `);
+      markers[report.id] = marker;
 
-      const adminButton = isAdmin && !isFixed
+      const adminButton = isAdmin
         ? `<button class="fix-btn" data-id="${report.id}">Mark as Fixed</button>`
         : '';
 
       const row = document.createElement('div');
-      row.className = 'report-row' + (isFixed ? ' fixed' : '');
+      row.className = 'report-row';
       row.innerHTML = `
         <span class="badge ${report.severity}">${report.severity}</span>
-        ${isFixed ? '<span class="badge fixed-badge">FIXED</span>' : ''}
         <span class="type">${report.damage_type}</span>
         <div class="meta">
           Confidence: ${(report.confidence * 100).toFixed(0)}% · ${new Date(report.created_at).toLocaleString()}
@@ -125,10 +124,8 @@ async function loadReports() {
       `;
 
       row.querySelector('.badge, .type, .meta')?.addEventListener('click', () => {
-        if (!isFixed) {
-          map.flyTo([report.latitude, report.longitude], 14);
-          markers[report.id].openPopup();
-        }
+        map.flyTo([report.latitude, report.longitude], 14);
+        markers[report.id].openPopup();
       });
 
       const fixBtn = row.querySelector('.fix-btn');
