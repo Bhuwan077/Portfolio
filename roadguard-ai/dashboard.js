@@ -52,23 +52,23 @@ function updateAdminUI() {
 
 async function markAsFixed(reportId, buttonEl) {
   buttonEl.disabled = true;
-  buttonEl.textContent = "Updating…";
+  buttonEl.textContent = "Deleting…";
 
   const { data, error } = await supabaseClient
     .from('reports')
-    .update({ status: 'fixed', fixed_at: new Date().toISOString() })
+    .delete()
     .eq('id', reportId)
-    .select(); // ask Supabase to return the updated row(s) so we can confirm it really matched
+    .select(); // confirms whether a row actually got deleted
 
   if (error) {
-    alert("Failed to update: " + error.message);
+    alert("Failed to delete: " + error.message);
     buttonEl.disabled = false;
     buttonEl.textContent = "Mark as Fixed";
     return;
   }
 
   if (!data || data.length === 0) {
-    alert("Update ran but matched 0 rows — likely blocked by permissions (RLS), not a real error. This points to an auth/session issue, not a bug in the button itself.");
+    alert("Delete ran but matched 0 rows — likely blocked by permissions (RLS), not a real error.");
     buttonEl.disabled = false;
     buttonEl.textContent = "Mark as Fixed";
     return;
@@ -87,8 +87,6 @@ async function loadReports() {
     // Clear old markers before redrawing
     Object.values(markers).forEach(m => map.removeLayer(m));
 
-    // Fixed reports stay in the database (for the 60-day window) but never
-    // show on the dashboard once marked fixed
     const openReports = data.filter(r => r.status !== 'fixed');
 
     if (!openReports.length) {
