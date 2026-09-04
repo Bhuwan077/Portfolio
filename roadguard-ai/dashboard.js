@@ -48,13 +48,21 @@ async function markAsFixed(reportId, buttonEl) {
   buttonEl.disabled = true;
   buttonEl.textContent = "Updating…";
 
-  const { error } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from('reports')
     .update({ status: 'fixed', fixed_at: new Date().toISOString() })
-    .eq('id', reportId);
+    .eq('id', reportId)
+    .select(); // ask Supabase to return the updated row(s) so we can confirm it really matched
 
   if (error) {
     alert("Failed to update: " + error.message);
+    buttonEl.disabled = false;
+    buttonEl.textContent = "Mark as Fixed";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    alert("Update ran but matched 0 rows — likely blocked by permissions (RLS), not a real error. This points to an auth/session issue, not a bug in the button itself.");
     buttonEl.disabled = false;
     buttonEl.textContent = "Mark as Fixed";
     return;

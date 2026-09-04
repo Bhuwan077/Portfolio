@@ -56,6 +56,7 @@ async function scanLoop() {
 async function captureAndAnalyze() {
   if (currentLat === null || currentLng === null) return;
   if (isProcessing) return;
+  if (video.videoWidth === 0 || video.videoHeight === 0) return; // camera not ready yet
 
   isProcessing = true;
   statusEl.textContent = "🔍 Analyzing frame — can take up to 1-2 min on our free server…";
@@ -66,26 +67,30 @@ async function captureAndAnalyze() {
 
   await new Promise((resolve) => {
     canvas.toBlob(async (blob) => {
-      const formData = new FormData();
-      formData.append('file', blob, 'capture.jpg');
-
-      const url = `https://roadguard-ai-backend-3tzd.onrender.com/detect?latitude=${currentLat}&longitude=${currentLng}`;
-
       try {
+        if (!blob) {
+          statusEl.textContent = "🟢 No damage detected. Scanning…";
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', blob, 'capture.jpg');
+
+        const url = `https://roadguard-ai-backend-3tzd.onrender.com/detect?latitude=${currentLat}&longitude=${currentLng}`;
         const res = await fetch(url, { method: 'POST', body: formData });
         const data = await res.json();
 
         if (data.detections && data.detections.length > 0) {
           showResult(data.detections);
-          statusEl.textContent = " Damage found! Resuming scan shortly…";
+          statusEl.textContent = "⚠️ Damage found! Resuming scan shortly…";
         } else {
-          statusEl.textContent = " No damage detected. Scanning…";
+          statusEl.textContent = "🟢 No damage detected. Scanning…";
         }
       } catch (err) {
         statusEl.textContent = "Connection error: " + err.message;
+      } finally {
+        resolve();
       }
-
-      resolve();
     }, 'image/jpeg', 0.85);
   });
 
