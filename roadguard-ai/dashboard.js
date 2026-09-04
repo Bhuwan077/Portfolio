@@ -1,7 +1,11 @@
 const SUPABASE_URL = "https://cpvfolhfhohrduonzllm.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_vRniLHL0K84KEBR5fpqBKw_Uht4wKkB";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: { persistSession: false }
+  auth: {
+    storage: window.sessionStorage,
+    persistSession: true,
+    autoRefreshToken: true
+  }
 });
 
 const API_URL = "https://roadguard-ai-backend-3tzd.onrender.com/reports";
