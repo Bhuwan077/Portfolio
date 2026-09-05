@@ -70,3 +70,54 @@ header p {
   text-decoration: none;
 }
 #dashboard-link:hover { color: var(--hazard); }
+#road-scene {
+  width: 100%;
+  height: 60px;
+  position: relative;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+    to bottom,
+    #2a2c30 0px,
+    #2a2c30 40px,
+    #1C1D20 40px,
+    #1C1D20 60px
+  );
+  border-bottom: 2px dashed var(--hazard);
+  margin-bottom: 8px;
+}
+
+#road-scene::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 200%;
+  height: 4px;
+  transform: translateY(-50%);
+  background: repeating-linear-gradient(
+    to right,
+    var(--text-dim) 0,
+    var(--text-dim) 30px,
+    transparent 30px,
+    transparent 60px
+  );
+  animation: road-move 1.5s linear infinite;
+}
+
+#car {
+  position: absolute;
+  top: 8px;
+  left: -60px;
+  font-size: 32px;
+  animation: drive-across 6s linear infinite;
+}
+
+@keyframes road-move {
+  from { transform: translateY(-50%) translateX(0); }
+  to { transform: translateY(-50%) translateX(-60px); }
+}
+
+@keyframes drive-across {
+  from { left: -60px; }
+  to { left: 100%; }
+}
