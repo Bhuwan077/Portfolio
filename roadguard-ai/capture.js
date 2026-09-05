@@ -7,7 +7,7 @@ const resultEl = document.getElementById('result');
 let currentLat = null;
 let currentLng = null;
 let isScanning = false;
-let isProcessing = false; // prevents overlapping slow requests
+let isProcessing = false;
 
 async function startCamera() {
   try {
@@ -40,26 +40,26 @@ function startLocation() {
   );
 }
 
-// Each scan schedules the next one only after it fully finishes —
-// so slow requests on the free tier never pile up
 function startScanning() {
   isScanning = true;
   captureBtn.style.display = "none";
-  scanLoop();
+  statusEl.textContent = "🟢 Scanning for road damage…";
+
+  tryCapture(); // first attempt right away
+  setInterval(tryCapture, 25000); // then every 25 seconds
 }
 
-async function scanLoop() {
-  await captureAndAnalyze();
-  setTimeout(scanLoop, 1000);
+function tryCapture() {
+  if (isProcessing) return; // still working on a previous frame — skip this round
+  captureAndAnalyze();
 }
 
 async function captureAndAnalyze() {
   if (currentLat === null || currentLng === null) return;
-  if (isProcessing) return;
-  if (video.videoWidth === 0 || video.videoHeight === 0) return; // camera not ready yet
+  if (video.videoWidth === 0 || video.videoHeight === 0) return;
 
   isProcessing = true;
-  statusEl.textContent = "🔍 Analyzing frame — can take up to 1-2 min on our free server…";
+  // No status change here — analysis happens silently in the background
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -68,10 +68,7 @@ async function captureAndAnalyze() {
   await new Promise((resolve) => {
     canvas.toBlob(async (blob) => {
       try {
-        if (!blob) {
-          statusEl.textContent = "🟢 No damage detected. Scanning…";
-          return;
-        }
+        if (!blob) return;
 
         const formData = new FormData();
         formData.append('file', blob, 'capture.jpg');
@@ -82,12 +79,15 @@ async function captureAndAnalyze() {
 
         if (data.detections && data.detections.length > 0) {
           showResult(data.detections);
-          statusEl.textContent = "⚠️ Damage found! Resuming scan shortly…";
-        } else {
-          statusEl.textContent = "🟢 No damage detected. Scanning…";
+          statusEl.textContent = "⚠️ Pothole detected! Added to dashboard.";
+          setTimeout(() => {
+            statusEl.textContent = "🟢 Scanning for road damage…";
+          }, 5000);
         }
+        // If nothing found, stay quiet — status keeps showing "Scanning…"
       } catch (err) {
-        statusEl.textContent = "Connection error: " + err.message;
+        // Fail silently to the user; don't expose backend errors mid-drive
+        console.error("Detection request failed:", err);
       } finally {
         resolve();
       }
