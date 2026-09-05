@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>RoadGuard AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="index.css?v=3" />
+<link rel="stylesheet" href="index.css?v=4" />
 </head>
 <body>
 
@@ -14,8 +14,45 @@
   <p>AI-powered road damage detection & mapping</p>
 </header>
 
-<div id="road-scene">
-  <div id="car">🚗</div>
+<div id="hero">
+  <svg id="hero-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1C1D20"/>
+        <stop offset="100%" stop-color="#232427"/>
+      </linearGradient>
+    </defs>
+    <rect width="1000" height="200" fill="url(#skyGrad)"/>
+    <rect y="130" width="1000" height="70" fill="#26282C"/>
+    <line x1="0" y1="130" x2="1000" y2="130" stroke="#3a3c40" stroke-width="1"/>
+
+    <line x1="0" y1="165" x2="1000" y2="165" stroke="#F5C518" stroke-width="3" stroke-dasharray="24 18" id="lane-line"/>
+
+    <g id="pothole-group">
+      <ellipse cx="680" cy="172" rx="16" ry="6" fill="#0c0d0e"/>
+      <ellipse cx="680" cy="172" rx="16" ry="6" fill="none" stroke="#000" stroke-width="1" opacity="0.4"/>
+      <rect id="detect-box" x="655" y="150" width="50" height="42" rx="6" fill="none" stroke="#E4572E" stroke-width="2" opacity="0"/>
+      <text id="detect-label" x="680" y="145" text-anchor="middle" font-family="Oswald, sans-serif" font-size="11" fill="#E4572E" opacity="0">POTHOLE DETECTED</text>
+    </g>
+
+    <g id="car-group">
+      <g id="car-bounce">
+        <ellipse cx="35" cy="46" rx="34" ry="4" fill="#000" opacity="0.25"/>
+        <rect x="4" y="20" width="62" height="20" rx="8" fill="#F5C518"/>
+        <path d="M16 20 Q22 4 34 4 H46 Q56 4 60 20 Z" fill="#F5C518"/>
+        <path d="M19 18 Q24 8 34 8 H45 Q53 8 57 18 Z" fill="#1C1D20" opacity="0.55"/>
+        <circle cx="8" cy="20" r="2" fill="#fff"/>
+        <g class="wheel" style="transform-origin: 16px 40px;">
+          <circle cx="16" cy="40" r="7" fill="#141517"/>
+          <circle cx="16" cy="40" r="2.5" fill="#555"/>
+        </g>
+        <g class="wheel" style="transform-origin: 54px 40px;">
+          <circle cx="54" cy="40" r="7" fill="#141517"/>
+          <circle cx="54" cy="40" r="2.5" fill="#555"/>
+        </g>
+      </g>
+    </g>
+  </svg>
 </div>
 
 <div id="cards">

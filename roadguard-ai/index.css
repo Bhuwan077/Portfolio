@@ -40,7 +40,7 @@ body::before {
 }
 header {
   width: 100%;
-  padding: 40px 20px 20px;
+  padding: 40px 20px 10px;
   text-align: center;
 }
 header h1 {
@@ -56,53 +56,65 @@ header p {
   margin-top: 8px;
   font-size: 14px;
 }
-#road-scene {
+
+#hero {
   width: 100%;
-  height: 60px;
-  position: relative;
+  max-width: 720px;
+  margin-top: 10px;
+}
+#hero-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
   overflow: hidden;
-  background: repeating-linear-gradient(
-    to bottom,
-    #2a2c30 0px,
-    #2a2c30 40px,
-    #1C1D20 40px,
-    #1C1D20 60px
-  );
-  border-bottom: 2px dashed var(--hazard);
-  margin-bottom: 8px;
 }
-#road-scene::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 200%;
-  height: 4px;
-  transform: translateY(-50%);
-  background: repeating-linear-gradient(
-    to right,
-    var(--text-dim) 0,
-    var(--text-dim) 30px,
-    transparent 30px,
-    transparent 60px
-  );
-  animation: road-move 1.5s linear infinite;
+
+#lane-line {
+  animation: lane-scroll 1s linear infinite;
 }
-#car {
-  position: absolute;
-  top: 8px;
-  left: -60px;
-  font-size: 32px;
-  animation: drive-across 6s linear infinite;
+@keyframes lane-scroll {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -42; }
 }
-@keyframes road-move {
-  from { transform: translateY(-50%) translateX(0); }
-  to { transform: translateY(-50%) translateX(-60px); }
+
+#car-group {
+  animation: drive 7s linear infinite;
 }
-@keyframes drive-across {
-  from { left: -60px; }
-  to { left: 100%; }
+@keyframes drive {
+  from { transform: translateX(-90px); }
+  to { transform: translateX(1090px); }
 }
+
+#car-bounce {
+  animation: bounce 0.35s ease-in-out infinite alternate;
+}
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2px); }
+}
+
+.wheel {
+  animation: spin 0.4s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#detect-box {
+  animation: detect-pulse 7s linear infinite;
+}
+#detect-label {
+  animation: detect-pulse 7s linear infinite;
+}
+@keyframes detect-pulse {
+  0%, 58% { opacity: 0; }
+  63% { opacity: 1; }
+  70% { opacity: 1; }
+  76%, 100% { opacity: 0; }
+}
+
 #cards {
   width: 100%;
   max-width: 480px;
