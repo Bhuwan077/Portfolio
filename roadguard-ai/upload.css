@@ -117,3 +117,15 @@ main {
   color: var(--text-dim);
   margin-top: 6px;
 }
+@media (max-width: 700px) {
+  main {
+    flex-direction: column;
+  }
+  #map {
+    height: 260px;
+    flex: none;
+  }
+  #panel {
+    width: 100%;
+  }
+}
