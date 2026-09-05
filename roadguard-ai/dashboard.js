@@ -9,6 +9,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 });
 
 const API_URL = "https://roadguard-ai-backend-3tzd.onrender.com/reports";
+const BACKEND_URL = "https://roadguard-ai-backend-3tzd.onrender.com";
 
 const severityColor = {
   Severe: "#E4572E",
@@ -54,27 +55,36 @@ async function markAsFixed(reportId, buttonEl) {
   buttonEl.disabled = true;
   buttonEl.textContent = "Deleting…";
 
-  const { data, error } = await supabaseClient
-    .from('reports')
-    .delete()
-    .eq('id', reportId)
-    .select(); // confirms whether a row actually got deleted
-
-  if (error) {
-    alert("Failed to delete: " + error.message);
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    alert("You're not logged in.");
     buttonEl.disabled = false;
     buttonEl.textContent = "Mark as Fixed";
     return;
   }
 
-  if (!data || data.length === 0) {
-    alert("Delete ran but matched 0 rows — likely blocked by permissions (RLS), not a real error.");
+  try {
+    const res = await fetch(`${BACKEND_URL}/admin/reports/${reportId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`
+      }
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      alert("Failed to delete: " + errText);
+      buttonEl.disabled = false;
+      buttonEl.textContent = "Mark as Fixed";
+      return;
+    }
+
+    loadReports(); // refresh the list and map
+  } catch (err) {
+    alert("Network error: " + err.message);
     buttonEl.disabled = false;
     buttonEl.textContent = "Mark as Fixed";
-    return;
   }
-
-  loadReports(); // refresh the list and map
 }
 
 async function loadReports() {
