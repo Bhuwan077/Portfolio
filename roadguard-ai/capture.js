@@ -27,6 +27,7 @@ function startLocation() {
     statusEl.textContent = "Geolocation not supported by this browser.";
     return;
   }
+
   navigator.geolocation.watchPosition(
     (pos) => {
       currentLat = pos.coords.latitude;
@@ -34,9 +35,11 @@ function startLocation() {
       if (!isScanning) startScanning();
     },
     (err) => {
-      statusEl.textContent = "Location error: " + err.message;
+      // This now actually fires within 15s instead of hanging forever,
+      // thanks to the timeout option below
+      statusEl.textContent = "Location error: " + err.message + " — check that Location is allowed for this site.";
     },
-    { enableHighAccuracy: true }
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
   );
 }
 
@@ -45,12 +48,12 @@ function startScanning() {
   captureBtn.style.display = "none";
   statusEl.textContent = "🟢 Scanning for road damage…";
 
-  tryCapture(); // first attempt right away
-  setInterval(tryCapture, 25000); // then every 25 seconds
+  tryCapture();
+  setInterval(tryCapture, 25000);
 }
 
 function tryCapture() {
-  if (isProcessing) return; // still working on a previous frame — skip this round
+  if (isProcessing) return;
   captureAndAnalyze();
 }
 
@@ -59,7 +62,6 @@ async function captureAndAnalyze() {
   if (video.videoWidth === 0 || video.videoHeight === 0) return;
 
   isProcessing = true;
-  // No status change here — analysis happens silently in the background
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -84,9 +86,7 @@ async function captureAndAnalyze() {
             statusEl.textContent = "🟢 Scanning for road damage…";
           }, 5000);
         }
-        // If nothing found, stay quiet — status keeps showing "Scanning…"
       } catch (err) {
-        // Fail silently to the user; don't expose backend errors mid-drive
         console.error("Detection request failed:", err);
       } finally {
         resolve();
