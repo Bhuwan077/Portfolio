@@ -6,68 +6,53 @@
   --text-dim: #9A9CA1;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
+html, body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Inter', sans-serif;
-  min-height: 100vh;
+}
+body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  overflow-x: hidden;
-}
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  z-index: -1;
-  background: repeating-linear-gradient(
-    135deg,
-    rgba(245, 197, 24, 0.04) 0px,
-    rgba(245, 197, 24, 0.04) 2px,
-    transparent 2px,
-    transparent 45px
-  );
-  animation: bg-scroll 10s linear infinite;
-}
-@keyframes bg-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-45px); }
-}
-header {
-  width: 100%;
-  padding: 40px 20px 10px;
-  text-align: center;
-}
-header h1 {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  letter-spacing: 1px;
-  font-size: 32px;
-  color: var(--hazard);
-  text-transform: uppercase;
-}
-header p {
-  color: var(--text-dim);
-  margin-top: 8px;
-  font-size: 14px;
 }
 
 #hero {
   width: 100%;
-  max-width: 720px;
-  margin-top: 10px;
+  height: 100vh;
+  min-height: 620px;
+  position: relative;
+  overflow: hidden;
 }
 #hero-svg {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  border-radius: 12px;
-  overflow: hidden;
+}
+
+#hero-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 44px 20px 0;
+  text-align: center;
+  z-index: 2;
+}
+#hero-text h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: clamp(26px, 5.5vw, 44px);
+  color: var(--hazard);
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+#hero-text p {
+  color: var(--text);
+  margin-top: 8px;
+  font-size: clamp(12px, 2vw, 16px);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
 }
 
 #lane-line {
@@ -75,15 +60,16 @@ header p {
 }
 @keyframes lane-scroll {
   from { stroke-dashoffset: 0; }
-  to { stroke-dashoffset: -42; }
+  to { stroke-dashoffset: -70; }
 }
 
 #car-group {
-  animation: drive 7s linear infinite;
+  animation: drive 10s linear infinite;
 }
 @keyframes drive {
-  from { transform: translateX(-90px); }
-  to { transform: translateX(1090px); }
+  0% { transform: translateX(-130px); }
+  92% { transform: translateX(890px); }
+  100% { transform: translateX(890px); }
 }
 
 #car-bounce {
@@ -91,7 +77,7 @@ header p {
 }
 @keyframes bounce {
   from { transform: translateY(0); }
-  to { transform: translateY(-2px); }
+  to { transform: translateY(-3px); }
 }
 
 .wheel {
@@ -102,57 +88,90 @@ header p {
   to { transform: rotate(360deg); }
 }
 
-#detect-box {
-  animation: detect-pulse 7s linear infinite;
-}
+#detect-box,
 #detect-label {
-  animation: detect-pulse 7s linear infinite;
+  animation: detect-pulse 10s linear infinite;
 }
 @keyframes detect-pulse {
-  0%, 58% { opacity: 0; }
-  63% { opacity: 1; }
-  70% { opacity: 1; }
-  76%, 100% { opacity: 0; }
+  0%, 55% { opacity: 0; }
+  60% { opacity: 1; }
+  67% { opacity: 1; }
+  73%, 100% { opacity: 0; }
 }
 
+/* Floating glass panels, overlapping the bottom of the scene */
 #cards {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
   width: 100%;
-  max-width: 480px;
-  padding: 24px 20px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
 }
 .card {
-  background: var(--panel);
-  border-radius: 10px;
-  padding: 24px;
+  width: 100%;
+  max-width: 440px;
+  background: rgba(38, 40, 44, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245, 197, 24, 0.25);
+  border-radius: 12px;
+  padding: 16px 20px;
   text-decoration: none;
   color: var(--text);
-  border-left: 4px solid var(--hazard);
-  transition: transform 0.15s;
-  display: block;
-  position: relative;
-  z-index: 1;
+  transition: transform 0.15s, background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
-.card:hover { transform: translateY(-2px); }
-.card .icon { font-size: 28px; }
+.card:hover {
+  transform: translateY(-2px);
+  background: rgba(38, 40, 44, 0.72);
+}
+.card .icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
 .card h2 {
   font-family: 'Oswald', sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   text-transform: uppercase;
-  margin: 10px 0 6px;
+  margin-bottom: 2px;
 }
 .card p {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-dim);
+  line-height: 1.3;
 }
 #dashboard-link {
-  margin-top: 10px;
-  color: var(--text-dim);
+  color: var(--text);
   font-size: 13px;
   text-decoration: none;
-  position: relative;
-  z-index: 1;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-top: 4px;
 }
 #dashboard-link:hover { color: var(--hazard); }
+
+@media (max-width: 600px) {
+  #hero {
+    height: 100vh;
+    min-height: 560px;
+  }
+  #cards {
+    bottom: 16px;
+  }
+  .card {
+    padding: 12px 16px;
+  }
+  .card p {
+    display: none; /* keep it compact on small screens */
+  }
+}
