@@ -63,7 +63,7 @@ submitBtn.addEventListener('click', async () => {
   const formData = new FormData();
   formData.append('file', selectedFile);
 
-  const url = `https://roadguard-ai-backend-3tzd.onrender.com/detect?latitude=${selectedLat}&longitude=${selectedLng}`;
+  const url = `https://roadguard-ai-backend-3tzd.onrender.com/detect?latitude=${selectedLat}&longitude=${selectedLng}&max_dimension=1600`;
 
   try {
     const res = await fetch(url, { method: 'POST', body: formData });
