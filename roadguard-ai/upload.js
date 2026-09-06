@@ -58,7 +58,8 @@ submitBtn.addEventListener('click', async () => {
   if (!selectedFile || selectedLat === null) return;
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "Checking…";
+  submitBtn.textContent = "Analyzing…";
+  resultEl.innerHTML = `<div class="result-card">🔍 Observing the photo for cracks and potholes…</div>`;
 
   const formData = new FormData();
   formData.append('file', selectedFile);
