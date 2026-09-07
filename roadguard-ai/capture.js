@@ -92,12 +92,15 @@ async function captureAndAnalyze() {
         if (data.detections && data.detections.length > 0) {
           showResult(data.detections);
           triggerDetectFlash(data.detections[0]);
-          statusEl.textContent = "⚠️ Damage detected! Added to dashboard.";
+          statusEl.textContent = "⚠️ Pothole Detected! Added to dashboard.";
           setTimeout(() => {
             statusEl.textContent = "🟢 Scanning for road damage…";
           }, 5000);
         } else {
-          statusEl.textContent = "🟢 Scanning for road damage…";
+          statusEl.textContent = "✅ No Pothole Detected";
+          setTimeout(() => {
+            statusEl.textContent = "🟢 Scanning for road damage…";
+          }, 2000);
         }
       } catch (err) {
         statusEl.textContent = "⚠️ Connection error — will retry next scan.";
