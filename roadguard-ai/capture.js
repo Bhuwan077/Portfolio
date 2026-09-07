@@ -91,6 +91,7 @@ async function captureAndAnalyze() {
 
         if (data.detections && data.detections.length > 0) {
           showResult(data.detections);
+          triggerDetectFlash(data.detections[0]);
           statusEl.textContent = "⚠️ Damage detected! Added to dashboard.";
           setTimeout(() => {
             statusEl.textContent = "🟢 Scanning for road damage…";
@@ -118,6 +119,20 @@ function showResult(detections) {
     </div>
   `).join('');
   resultEl.innerHTML = card + resultEl.innerHTML;
+}
+
+function triggerDetectFlash(detection) {
+  const flashEl = document.getElementById('detect-flash');
+  flashEl.textContent = `⚠️ ${detection.damage_type.toUpperCase()} DETECTED — ${detection.severity}`;
+  flashEl.classList.add('show');
+
+  if (navigator.vibrate) {
+    navigator.vibrate([120, 60, 120]); // short-pause-short buzz, feels intentional on phones
+  }
+
+  setTimeout(() => {
+    flashEl.classList.remove('show');
+  }, 1800);
 }
 
 startCamera();
