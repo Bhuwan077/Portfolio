@@ -35,8 +35,6 @@ function startLocation() {
       if (!isScanning) startScanning();
     },
     (err) => {
-      // This now actually fires within 15s instead of hanging forever,
-      // thanks to the timeout option below
       statusEl.textContent = "Location error: " + err.message + " — check that Location is allowed for this site.";
     },
     { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
@@ -53,7 +51,7 @@ function startScanning() {
 }
 
 function tryCapture() {
-  if (isProcessing) return;
+  if (isProcessing) return; // still working on a previous frame — skip this round
   captureAndAnalyze();
 }
 
@@ -62,6 +60,7 @@ async function captureAndAnalyze() {
   if (video.videoWidth === 0 || video.videoHeight === 0) return;
 
   isProcessing = true;
+  statusEl.textContent = "🔍 Observing frame for cracks and potholes…";
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -70,23 +69,37 @@ async function captureAndAnalyze() {
   await new Promise((resolve) => {
     canvas.toBlob(async (blob) => {
       try {
-        if (!blob) return;
+        if (!blob) {
+          statusEl.textContent = "🟢 Scanning for road damage…";
+          return;
+        }
 
         const formData = new FormData();
         formData.append('file', blob, 'capture.jpg');
 
         const url = `https://roadguard-ai-backend-3tzd.onrender.com/detect?latitude=${currentLat}&longitude=${currentLng}`;
         const res = await fetch(url, { method: 'POST', body: formData });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          statusEl.textContent = "⚠️ Server error — will retry next scan.";
+          console.error("Detect request failed:", res.status, errText);
+          return;
+        }
+
         const data = await res.json();
 
         if (data.detections && data.detections.length > 0) {
           showResult(data.detections);
-          statusEl.textContent = "⚠️ Pothole detected! Added to dashboard.";
+          statusEl.textContent = "⚠️ Damage detected! Added to dashboard.";
           setTimeout(() => {
             statusEl.textContent = "🟢 Scanning for road damage…";
           }, 5000);
+        } else {
+          statusEl.textContent = "🟢 Scanning for road damage…";
         }
       } catch (err) {
+        statusEl.textContent = "⚠️ Connection error — will retry next scan.";
         console.error("Detection request failed:", err);
       } finally {
         resolve();
