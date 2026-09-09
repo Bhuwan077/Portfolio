@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FootyHub — UCL Matches</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1><a href="index.html" class="home-link">FootyHub</a> — Champions League</h1>
+
+  <nav class="tabs">
+    <a href="matches.html" class="tab tab-active">MATCHES</a>
+    <a href="standings.html" class="tab">STANDINGS</a>
+    <a href="stats.html" class="tab">STATS</a>
+    <a href="players.html" class="tab">PLAYERS</a>
+  </nav>
+
+  <div id="live-section" style="display:none;">
+    <h2 class="section-heading">Live Now</h2>
+    <div class="match-list" id="live-list"></div>
+  </div>
+
+  <h2 class="section-heading">Upcoming Fixtures</h2>
+  <div class="match-list" id="upcoming-list">
+    <p class="empty-note">Loading...</p>
+  </div>
+
+  <h2 class="section-heading">Results</h2>
+  <div class="match-list" id="finished-list"></div>
+
+  <script src="matches.js"></script>
+</body>
+</html>

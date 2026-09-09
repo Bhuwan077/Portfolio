@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FootyHub — UCL Standings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1><a href="index.html" class="home-link">FootyHub</a> — Champions League</h1>
+
+  <nav class="tabs">
+    <a href="matches.html" class="tab">MATCHES</a>
+    <a href="standings.html" class="tab tab-active">STANDINGS</a>
+    <a href="stats.html" class="tab">STATS</a>
+    <a href="players.html" class="tab">PLAYERS</a>
+  </nav>
+
+  <table id="standings-table">
+    <thead>
+      <tr>
+        <th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
+      </tr>
+    </thead>
+    <tbody id="standings-body">
+      <tr><td colspan="10" class="empty-note">Loading...</td></tr>
+    </tbody>
+  </table>
+
+  <script src="standings.js"></script>
+</body>
+</html>
