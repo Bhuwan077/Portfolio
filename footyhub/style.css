@@ -79,57 +79,6 @@ tbody tr:hover { background: #1a1a1a; }
   font-family: inherit;
 }
 
-.section-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 700px;
-  margin: 30px auto 10px;
-  padding: 10px 0;
-  background: none;
-  border: none;
-  border-bottom: 1px solid #2a2a2a;
-  color: #999;
-  font-size: 1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.section-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 700px;
-  margin: 30px auto 10px;
-  padding: 10px 0;
-  background: none;
-  border: none;
-  border-bottom: 1px solid #2a2a2a;
-  color: #999;
-  font-size: 1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.section-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 700px;
-  margin: 30px auto 10px;
-  padding: 10px 0;
-  background: none;
-  border: none;
-  border-bottom: 1px solid #2a2a2a;
-  color: #999;
-  font-size: 1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: inherit;
-}
-
 .section-toggle:hover { color: #fff; }
 .arrow { font-size: 0.8em; }
 .match-list.collapsed { display: none; }
@@ -169,29 +118,29 @@ tbody tr:hover { background: #1a1a1a; }
   line-height: 1.4;
 }
 
+/* --- Stats sub-tabs (underline style, matches main tabs) --- */
 .stat-subtabs {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin: 0 auto 20px;
-  max-width: 700px;
+  gap: 30px;
+  border-bottom: 1px solid #2a2a2a;
+  margin-bottom: 20px;
 }
 
 .stat-subtab {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: none;
+  border: none;
+  padding: 12px 4px;
   color: #999;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.85em;
+  font-size: 0.9em;
   cursor: pointer;
   font-family: inherit;
+  border-bottom: 2px solid transparent;
 }
 
 .stat-subtab:hover { color: #fff; }
 
 .stat-subtab.active {
-  background: #4f9dff;
   color: #fff;
-  border-color: #4f9dff;
+  border-bottom-color: #4f9dff;
 }
