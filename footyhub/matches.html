@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>FootyHub — UCL Matches</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <h1><a href="index.html" class="home-link">FootyHub</a> — Champions League</h1>
@@ -20,17 +20,17 @@
     <div class="match-list" id="live-list"></div>
   </div>
 
-  <button id="results-toggle" class="section-toggle">
+  <button id="results-toggle" class="section-toggle" type="button">
     <span>Results</span>
     <span id="results-arrow" class="arrow">&#9660;</span>
   </button>
-  <div class="match-list collapsed" id="finished-list"></div>
+  <div class="results-grid collapsed" id="finished-list"></div>
 
   <h2 class="section-heading">Upcoming Fixtures</h2>
   <div class="match-list" id="upcoming-list">
     <p class="empty-note">Loading...</p>
   </div>
 
-  <script src="matches.js?v=2"></script>
+  <script src="matches.js?v=4"></script>
 </body>
 </html>

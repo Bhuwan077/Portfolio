@@ -1,26 +1,68 @@
 const API_BASE = 'https://footyhub-rydr.onrender.com';
 
-function matchCardHTML(m, showScore) {
+function relativeDateLabel(date) {
+  const now = new Date();
+  const isSameDay = (a, b) =>
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate();
+
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+
+  if (isSameDay(date, now)) return 'Today';
+  if (isSameDay(date, yesterday)) return 'Yesterday';
+  return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'Asia/Kathmandu' });
+}
+
+function fixtureCardHTML(m) {
   const date = new Date(m.match_date);
   const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'Asia/Kathmandu' });
   const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kathmandu' });
 
   return `
     <div class="match-card">
-      <div class="match-date">${dateStr}${showScore ? '' : ' · ' + timeStr}</div>
+      <div class="match-date">${dateStr} · ${timeStr}</div>
       <div class="match-teams">
         <span class="team">
           ${m.home_logo ? `<img src="${m.home_logo}" class="team-logo">` : ''}
           ${m.home_team}
         </span>
-        ${showScore
-          ? `<span class="score">${m.home_score} - ${m.away_score}</span>`
-          : `<span class="vs">vs</span>`}
+        <span class="vs">vs</span>
         <span class="team">
           ${m.away_logo ? `<img src="${m.away_logo}" class="team-logo">` : ''}
-          ${m.away_team}9660
+          ${m.away_team}
         </span>
       </div>
+    </div>
+  `;
+}
+
+function resultCardHTML(m) {
+  const date = new Date(m.match_date);
+  const label = relativeDateLabel(date);
+  const homeWon = m.home_score > m.away_score;
+  const awayWon = m.away_score > m.home_score;
+
+  return `
+    <div class="result-card">
+      <div class="result-body">
+        <div class="result-row">
+          <span class="result-team">
+            ${m.home_logo ? `<img src="${m.home_logo}" class="team-logo">` : ''}
+            ${m.home_team}
+          </span>
+          <span class="result-score">${m.home_score} ${homeWon ? '<span class="win-arrow">&#9664;</span>' : ''}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-team">
+            ${m.away_logo ? `<img src="${m.away_logo}" class="team-logo">` : ''}
+            ${m.away_team}
+          </span>
+          <span class="result-score">${m.away_score} ${awayWon ? '<span class="win-arrow">&#9664;</span>' : ''}</span>
+        </div>
+      </div>
+      <div class="result-meta">FT<br>${label}</div>
     </div>
   `;
 }
@@ -38,15 +80,15 @@ async function loadMatches() {
 
     if (data.live && data.live.length > 0) {
       liveSection.style.display = 'block';
-      liveList.innerHTML = data.live.map(m => matchCardHTML(m, true)).join('');
+      liveList.innerHTML = data.live.map(m => resultCardHTML(m)).join('');
     }
 
     upcomingList.innerHTML = data.upcoming.length
-      ? data.upcoming.map(m => matchCardHTML(m, false)).join('')
+      ? data.upcoming.map(m => fixtureCardHTML(m)).join('')
       : '<p class="empty-note">No upcoming matches.</p>';
 
     finishedList.innerHTML = data.finished.length
-      ? data.finished.map(m => matchCardHTML(m, true)).join('')
+      ? data.finished.map(m => resultCardHTML(m)).join('')
       : '<p class="empty-note">No finished matches yet.</p>';
   } catch (err) {
     console.error('Failed to load matches:', err);
