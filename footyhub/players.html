@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>FootyHub — Players</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <h1><a href="index.html" class="home-link">FootyHub</a> — Champions League</h1>
@@ -13,6 +13,27 @@
     <a href="stats.html" class="tab">STATS</a>
     <a href="players.html" class="tab tab-active">PLAYERS</a>
   </nav>
-  <p class="empty-note">Players coming soon.</p>
+
+  <div class="player-filter">
+    <select id="team-filter">
+      <option value="">All Teams</option>
+    </select>
+  </div>
+
+  <table id="players-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Player</th>
+        <th>Position</th>
+        <th>Team</th>
+      </tr>
+    </thead>
+    <tbody id="players-body">
+      <tr><td colspan="4" class="empty-note">Loading...</td></tr>
+    </tbody>
+  </table>
+
+  <script src="players.js?v=1"></script>
 </body>
 </html>
