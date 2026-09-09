@@ -61,3 +61,24 @@ tbody tr:hover { background: #1a1a1a; }
 .vs, .score { color: #888; font-weight: bold; padding: 0 12px; }
 .score { color: #fff; }
 .empty-note { text-align: center; color: #888; }
+
+.section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 700px;
+  margin: 30px auto 10px;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #2a2a2a;
+  color: #999;
+  font-size: 1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.section-toggle:hover { color: #fff; }
+.arrow { font-size: 0.8em; }
+.match-list.collapsed { display: none; }

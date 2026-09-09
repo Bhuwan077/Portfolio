@@ -1,7 +1,7 @@
 const API_BASE = 'https://footyhub-rydr.onrender.com';
 
 function matchCardHTML(m, showScore) {
-  const date = new Date(m.match_date + 'Z');
+  const date = new Date(m.match_date);
   const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'Asia/Kathmandu' });
   const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kathmandu' });
 
@@ -55,4 +55,16 @@ async function loadMatches() {
   }
 }
 
+function setupResultsToggle() {
+  const toggleBtn = document.getElementById('results-toggle');
+  const finishedList = document.getElementById('finished-list');
+  const arrow = document.getElementById('results-arrow');
+
+  toggleBtn.addEventListener('click', () => {
+    const isCollapsed = finishedList.classList.toggle('collapsed');
+    arrow.innerHTML = isCollapsed ? '&#9660;' : '&#9650;';
+  });
+}
+
 loadMatches();
+setupResultsToggle();
