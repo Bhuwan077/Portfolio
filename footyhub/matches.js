@@ -18,7 +18,7 @@ function matchCardHTML(m, showScore) {
           : `<span class="vs">vs</span>`}
         <span class="team">
           ${m.away_logo ? `<img src="${m.away_logo}" class="team-logo">` : ''}
-          ${m.away_team}
+          ${m.away_team}9660
         </span>
       </div>
     </div>
