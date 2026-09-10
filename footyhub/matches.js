@@ -21,7 +21,7 @@ function fixtureCardHTML(m) {
   const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kathmandu' });
 
   return `
-    <div class="match-card">
+    <a href="lineup.html?matchId=${m.id}" class="match-card">
       <div class="match-date">${dateStr} · ${timeStr}</div>
       <div class="match-teams">
         <span class="team">
@@ -34,7 +34,7 @@ function fixtureCardHTML(m) {
           ${m.away_team}
         </span>
       </div>
-    </div>
+    </a>
   `;
 }
 
@@ -45,7 +45,7 @@ function resultCardHTML(m) {
   const awayWon = m.away_score > m.home_score;
 
   return `
-    <div class="result-card">
+    <a href="lineup.html?matchId=${m.id}" class="result-card">
       <div class="result-body">
         <div class="result-row">
           <span class="result-team">
@@ -63,7 +63,7 @@ function resultCardHTML(m) {
         </div>
       </div>
       <div class="result-meta">FT<br>${label}</div>
-    </div>
+    </a>
   `;
 }
 

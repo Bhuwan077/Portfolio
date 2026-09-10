@@ -160,3 +160,14 @@ tbody tr:hover { background: #1a1a1a; }
   border-radius: 6px;
   font-family: inherit;
 }
+.live-badge {
+  color: #ff4444;
+  font-weight: bold;
+}
+
+a.match-card, a.result-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
