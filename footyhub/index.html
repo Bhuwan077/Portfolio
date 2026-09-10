@@ -3,11 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>FootyHub</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
-  <h1>FootyHub</h1>
-  <p class="subtitle">Pick a competition</p>
+  <main class="hero" role="img" aria-label="An animated nighttime football attack ending with a powerful shot into the upper-right corner of the goal.">
+    <canvas aria-hidden="true"></canvas>
+    <div class="hero-title">
+      <h1>FootyHub</h1>
+      <p class="subtitle">Pick a competition</p>
+    </div>
+  </main>
 
   <div class="league-grid">
     <a href="standings.html" class="league-card">UEFA Champions League</a>
@@ -16,5 +21,7 @@
     <div class="league-card league-card-disabled">Serie A<span class="soon-badge">Coming soon</span></div>
     <div class="league-card league-card-disabled">Bundesliga<span class="soon-badge">Coming soon</span></div>
   </div>
+
+  <script src="hero-animation.js?v=1"></script>
 </body>
 </html>

@@ -258,3 +258,63 @@ a.match-card, a.result-card {
 .substitutes-list .section-heading { margin: 0 0 10px; text-align: left; }
 .sub-row { font-size: 0.85em; padding: 4px 0; color: #ccc; }
 .sub-position { color: #888; font-size: 0.85em; }
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 55vh;
+  min-height: 380px;
+  overflow: hidden;
+  background: #060b10;
+  isolation: isolate;
+  margin: -40px -40px 30px;
+  width: calc(100% + 80px);
+}
+
+.hero canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3, 8, 12, .96) 0%,
+      rgba(3, 8, 12, .87) 24%,
+      rgba(3, 8, 12, .55) 43%,
+      rgba(3, 8, 12, .08) 66%,
+      transparent 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(2, 7, 10, .66),
+      transparent 24%,
+      transparent 77%,
+      rgba(2, 7, 10, .3)
+    );
+}
+
+.hero-title {
+  position: absolute;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.hero-title h1 {
+  text-align: left;
+  margin: 0;
+  font-size: 2.2em;
+}
+
+.hero-title .subtitle {
+  text-align: left;
+  margin-top: 4px;
+}
