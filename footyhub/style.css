@@ -358,3 +358,6 @@ a.match-card, a.result-card {
   background: rgba(6, 8, 12, 0.82);
   z-index: -1;
 }
+body.ucl-page {
+  background: transparent;
+}
