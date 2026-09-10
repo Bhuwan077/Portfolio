@@ -171,3 +171,90 @@ a.match-card, a.result-card {
   display: block;
   cursor: pointer;
 }
+
+a.match-card, a.result-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
+
+.back-link { text-align: center; margin-bottom: 20px; }
+.back-link a { color: #4f9dff; text-decoration: none; }
+
+#lineup-container { max-width: 700px; margin: 0 auto; }
+
+.team-lineup-panel {
+  margin-bottom: 30px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.team-lineup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #222;
+  font-weight: bold;
+}
+
+.formation-badge {
+  background: #2d5a3d;
+  color: #a8e6b8;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8em;
+}
+
+.pitch {
+  background: linear-gradient(#2d5a3d, #1f4530);
+  padding: 24px 12px;
+}
+
+.pitch-row {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 22px;
+}
+
+.pitch-row:last-child { margin-bottom: 0; }
+
+.pitch-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 90px;
+}
+
+.pitch-player-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ddd;
+  color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.pitch-player-label {
+  color: #fff;
+  font-size: 0.75em;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.substitutes-list {
+  padding: 14px 16px;
+  border-top: 1px solid #2a2a2a;
+}
+
+.substitutes-list .section-heading { margin: 0 0 10px; text-align: left; }
+.sub-row { font-size: 0.85em; padding: 4px 0; color: #ccc; }
+.sub-position { color: #888; font-size: 0.85em; }
