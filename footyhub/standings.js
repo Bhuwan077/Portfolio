@@ -2,9 +2,10 @@ const API_BASE = 'https://footyhub-rydr.onrender.com';
 
 async function loadStandings() {
   const tbody = document.getElementById('standings-body');
+  const competition = getCompetitionCode();
 
   try {
-    const res = await fetch(`${API_BASE}/api/ucl/standings`);
+    const res = await fetch(`${API_BASE}/api/football/standings?competition=${competition}`);
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     const data = await res.json();
 
@@ -36,4 +37,5 @@ async function loadStandings() {
   }
 }
 
+renderTabs('standings');
 loadStandings();

@@ -76,9 +76,10 @@ async function loadMatches() {
   const liveList = document.getElementById('live-list');
   const upcomingList = document.getElementById('upcoming-list');
   const finishedList = document.getElementById('finished-list');
+  const competition = getCompetitionCode();
 
   try {
-    const res = await fetch(`${API_BASE}/api/ucl/matches`);
+    const res = await fetch(`${API_BASE}/api/football/matches?competition=${competition}`);
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     const data = await res.json();
 
@@ -112,5 +113,6 @@ function setupResultsToggle() {
   });
 }
 
+renderTabs('matches');
 loadMatches();
 setupResultsToggle();

@@ -2,23 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FootyHub — UCL Standings</title>
-  <link rel="stylesheet" href="style.css">
+  <title>FootyHub — Standings</title>
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body class="ucl-page">
   <div class="bg-slideshow" aria-hidden="true">
-  <div class="bg-slide active" style="background-image:url('images/ucl-bg-1.jpg')"></div>
-  <div class="bg-slide" style="background-image:url('images/ucl-bg-2.webp')"></div>
-  <div class="bg-slide" style="background-image:url('images/ucl-bg-3.jpeg')"></div>
-</div>
-  <h1><a href="index.html" class="home-link">FootyHub</a> — Champions League</h1>
+    <div class="bg-slide active" style="background-image:url('images/ucl-bg-1.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('images/ucl-bg-2.webp')"></div>
+    <div class="bg-slide" style="background-image:url('images/ucl-bg-3.jpeg')"></div>
+  </div>
 
-  <nav class="tabs">
-    <a href="matches.html" class="tab">MATCHES</a>
-    <a href="standings.html" class="tab tab-active">STANDINGS</a>
-    <a href="stats.html" class="tab">STATS</a>
-    <a href="players.html" class="tab">PLAYERS</a>
-  </nav>
+  <h1><a href="index.html" class="home-link">FootyHub</a> — <span id="league-title">Champions League</span></h1>
+
+  <nav class="tabs" id="tabs-nav"></nav>
 
   <table id="standings-table">
     <thead>
@@ -31,7 +27,8 @@
     </tbody>
   </table>
 
-  <script src="standings.js"></script>
+  <script src="league-tabs.js?v=1"></script>
+  <script src="standings.js?v=2"></script>
   <script src="bg-slideshow.js?v=1"></script>
 </body>
 </html>
