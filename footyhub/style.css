@@ -167,8 +167,14 @@ tbody tr:hover { background: #1a1a1a; }
 }
 
 .live-badge {
-  color: #ff4444;
+  color: #4ade80;
   font-weight: bold;
+  animation: pulse-live 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 a.match-card, a.result-card {
@@ -345,6 +351,7 @@ a.match-card, a.result-card {
   background-position: center;
   opacity: 0;
   transition: opacity 2.5s ease;
+  filter: brightness(0.35) saturate(0.8);
 }
 
 .bg-slide.active {
@@ -355,9 +362,10 @@ a.match-card, a.result-card {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(6, 8, 12, 0.82);
+  background: rgba(4, 6, 10, 0.55);
   z-index: -1;
 }
+
 body.ucl-page {
   background: transparent;
 }
