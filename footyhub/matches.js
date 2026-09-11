@@ -38,11 +38,15 @@ function fixtureCardHTML(m) {
   `;
 }
 
-function resultCardHTML(m) {
+function resultCardHTML(m, isLive = false) {
   const date = new Date(m.match_date);
   const label = relativeDateLabel(date);
   const homeWon = m.home_score > m.away_score;
   const awayWon = m.away_score > m.home_score;
+
+  const metaHTML = isLive
+    ? `<span class="live-badge">LIVE</span>`
+    : `FT<br>${label}`;
 
   return `
     <a href="lineup.html?matchId=${m.id}" class="result-card">
@@ -62,7 +66,7 @@ function resultCardHTML(m) {
           <span class="result-score">${m.away_score} ${awayWon ? '<span class="win-arrow">&#9664;</span>' : ''}</span>
         </div>
       </div>
-      <div class="result-meta">FT<br>${label}</div>
+      <div class="result-meta">${metaHTML}</div>
     </a>
   `;
 }
@@ -80,7 +84,7 @@ async function loadMatches() {
 
     if (data.live && data.live.length > 0) {
       liveSection.style.display = 'block';
-      liveList.innerHTML = data.live.map(m => resultCardHTML(m)).join('');
+      liveList.innerHTML = data.live.map(m => resultCardHTML(m, true)).join('');
     }
 
     upcomingList.innerHTML = data.upcoming.length
