@@ -1,6 +1,18 @@
 const LEAGUES = {
-  ucl: { name: 'Champions League', competition: 'UCL', hasStats: true, hasPlayers: true },
-  epl: { name: 'Premier League', competition: 'EPL', hasStats: false, hasPlayers: false }
+  ucl: {
+    name: 'Champions League',
+    competition: 'UCL',
+    hasStats: true,
+    hasPlayers: true,
+    bgImages: ['images/ucl-bg-1.jpg', 'images/ucl-bg-2.webp', 'images/ucl-bg-3.jpeg']
+  },
+  epl: {
+    name: 'Premier League',
+    competition: 'EPL',
+    hasStats: false,
+    hasPlayers: false,
+    bgImages: ['images/epl-bg-1.jpg', 'images/epl-bg-2.jpg', 'images/epl-bg-3.jpg', 'images/epl-bg-4.jpg']
+  }
 };
 
 function getCurrentLeague() {
