@@ -43,8 +43,9 @@ function setupSubtabs() {
 
 async function loadStats() {
   const tbody = document.getElementById('stats-body');
+  const competition = getCompetitionCode();
   try {
-    const res = await fetch(`${API_BASE}/api/ucl/stats`);
+    const res = await fetch(`${API_BASE}/api/football/stats?competition=${competition}`);
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     statsData = await res.json();
     renderTable('goals');
@@ -54,5 +55,6 @@ async function loadStats() {
   }
 }
 
+renderTabs('stats');
 loadStats();
 setupSubtabs();
