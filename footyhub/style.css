@@ -1239,3 +1239,50 @@ body.ucl-page .pitch-player-avatar {
   .vs { padding: 0 8px; }
   .score { padding: 0 8px; }
 }
+
+.player-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.player-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  padding: 20px 12px;
+  text-align: center;
+}
+
+.player-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #ddd;
+  color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0 auto 12px;
+}
+
+.player-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.player-position {
+  font-size: 0.8em;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.player-team {
+  font-size: 0.75em;
+  color: #4f9dff;
+}

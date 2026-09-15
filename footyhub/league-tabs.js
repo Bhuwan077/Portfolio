@@ -10,7 +10,7 @@ const LEAGUES = {
     name: 'Premier League',
     competition: 'EPL',
     hasStats: true,
-    hasPlayers: false,
+    hasPlayers: true,
     bgImages: ['images/epl-bg-1.jpg', 'images/epl-bg-2.jpg', 'images/epl-bg-3.jpg', 'images/epl-bg-4.jpg']
   }
 };
