@@ -14,8 +14,23 @@ async function loadStandings() {
       return;
     }
 
-    tbody.innerHTML = data.standings.map((team, i) => `
-      <tr>
+    const total = data.standings.length;
+
+    tbody.innerHTML = data.standings.map((team, i) => {
+      // Zone classes — competition-aware
+      let zoneClass = '';
+      if (competition === 'UCL') {
+        if (i < 8) zoneClass = 'zone-qualify';
+        else if (i < 24) zoneClass = 'zone-playoff';
+        else zoneClass = 'zone-danger';
+      } else if (competition === 'EPL') {
+        if (i < 4) zoneClass = 'zone-qualify';       // UCL spots
+        else if (i < 6) zoneClass = 'zone-playoff';  // Europa / Conference
+        else if (i >= total - 3) zoneClass = 'zone-danger'; // Relegation
+      }
+
+      return `
+      <tr class="${zoneClass} fade-in-up" style="--delay: ${i * 0.03}s">
         <td>${i + 1}</td>
         <td class="team-cell">
           ${team.logo_url ? `<img src="${team.logo_url}" alt="${team.name}" class="team-logo">` : ''}
@@ -28,9 +43,10 @@ async function loadStandings() {
         <td>${team.goals_for}</td>
         <td>${team.goals_against}</td>
         <td>${team.goal_difference}</td>
-        <td><strong>${team.points}</strong></td>
+        <td><span class="points-badge">${team.points}</span></td>
       </tr>
-    `).join('');
+    `;
+    }).join('');
   } catch (err) {
     console.error('Failed to load standings:', err);
     tbody.innerHTML = '<tr><td colspan="10" class="empty-note">Could not load standings. The server may be waking up — try refreshing in a minute.</td></tr>';

@@ -2,17 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Match lineup and formation view — see starting XI, substitutes, and tactical formations for Champions League matches.">
   <title>FootyHub — Lineup</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
-<body>
-  <h1><a href="index.html" class="home-link">FootyHub</a> — Champions League</h1>
-  <p class="back-link"><a href="matches.html">&larr; Back to Matches</a></p>
+<body class="ucl-page">
+  <div class="bg-slideshow" id="bg-slideshow" aria-hidden="true"></div>
+
+  <h1><a href="index.html" class="home-link">FootyHub</a> — <span id="league-title">Champions League</span></h1>
+
+  <nav class="tabs" id="tabs-nav"></nav>
+
+  <p class="back-link"><a href="matches.html">← Back to Matches</a></p>
 
   <div id="lineup-container">
     <p class="empty-note">Loading...</p>
   </div>
 
-  <script src="lineup.js?v=1"></script>
+  <script src="league-tabs.js?v=2"></script>
+  <script src="lineup.js?v=2"></script>
+  <script src="bg-slideshow.js?v=2"></script>
 </body>
 </html>

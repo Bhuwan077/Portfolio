@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FootyHub</title>
-  <link rel="stylesheet" href="style.css?v=5">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FootyHub — Live football scores, standings, stats, and lineups for UEFA Champions League and Premier League.">
+  <title>FootyHub — Live Football Stats</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
-<body>
+<body class="home-page">
   <main class="hero" role="img" aria-label="An animated nighttime football attack ending with a powerful shot into the upper-right corner of the goal.">
     <canvas aria-hidden="true"></canvas>
 
@@ -14,11 +19,29 @@
       <p class="subtitle">Pick a competition</p>
 
       <div class="league-grid">
-        <a href="standings.html" class="league-card">UEFA Champions League</a>
-        <div class="league-card league-card-disabled">La Liga<span class="soon-badge">Coming soon</span></div>
-        <a href="standings.html?league=epl" class="league-card">Premier League</a>
-        <div class="league-card league-card-disabled">Serie A<span class="soon-badge">Coming soon</span></div>
-        <div class="league-card league-card-disabled">Bundesliga<span class="soon-badge">Coming soon</span></div>
+        <a href="standings.html" class="league-card" id="card-ucl">
+          <span class="league-card-icon ucl-icon">★</span>
+          <span class="league-card-name">UEFA Champions League</span>
+        </a>
+        <a href="standings.html?league=epl" class="league-card" id="card-epl">
+          <span class="league-card-icon epl-icon">♛</span>
+          <span class="league-card-name">Premier League</span>
+        </a>
+        <div class="league-card league-card-disabled" id="card-laliga">
+          <span class="league-card-icon disabled-icon">⚽</span>
+          <span class="league-card-name">La Liga</span>
+          <span class="soon-badge">Coming soon</span>
+        </div>
+        <div class="league-card league-card-disabled" id="card-seriea">
+          <span class="league-card-icon disabled-icon">⚽</span>
+          <span class="league-card-name">Serie A</span>
+          <span class="soon-badge">Coming soon</span>
+        </div>
+        <div class="league-card league-card-disabled" id="card-bundesliga">
+          <span class="league-card-icon disabled-icon">⚽</span>
+          <span class="league-card-name">Bundesliga</span>
+          <span class="soon-badge">Coming soon</span>
+        </div>
       </div>
     </div>
   </main>

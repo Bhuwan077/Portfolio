@@ -20,14 +20,19 @@ function renderTable(key) {
     return;
   }
 
-  tbody.innerHTML = rows.map((row, i) => `
-    <tr>
+  tbody.innerHTML = rows.map((row, i) => {
+    // Podium classes for top 3
+    const podiumClass = i === 0 ? 'podium-gold' : i === 1 ? 'podium-silver' : i === 2 ? 'podium-bronze' : '';
+
+    return `
+    <tr class="${podiumClass} fade-in-up" style="--delay: ${i * 0.03}s">
       <td>${i + 1}</td>
       <td>${row.player_name}</td>
       <td>${row.team_name || ''}</td>
-      <td><strong>${row.count}</strong></td>
+      <td><span class="stat-badge">${row.count}</span></td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function setupSubtabs() {

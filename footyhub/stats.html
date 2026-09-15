@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Football player statistics — top scorers, assists, yellow cards, and red cards for UEFA Champions League &amp; Premier League.">
   <title>FootyHub — Stats</title>
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body class="ucl-page">
   <div class="bg-slideshow" id="bg-slideshow" aria-hidden="true"></div>
@@ -12,7 +17,7 @@
 
   <nav class="tabs" id="tabs-nav"></nav>
 
-  <nav class="stat-subtabs">
+  <nav class="stat-subtabs" id="stat-subtabs">
     <button class="stat-subtab active" data-key="goals">Goals</button>
     <button class="stat-subtab" data-key="assists">Assists</button>
     <button class="stat-subtab" data-key="yellowCards">Yellow Cards</button>
@@ -33,8 +38,8 @@
     </tbody>
   </table>
 
-  <script src="league-tabs.js?v=1"></script>
-  <script src="stats.js?v=2"></script>
-  <script src="bg-slideshow.js?v=1"></script>
+  <script src="league-tabs.js?v=2"></script>
+  <script src="stats.js?v=3"></script>
+  <script src="bg-slideshow.js?v=2"></script>
 </body>
 </html>

@@ -36,7 +36,7 @@ function substitutesHTML(subs) {
 
 function teamPanelHTML(teamName, formation, initialLineup, substitutes) {
   return `
-    <div class="team-lineup-panel">
+    <div class="team-lineup-panel fade-in-up">
       <div class="team-lineup-header">
         <span>${teamName}</span>
         <span class="formation-badge">${formation || ''}</span>
@@ -84,10 +84,17 @@ async function loadLineup() {
       ${teamPanelHTML(homeName, lu.home_formation, lu.home_initial_lineup, lu.home_substitutes)}
       ${teamPanelHTML(awayName, lu.away_formation, lu.away_initial_lineup, lu.away_substitutes)}
     `;
+
+    // Stagger the two panels
+    const panels = container.querySelectorAll('.team-lineup-panel');
+    panels.forEach((panel, i) => {
+      panel.style.setProperty('--delay', `${i * 0.15}s`);
+    });
   } catch (err) {
     console.error('Failed to load lineup:', err);
     container.innerHTML = `<p class="empty-note">Could not load lineup. The server may be waking up — try refreshing in a minute.</p>`;
   }
 }
 
+renderTabs('matches');
 loadLineup();

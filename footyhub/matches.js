@@ -71,6 +71,16 @@ function resultCardHTML(m, isLive = false) {
   `;
 }
 
+/** Add staggered fade-in animation to a set of cards */
+function animateCards(container) {
+  if (!container) return;
+  const cards = container.querySelectorAll('.match-card, .result-card');
+  cards.forEach((card, i) => {
+    card.style.setProperty('--delay', `${i * 0.05}s`);
+    card.classList.add('fade-in-up');
+  });
+}
+
 async function loadMatches() {
   const liveSection = document.getElementById('live-section');
   const liveList = document.getElementById('live-list');
@@ -86,15 +96,18 @@ async function loadMatches() {
     if (data.live && data.live.length > 0) {
       liveSection.style.display = 'block';
       liveList.innerHTML = data.live.map(m => resultCardHTML(m, true)).join('');
+      animateCards(liveList);
     }
 
     upcomingList.innerHTML = data.upcoming.length
       ? data.upcoming.map(m => fixtureCardHTML(m)).join('')
       : '<p class="empty-note">No upcoming matches.</p>';
+    animateCards(upcomingList);
 
     finishedList.innerHTML = data.finished.length
       ? data.finished.map(m => resultCardHTML(m)).join('')
       : '<p class="empty-note">No finished matches yet.</p>';
+    animateCards(finishedList);
   } catch (err) {
     console.error('Failed to load matches:', err);
     upcomingList.innerHTML = '<p class="empty-note">Could not load matches. The server may be waking up — try refreshing in a minute.</p>';
@@ -109,7 +122,7 @@ function setupResultsToggle() {
 
   toggleBtn.addEventListener('click', () => {
     const isCollapsed = finishedList.classList.toggle('collapsed');
-    arrow.innerHTML = isCollapsed ? '&#9660;' : '&#9650;';
+    arrow.classList.toggle('expanded', !isCollapsed);
   });
 }
 

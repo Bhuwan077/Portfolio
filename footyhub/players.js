@@ -24,8 +24,8 @@ function renderPlayers(filterTeam) {
     return;
   }
 
-  tbody.innerHTML = rows.map(p => `
-    <tr>
+  tbody.innerHTML = rows.map((p, i) => `
+    <tr class="fade-in-up" style="--delay: ${i * 0.02}s">
       <td>${p.jersey_number ?? ''}</td>
       <td>${p.name}</td>
       <td>${p.position || ''}</td>
@@ -54,4 +54,5 @@ async function loadPlayers() {
   }
 }
 
+renderTabs('players');
 loadPlayers();
