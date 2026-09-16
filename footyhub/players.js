@@ -4,11 +4,17 @@ let allPlayers = [];
 
 function populateTeamFilter() {
   const select = document.getElementById('team-filter');
+
+  // Clear out any previously populated options (besides the default "all teams" one)
+  // in case this ever runs more than once on the same page load.
+  select.querySelectorAll('option[data-team-option]').forEach(opt => opt.remove());
+
   const teams = [...new Set(allPlayers.map(p => p.team_name))].sort();
   teams.forEach(team => {
     const opt = document.createElement('option');
     opt.value = team;
     opt.textContent = team;
+    opt.dataset.teamOption = 'true';
     select.appendChild(opt);
   });
 }
@@ -37,7 +43,8 @@ function renderPlayers(filterTeam) {
 async function loadPlayers() {
   const tbody = document.getElementById('players-body');
   try {
-    const res = await fetch(`${API_BASE}/api/ucl/players`);
+    const competition = getCompetitionCode();
+    const res = await fetch(`${API_BASE}/api/football/players?competition=${competition}`);
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     const data = await res.json();
     allPlayers = data.players || [];
