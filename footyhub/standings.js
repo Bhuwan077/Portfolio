@@ -23,14 +23,16 @@ async function loadStandings() {
         if (i < 8) zoneClass = 'zone-qualify';
         else if (i < 24) zoneClass = 'zone-playoff';
         else zoneClass = 'zone-danger';
-      } else if (competition === 'EPL') {
+      } else if (competition === 'EPL' || competition === 'LALIGA') {
         if (i < 4) zoneClass = 'zone-qualify';       // UCL spots
         else if (i < 6) zoneClass = 'zone-playoff';  // Europa / Conference
         else if (i >= total - 3) zoneClass = 'zone-danger'; // Relegation
       }
 
+      const leaderClass = i === 0 ? ' leader-row' : '';
+
       return `
-      <tr class="${zoneClass} fade-in-up" style="--delay: ${i * 0.03}s">
+      <tr class="${zoneClass}${leaderClass} fade-in-up" style="--delay: ${i * 0.03}s">
         <td>${i + 1}</td>
         <td class="team-cell">
           ${team.logo_url ? `<img src="${team.logo_url}" alt="${team.name}" class="team-logo">` : ''}
