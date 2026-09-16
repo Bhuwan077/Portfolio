@@ -1390,7 +1390,7 @@ a.result-card { display: flex; }
 
 
 /* ============================================
-   14. Background Slideshow
+   14. Background Slideshow & Atmospheric Aurora
    ============================================ */
 .bg-slideshow {
   position: fixed;
@@ -1406,7 +1406,7 @@ a.result-card { display: flex; }
   background-position: center;
   opacity: 0;
   transition: opacity 2.5s ease;
-  filter: brightness(0.3) saturate(0.7);
+  filter: brightness(0.28) saturate(0.75);
   transform: scale(1);
   will-change: opacity, transform;
 }
@@ -1427,10 +1427,209 @@ a.result-card { display: flex; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(10, 14, 23, 0.25), rgba(10, 14, 23, 0.6)),
-    linear-gradient(180deg, rgba(10, 14, 23, 0.35) 0%, transparent 35%, transparent 65%, rgba(10, 14, 23, 0.45) 100%);
+    radial-gradient(ellipse at 50% 45%, rgba(10, 14, 23, 0.35), rgba(10, 14, 23, 0.75)),
+    linear-gradient(180deg, rgba(10, 14, 23, 0.4) 0%, transparent 35%, transparent 65%, rgba(10, 14, 23, 0.6) 100%);
   z-index: 1;
   pointer-events: none;
+}
+
+/* Atmospheric Aurora Mesh & Floodlights */
+.bg-aura-mesh {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+/* Floating Atmospheric Orbs */
+.aura-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(85px);
+  opacity: 0.55;
+  will-change: transform, opacity;
+  transition: background 1.5s ease, opacity 1.5s ease;
+}
+
+.aura-orb-1 {
+  width: 580px;
+  height: 580px;
+  top: -120px;
+  left: -80px;
+  animation: orbFloat1 18s ease-in-out infinite alternate;
+}
+
+.aura-orb-2 {
+  width: 620px;
+  height: 620px;
+  bottom: -150px;
+  right: -100px;
+  animation: orbFloat2 22s ease-in-out infinite alternate;
+}
+
+.aura-orb-3 {
+  width: 480px;
+  height: 480px;
+  top: 35%;
+  left: 35%;
+  animation: orbFloat3 26s ease-in-out infinite alternate;
+  opacity: 0.4;
+}
+
+@keyframes orbFloat1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(140px, 90px) scale(1.15); }
+  100% { transform: translate(60px, 160px) scale(0.95); }
+}
+
+@keyframes orbFloat2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-120px, -100px) scale(1.12); }
+  100% { transform: translate(-70px, -50px) scale(0.9); }
+}
+
+@keyframes orbFloat3 {
+  0% { transform: translate(0, 0) scale(0.9); }
+  50% { transform: translate(-90px, 70px) scale(1.18); }
+  100% { transform: translate(80px, -60px) scale(1); }
+}
+
+/* Stadium Floodlight Cones */
+.floodlight-beam {
+  position: absolute;
+  top: -150px;
+  width: 400px;
+  height: 130vh;
+  opacity: 0.22;
+  filter: blur(50px);
+  pointer-events: none;
+  transform-origin: top center;
+  transition: background 1.5s ease, opacity 1.5s ease;
+}
+
+.floodlight-left {
+  left: 3%;
+  transform: rotate(-24deg);
+  animation: beamSweepLeft 15s ease-in-out infinite alternate;
+}
+
+.floodlight-right {
+  right: 3%;
+  transform: rotate(24deg);
+  animation: beamSweepRight 17s ease-in-out infinite alternate;
+}
+
+@keyframes beamSweepLeft {
+  0% { transform: rotate(-28deg); opacity: 0.16; }
+  50% { transform: rotate(-17deg); opacity: 0.26; }
+  100% { transform: rotate(-23deg); opacity: 0.18; }
+}
+
+@keyframes beamSweepRight {
+  0% { transform: rotate(28deg); opacity: 0.16; }
+  50% { transform: rotate(17deg); opacity: 0.26; }
+  100% { transform: rotate(23deg); opacity: 0.18; }
+}
+
+/* Giant Subtle Watermark Motif in Background */
+.league-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  height: 550px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.055;
+  pointer-events: none;
+  filter: blur(1.5px);
+  transition: opacity 1s ease, background-image 0.8s ease;
+}
+
+/* ============================================
+   League-Specific Moods (UCL, EPL, La Liga)
+   ============================================ */
+
+/* 1. UEFA Champions League: Cosmic Navy & Star Electric Blue */
+body[data-league="ucl"] .aura-orb-1,
+body:not([data-league]) .aura-orb-1 {
+  background: radial-gradient(circle, #1a3aba 0%, rgba(13, 27, 94, 0.85) 60%, transparent 80%);
+}
+body[data-league="ucl"] .aura-orb-2,
+body:not([data-league]) .aura-orb-2 {
+  background: radial-gradient(circle, #0052cc 0%, rgba(79, 157, 255, 0.45) 50%, transparent 80%);
+}
+body[data-league="ucl"] .aura-orb-3,
+body:not([data-league]) .aura-orb-3 {
+  background: radial-gradient(circle, #0d1b5e 0%, rgba(0, 82, 204, 0.35) 60%, transparent 80%);
+}
+body[data-league="ucl"] .floodlight-beam,
+body:not([data-league]) .floodlight-beam {
+  background: linear-gradient(180deg, rgba(79, 157, 255, 0.4) 0%, rgba(13, 27, 94, 0.2) 50%, transparent 100%);
+}
+body[data-league="ucl"] .league-watermark,
+body:not([data-league]) .league-watermark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,5 61,38 95,38 68,58 78,91 50,71 22,91 32,58 5,38 39,38' fill='none' stroke='%234f9dff' stroke-width='2'/%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%234f9dff' stroke-width='1.5' stroke-dasharray='4,4'/%3E%3C/svg%3E");
+  opacity: 0.06;
+}
+
+/* 2. Premier League: Royal Purple & Neon Magenta / Mint */
+body[data-league="epl"] .aura-orb-1 {
+  background: radial-gradient(circle, #7b1fa2 0%, rgba(56, 0, 60, 0.85) 60%, transparent 80%);
+}
+body[data-league="epl"] .aura-orb-2 {
+  background: radial-gradient(circle, #e90052 0%, rgba(123, 31, 162, 0.45) 50%, transparent 80%);
+}
+body[data-league="epl"] .aura-orb-3 {
+  background: radial-gradient(circle, #00ff85 0%, rgba(0, 180, 100, 0.3) 50%, transparent 80%);
+}
+body[data-league="epl"] .floodlight-beam {
+  background: linear-gradient(180deg, rgba(233, 0, 82, 0.3) 0%, rgba(123, 31, 162, 0.2) 50%, transparent 100%);
+}
+body[data-league="epl"] .league-watermark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20,70 L25,40 L40,55 L50,25 L60,55 L75,40 L80,70 Z' fill='none' stroke='%23ce93d8' stroke-width='2.5'/%3E%3Ccircle cx='50' cy='22' r='4' fill='%23ce93d8'/%3E%3Ccircle cx='24' cy='37' r='3.5' fill='%23ce93d8'/%3E%3Ccircle cx='76' cy='37' r='3.5' fill='%23ce93d8'/%3E%3C/svg%3E");
+  opacity: 0.055;
+}
+
+/* 3. La Liga: Spanish Passion Crimson & Solar Amber Gold */
+body[data-league="laliga"] .aura-orb-1 {
+  background: radial-gradient(circle, #e5233b 0%, rgba(160, 10, 30, 0.85) 60%, transparent 80%);
+}
+body[data-league="laliga"] .aura-orb-2 {
+  background: radial-gradient(circle, #ff7a00 0%, rgba(229, 35, 59, 0.45) 50%, transparent 80%);
+}
+body[data-league="laliga"] .aura-orb-3 {
+  background: radial-gradient(circle, #ffd700 0%, rgba(255, 122, 0, 0.3) 50%, transparent 80%);
+}
+body[data-league="laliga"] .floodlight-beam {
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.35) 0%, rgba(229, 35, 59, 0.2) 50%, transparent 100%);
+}
+body[data-league="laliga"] .league-watermark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%23ff7a00' stroke-width='2'/%3E%3Cpath d='M30,35 Q50,20 70,35 Q85,50 70,65 Q50,80 30,65 Q15,50 30,35 Z' fill='none' stroke='%23e5233b' stroke-width='2'/%3E%3C/svg%3E");
+  opacity: 0.055;
+}
+
+/* Matches Card Aura Tint by League */
+body[data-league="ucl"] .match-card:hover,
+body[data-league="ucl"] .result-card:hover {
+  border-color: rgba(79, 157, 255, 0.45);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 22px rgba(79, 157, 255, 0.3);
+}
+
+body[data-league="epl"] .match-card:hover,
+body[data-league="epl"] .result-card:hover {
+  border-color: rgba(206, 147, 216, 0.45);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 22px rgba(123, 31, 162, 0.35);
+}
+
+body[data-league="laliga"] .match-card:hover,
+body[data-league="laliga"] .result-card:hover {
+  border-color: rgba(255, 122, 0, 0.45);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 22px rgba(229, 35, 59, 0.35);
 }
 
 body.ucl-page {

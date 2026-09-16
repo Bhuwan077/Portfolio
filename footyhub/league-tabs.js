@@ -34,6 +34,7 @@ function getCompetitionCode() {
 
 function renderTabs(activeTab) {
   const league = getCurrentLeague();
+  document.body.setAttribute('data-league', league);
   const info = LEAGUES[league];
   const suffix = league === 'ucl' ? '' : `?league=${league}`;
 

@@ -3,11 +3,26 @@ function setupBgSlideshow() {
   if (!container) return;
 
   const league = getCurrentLeague();
-  const images = LEAGUES[league].bgImages;
+  document.body.setAttribute('data-league', league);
+  const leagueData = LEAGUES[league];
+  const images = (leagueData && leagueData.bgImages) ? leagueData.bgImages : [];
 
-  container.innerHTML = images.map((url, i) =>
+  const slidesHTML = images.map((url, i) =>
     `<div class="bg-slide${i === 0 ? ' active' : ''}" style="background-image:url('${url}')"></div>`
   ).join('');
+
+  const auraHTML = `
+    <div class="bg-aura-mesh" aria-hidden="true">
+      <div class="aura-orb aura-orb-1"></div>
+      <div class="aura-orb aura-orb-2"></div>
+      <div class="aura-orb aura-orb-3"></div>
+      <div class="floodlight-beam floodlight-left"></div>
+      <div class="floodlight-beam floodlight-right"></div>
+      <div class="league-watermark"></div>
+    </div>
+  `;
+
+  container.innerHTML = slidesHTML + auraHTML;
 
   const slides = container.querySelectorAll('.bg-slide');
   if (slides.length === 0) return;
