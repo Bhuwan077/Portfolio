@@ -16,10 +16,7 @@ const LEAGUES = {
   laliga: {
     name: 'La Liga',
     competition: 'LALIGA',
-    // Stats and Players are disabled until populateEventsLaLiga.js / a La Liga players
-    // script exist and have real data in the database. Matches and Standings already
-    // work since populateLaLiga.js (football-data.org) is done and has been run.
-    hasStats: false,
+    hasStats: true,
     hasPlayers: false,
     bgImages: ['images/laliga-bg-1.jpg', 'images/laliga-bg-2.jpg', 'images/laliga-bg-3.jpg', 'images/laliga-bg-4.jpg', 'images/laliga-bg-5.jpg']
   }
