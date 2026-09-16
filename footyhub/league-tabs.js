@@ -12,6 +12,18 @@ const LEAGUES = {
     hasStats: true,
     hasPlayers: true,
     bgImages: ['images/epl-bg-1.jpg', 'images/epl-bg-2.jpg', 'images/epl-bg-3.jpg', 'images/epl-bg-4.jpg']
+  },
+  laliga: {
+    name: 'La Liga',
+    competition: 'LALIGA',
+    // Stats and Players are disabled until populateEventsLaLiga.js / a La Liga players
+    // script exist and have real data in the database. Matches and Standings already
+    // work since populateLaLiga.js (football-data.org) is done and has been run.
+    hasStats: false,
+    hasPlayers: false,
+    // These files don't exist yet — add real La Liga background images at these paths
+    // (or update the paths) before this league's inner pages will show a slideshow.
+    bgImages: ['images/laliga-bg-1.jpg', 'images/laliga-bg-2.jpg', 'images/laliga-bg-3.jpg']
   }
 };
 
