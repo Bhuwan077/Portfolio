@@ -32,7 +32,13 @@ const LEAGUES = {
     competition: 'BUNDESLIGA',
     hasStats: false,
     hasPlayers: false,
-    bgImages: ['images/bundesliga-bg-1.jpg', 'images/bundesliga-bg-2.jpg', 'images/bundesliga-bg-3.jpg']
+    bgImages: [
+  "images/bundesliga-bg-1.jpg",
+  "images/bundesliga-bg-2.jpg",
+  "images/bundesliga-bg-3.jpg",
+  "images/bundesliga-bg-4.jpg",
+  "images/bundesliga-bg-5.jpg",
+]
   }
 };
 
