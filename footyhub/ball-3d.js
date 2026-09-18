@@ -31,13 +31,14 @@
     R = (size / 2) * 0.76;
   }
 
-  // Position & Velocity State (Free floating anywhere on screen)
+  // Position & Velocity State (Free floating, starts at bottom-right corner)
   const isMobile = window.innerWidth <= 600;
   const initialBallSize = isMobile ? 72 : 90;
-  let posX = isMobile
-    ? Math.max(16, window.innerWidth - initialBallSize - 20)
-    : Math.min(window.innerWidth - initialBallSize - 60, 720);
-  let posY = isMobile ? 75 : 130;
+  const initialMargin = isMobile ? 18 : 32;
+  let posX = Math.max(10, window.innerWidth - initialBallSize - initialMargin);
+  let posY = Math.max(10, window.innerHeight - initialBallSize - initialMargin);
+
+  let hasInteracted = false;
 
   let vx = 0;
   let vy = 0;
@@ -204,8 +205,14 @@
   window.addEventListener('resize', () => {
     updateCanvasDimensions();
     const curSize = canvas.offsetWidth || size;
-    posX = Math.max(0, Math.min(window.innerWidth - curSize, posX));
-    posY = Math.max(0, Math.min(window.innerHeight - curSize, posY));
+    const curMargin = window.innerWidth <= 600 ? 18 : 32;
+    if (!hasInteracted) {
+      posX = Math.max(10, window.innerWidth - curSize - curMargin);
+      posY = Math.max(10, window.innerHeight - curSize - curMargin);
+    } else {
+      posX = Math.max(0, Math.min(window.innerWidth - curSize, posX));
+      posY = Math.max(0, Math.min(window.innerHeight - curSize, posY));
+    }
     setBallTransform();
   });
 
@@ -365,6 +372,7 @@
 
   // --- Pointer & Touch Drag Interactions (Anywhere on screen) ---
   canvas.addEventListener('pointerdown', e => {
+    hasInteracted = true;
     isDragging = true;
     hasMoved = false;
     dragStartX = e.clientX;
