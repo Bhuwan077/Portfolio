@@ -8,24 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body class="home-page">
   <main class="hero" role="img" aria-label="An animated nighttime football attack ending with a powerful shot into the upper-right corner of the goal.">
     <canvas aria-hidden="true"></canvas>
 
     <div class="hero-overlay">
-      <div class="hero-header-row">
-        <div class="hero-title-group">
-          <h1>FootyHub</h1>
-          <p class="subtitle">Pick a competition</p>
-        </div>
-
-        <div class="interactive-ball-widget" id="ball-widget" title="Drag, flick, or click to play with the 3D ball!">
-          <canvas id="ball-3d-canvas" width="120" height="120"></canvas>
-          <div class="ball-hint">✦ Play with 3D ball</div>
-        </div>
-      </div>
+      <h1>FootyHub</h1>
+      <p class="subtitle">Pick a competition</p>
 
       <div class="league-grid">
         <a href="standings.html" class="league-card" id="card-ucl">
@@ -82,9 +73,12 @@
         </a>
       </div>
     </div>
+
+    <!-- Free-floating interactive 3D football (draggable anywhere) -->
+    <canvas id="ball-3d-canvas" width="90" height="90" aria-label="Interactive 3D Football"></canvas>
   </main>
 
   <script src="hero-animation.js?v=2"></script>
-  <script src="ball-3d.js?v=2"></script>
+  <script src="ball-3d.js?v=3"></script>
 </body>
 </html>

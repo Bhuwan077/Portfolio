@@ -1,6 +1,6 @@
 /* =========================================================
-   FootyHub — Interactive 3D Playable Football Widget
-   Pure Vanilla Canvas 3D Truncated Icosahedron Mathematics
+   FootyHub — Free-Floating Interactive 3D Football Engine
+   Pure Vanilla Canvas 3D Truncated Icosahedron Geometry & Physics
    ========================================================= */
 
 (function () {
@@ -9,113 +9,108 @@
 
   const ctx = canvas.getContext('2d');
 
-  let width = 100;
-  let height = 100;
-  let cx = 50;
-  let cy = 46;
+  // Dimension & Scaling
+  let size = 90;
   let R = 36;
+  let cx = 45;
+  let cy = 43;
 
-  function updateDimensions() {
+  function updateCanvasDimensions() {
     const rect = canvas.getBoundingClientRect();
-    const w = Math.round(rect.width) || canvas.clientWidth || 100;
-    const h = Math.round(rect.height) || canvas.clientHeight || 100;
+    const w = Math.round(rect.width) || 90;
+    const h = Math.round(rect.height) || 90;
     const dpr = window.devicePixelRatio || 1;
 
-    if (w > 0 && h > 0) {
-      if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
-        width = w;
-        height = h;
-        canvas.width = Math.round(w * dpr);
-        canvas.height = Math.round(h * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        cx = width / 2;
-        cy = height / 2 - Math.max(2, height * 0.035);
-        R = Math.min(width, height) * 0.36;
-      }
-    }
+    size = w;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    cx = size / 2;
+    cy = size / 2 - 2;
+    R = (size / 2) * 0.76;
   }
 
-  updateDimensions();
-  window.addEventListener('resize', updateDimensions);
+  // Position & Velocity State (Free floating anywhere on screen)
+  const isMobile = window.innerWidth <= 600;
+  const initialBallSize = isMobile ? 72 : 90;
+  let posX = isMobile
+    ? Math.max(16, window.innerWidth - initialBallSize - 20)
+    : Math.min(window.innerWidth - initialBallSize - 60, 720);
+  let posY = isMobile ? 75 : 130;
 
-  // Golden ratio
+  let vx = 0;
+  let vy = 0;
+  let isDragging = false;
+  let hasMoved = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let lastPointerX = 0;
+  let lastPointerY = 0;
+  let lastTime = performance.now();
+  let bounceScale = 1.0;
+  let bounceTarget = 1.0;
+
+  function setBallTransform() {
+    canvas.style.transform = `translate3d(${Math.round(posX)}px, ${Math.round(posY)}px, 0)`;
+  }
+
+  // --- Truncated Icosahedron Mathematical Generation ---
   const phi = (1 + Math.sqrt(5)) / 2;
+  const rawPerms = [];
+  const signs = [-1, 1];
 
-  // 12 icosahedron vertices (centers of the 12 pentagons)
-  const rawVerts = [
-    [-1, phi, 0], [1, phi, 0], [-1, -phi, 0], [1, -phi, 0],
-    [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
-    [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1]
-  ];
-
-  function normalize(v) {
-    const len = Math.hypot(v[0], v[1], v[2]) || 1;
-    return [v[0] / len, v[1] / len, v[2] / len];
-  }
-
-  const centers = rawVerts.map(normalize);
-
-  // For each center, find its 5 nearest neighbors and sort cyclically
-  const pentagons = centers.map((c, i) => {
-    // Distance to all other centers
-    const others = centers
-      .map((other, idx) => ({ idx, other, dist: Math.hypot(c[0] - other[0], c[1] - other[1], c[2] - other[2]) }))
-      .filter(item => item.idx !== i)
-      .sort((a, b) => a.dist - b.dist)
-      .slice(0, 5);
-
-    // Pick a reference vector orthogonal to c
-    let ref = [1, 0, 0];
-    if (Math.abs(c[0]) > 0.9) ref = [0, 1, 0];
-    const u = normalize(cross(c, ref));
-    const v = cross(c, u);
-
-    // Sort neighbors cyclically around c
-    others.sort((a, b) => {
-      const da = [a.other[0] - c[0], a.other[1] - c[1], a.other[2] - c[2]];
-      const db = [b.other[0] - c[0], b.other[1] - c[1], b.other[2] - c[2]];
-      const angleA = Math.atan2(dot(da, v), dot(da, u));
-      const angleB = Math.atan2(dot(db, v), dot(db, u));
-      return angleA - angleB;
-    });
-
-    // Create 5 vertices on the sphere for this pentagon
-    // Radius factor 0.355 is mathematically matched to standard soccer ball panel proportions
-    const vertices = others.map(item => {
-      const dir = [
-        c[0] + 0.355 * (item.other[0] - c[0]),
-        c[1] + 0.355 * (item.other[1] - c[1]),
-        c[2] + 0.355 * (item.other[2] - c[2])
-      ];
-      return normalize(dir);
-    });
-
-    return { center: c, vertices };
-  });
-
-  // Calculate hexagon seams connecting adjacent pentagons
-  const seams = [];
-  for (let i = 0; i < pentagons.length; i++) {
-    for (let j = i + 1; j < pentagons.length; j++) {
-      const p1 = pentagons[i];
-      const p2 = pentagons[j];
-      const dist = Math.hypot(p1.center[0] - p2.center[0], p1.center[1] - p2.center[1], p1.center[2] - p2.center[2]);
-      if (dist < 1.15) { // Adjacent
-        // Find the 2 closest pairs of vertices
-        const pairs = [];
-        p1.vertices.forEach(v1 => {
-          p2.vertices.forEach(v2 => {
-            pairs.push({ v1, v2, d: Math.hypot(v1[0] - v2[0], v1[1] - v2[1], v1[2] - v2[2]) });
-          });
-        });
-        pairs.sort((a, b) => a.d - b.d);
-        if (pairs[0] && pairs[1]) {
-          seams.push([pairs[0].v1, pairs[0].v2]);
-          seams.push([pairs[1].v1, pairs[1].v2]);
+  function addPermutations(a, b, c) {
+    const perms = [[a, b, c], [b, c, a], [c, a, b]];
+    for (const p of perms) {
+      for (const sx of (p[0] === 0 ? [0] : signs)) {
+        for (const sy of (p[1] === 0 ? [0] : signs)) {
+          for (const sz of (p[2] === 0 ? [0] : signs)) {
+            rawPerms.push([sx * Math.abs(p[0]), sy * Math.abs(p[1]), sz * Math.abs(p[2])]);
+          }
         }
       }
     }
   }
+
+  addPermutations(0, 1, 3 * phi);
+  addPermutations(2, 1 + 2 * phi, phi);
+  addPermutations(1, 2 + phi, 2 * phi);
+
+  // 60 Unique Normalized Vertices
+  const vertices = [];
+  for (const v of rawPerms) {
+    const norm = Math.hypot(v[0], v[1], v[2]) || 1;
+    const nv = [v[0] / norm, v[1] / norm, v[2] / norm];
+    if (!vertices.some(u => Math.hypot(u[0] - nv[0], u[1] - nv[1], u[2] - nv[2]) < 0.001)) {
+      vertices.push(nv);
+    }
+  }
+
+  // 90 Unique Seam Edges (Connecting vertices at regular distance ~0.4035)
+  const edges = [];
+  for (let i = 0; i < vertices.length; i++) {
+    for (let j = i + 1; j < vertices.length; j++) {
+      const d = Math.hypot(
+        vertices[i][0] - vertices[j][0],
+        vertices[i][1] - vertices[j][1],
+        vertices[i][2] - vertices[j][2]
+      );
+      if (Math.abs(d - 0.4035) < 0.04) {
+        edges.push([vertices[i], vertices[j]]);
+      }
+    }
+  }
+
+  // 12 Regular Pentagons (Centers = 12 Icosahedron vertices)
+  const icosaCenters = [
+    [-1, phi, 0], [1, phi, 0], [-1, -phi, 0], [1, -phi, 0],
+    [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
+    [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1]
+  ].map(v => {
+    const norm = Math.hypot(v[0], v[1], v[2]) || 1;
+    return [v[0] / norm, v[1] / norm, v[2] / norm];
+  });
 
   function dot(a, b) {
     return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
@@ -129,7 +124,33 @@
     ];
   }
 
-  // 3x3 Rotation matrix
+  function norm(v) {
+    const l = Math.hypot(v[0], v[1], v[2]) || 1;
+    return [v[0] / l, v[1] / l, v[2] / l];
+  }
+
+  const pentagons = icosaCenters.map(center => {
+    const nearest = vertices
+      .map((v, i) => ({ i, v, d: Math.hypot(v[0] - center[0], v[1] - center[1], v[2] - center[2]) }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, 5)
+      .map(x => x.v);
+
+    let ref = [1, 0, 0];
+    if (Math.abs(center[0]) > 0.9) ref = [0, 1, 0];
+    const u = norm(cross(center, ref));
+    const v = cross(center, u);
+
+    nearest.sort((a, b) => {
+      const da = [a[0] - center[0], a[1] - center[1], a[2] - center[2]];
+      const db = [b[0] - center[0], b[1] - center[1], b[2] - center[2]];
+      return Math.atan2(dot(da, v), dot(da, u)) - Math.atan2(dot(db, v), dot(db, u));
+    });
+
+    return { center, vertices: nearest };
+  });
+
+  // --- 3D Rodrigues Rotation Matrix ---
   let matrix = [
     [1, 0, 0],
     [0, 1, 0],
@@ -144,9 +165,8 @@
     ];
   }
 
-  // Rodrigues rotation formula on matrix
   function rotateMatrix(axis, angle) {
-    const [x, y, z] = normalize(axis);
+    const [x, y, z] = norm(axis);
     const s = Math.sin(angle);
     const c = Math.cos(angle);
     const t = 1 - c;
@@ -171,49 +191,51 @@
     matrix = res;
   }
 
-  // Initial tilt for realistic broadcast angle
-  rotateMatrix([1, 0, 0], -0.35);
-  rotateMatrix([0, 1, 0], 0.4);
+  // Initial tilt for realistic angle
+  rotateMatrix([1, 0, 0], -0.32);
+  rotateMatrix([0, 1, 0], 0.38);
 
-  // Physics & Interaction State
-  let isDragging = false;
-  let lastX = 0;
-  let lastY = 0;
-  let velX = 0.008;
-  let velY = 0.004;
-  let bounceScale = 1.0;
-  let bounceTarget = 1.0;
+  // Directional Light Source (from top-left-front)
+  const light = norm([-0.45, -0.65, 0.85]);
 
-  // Light source (top-left-front)
-  const light = normalize([-0.45, -0.65, 0.85]);
+  updateCanvasDimensions();
+  setBallTransform();
 
+  window.addEventListener('resize', () => {
+    updateCanvasDimensions();
+    const curSize = canvas.offsetWidth || size;
+    posX = Math.max(0, Math.min(window.innerWidth - curSize, posX));
+    posY = Math.max(0, Math.min(window.innerHeight - curSize, posY));
+    setBallTransform();
+  });
+
+  // --- Animation & Physics Loop ---
   function render() {
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, size, size);
 
-    // Bounce physics
-    bounceScale += (bounceTarget - bounceScale) * 0.15;
+    // Dynamic squash & stretch bounce factor
+    bounceScale += (bounceTarget - bounceScale) * 0.16;
     const currentR = R * bounceScale;
 
-    // 1. Drop shadow beneath ball
+    // 1. Realistic Drop Shadow
     ctx.save();
-    const shadowY = cy + currentR + Math.max(4, currentR * 0.18);
-    const shadowGrad = ctx.createRadialGradient(cx, shadowY, 2, cx, shadowY, currentR * 0.88);
-    shadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.48)');
-    shadowGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0.18)');
+    const shadowY = cy + currentR + Math.max(3, currentR * 0.16);
+    const shadowGrad = ctx.createRadialGradient(cx, shadowY, 2, cx, shadowY, currentR * 0.86);
+    shadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.46)');
+    shadowGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0.16)');
     shadowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = shadowGrad;
     ctx.beginPath();
-    ctx.ellipse(cx, shadowY, currentR * 0.85, Math.max(3, currentR * 0.22), 0, 0, Math.PI * 2);
+    ctx.ellipse(cx, shadowY, currentR * 0.84, Math.max(3, currentR * 0.22), 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
 
-    // 2. Base white sphere with 3D spherical lighting
+    // 2. Base Sphere (White Leather Shading)
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, currentR, 0, Math.PI * 2);
     ctx.clip();
 
-    // White leather background
     const baseGrad = ctx.createRadialGradient(
       cx - currentR * 0.35,
       cy - currentR * 0.4,
@@ -224,30 +246,29 @@
     );
     baseGrad.addColorStop(0, '#ffffff');
     baseGrad.addColorStop(0.55, '#eaedf2');
-    baseGrad.addColorStop(0.85, '#cbd3de');
-    baseGrad.addColorStop(1, '#8c9aa8');
+    baseGrad.addColorStop(0.85, '#cad2dc');
+    baseGrad.addColorStop(1, '#8694a4');
     ctx.fillStyle = baseGrad;
     ctx.fill();
 
-    // 3. Draw hexagon seams
-    seams.forEach(([v1, v2]) => {
+    // 3. Hexagon & Panel Seams (90 edges)
+    edges.forEach(([v1, v2]) => {
       const t1 = transform(v1);
       const t2 = transform(v2);
-      if (t1[2] > -0.15 && t2[2] > -0.15) {
+      if (t1[2] > -0.05 && t2[2] > -0.05) {
         ctx.beginPath();
         ctx.moveTo(cx + t1[0] * currentR, cy + t1[1] * currentR);
         ctx.lineTo(cx + t2[0] * currentR, cy + t2[1] * currentR);
-        ctx.strokeStyle = 'rgba(50, 60, 75, 0.45)';
-        ctx.lineWidth = 1.4;
+        ctx.strokeStyle = 'rgba(42, 52, 68, 0.42)';
+        ctx.lineWidth = 1.3;
         ctx.stroke();
       }
     });
 
-    // 4. Draw 12 Black Pentagons
+    // 4. Black Pentagons (12 faces)
     pentagons.forEach(p => {
       const tc = transform(p.center);
-      // Backface culling with soft margin
-      if (tc[2] > -0.15) {
+      if (tc[2] > -0.05) {
         const transVerts = p.vertices.map(transform);
 
         ctx.beginPath();
@@ -259,20 +280,18 @@
         });
         ctx.closePath();
 
-        // Diffuse lighting on the pentagon
         const diff = Math.max(0, dot(tc, light));
         const cVal = Math.round(18 + diff * 45);
-        ctx.fillStyle = `rgb(${cVal}, ${cVal + 2}, ${cVal + 8})`;
+        ctx.fillStyle = `rgb(${cVal}, ${cVal + 2}, ${cVal + 6})`;
         ctx.fill();
 
-        // Subtle seam border
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
         ctx.lineWidth = 1.0;
         ctx.stroke();
       }
     });
 
-    // 5. 3D Curvature & Specular Highlight Overlay
+    // 5. Specular Sheen & 3D Curvature Overlay
     const sheenGrad = ctx.createRadialGradient(
       cx - currentR * 0.38,
       cy - currentR * 0.42,
@@ -281,59 +300,122 @@
       cy,
       currentR
     );
-    sheenGrad.addColorStop(0, 'rgba(255, 255, 255, 0.55)');
-    sheenGrad.addColorStop(0.25, 'rgba(255, 255, 255, 0.15)');
+    sheenGrad.addColorStop(0, 'rgba(255, 255, 255, 0.58)');
+    sheenGrad.addColorStop(0.25, 'rgba(255, 255, 255, 0.16)');
     sheenGrad.addColorStop(0.65, 'rgba(0, 0, 0, 0)');
-    sheenGrad.addColorStop(0.9, 'rgba(5, 10, 20, 0.4)');
+    sheenGrad.addColorStop(0.9, 'rgba(5, 10, 20, 0.38)');
     sheenGrad.addColorStop(1, 'rgba(5, 10, 20, 0.85)');
     ctx.fillStyle = sheenGrad;
     ctx.fill();
 
     ctx.restore();
 
-    // 6. Physics step
+    // 6. Free-Floating Movement & Physics Step
+    const curBallSize = canvas.offsetWidth || size;
+    const maxX = window.innerWidth - curBallSize;
+    const maxY = window.innerHeight - curBallSize;
+
     if (!isDragging) {
-      // Rotate by velocity
-      const speed = Math.hypot(velX, velY);
-      if (speed > 0.0001) {
-        rotateMatrix([velY, -velX, 0], speed);
-        // Inertia damping
-        velX *= 0.965;
-        velY *= 0.965;
+      const speed = Math.hypot(vx, vy);
+
+      if (speed > 0.08) {
+        posX += vx;
+        posY += vy;
+
+        // Friction deceleration
+        vx *= 0.968;
+        vy *= 0.968;
+
+        // Boundary Ricochet Bounces
+        const restitution = 0.74;
+        if (posX <= 0) {
+          posX = 0;
+          vx = -vx * restitution;
+          bounceScale = 0.9;
+        } else if (posX >= maxX) {
+          posX = maxX;
+          vx = -vx * restitution;
+          bounceScale = 0.9;
+        }
+
+        if (posY <= 0) {
+          posY = 0;
+          vy = -vy * restitution;
+          bounceScale = 0.9;
+        } else if (posY >= maxY) {
+          posY = maxY;
+          vy = -vy * restitution;
+          bounceScale = 0.9;
+        }
+
+        // 3D rolling rotation in motion direction
+        rotateMatrix([vy, -vx, 0], speed * 0.032);
       } else {
+        vx = 0;
+        vy = 0;
         // Idle gentle float-spin
         rotateMatrix([0.4, -1, 0.2], 0.007);
       }
+
+      setBallTransform();
     }
 
     requestAnimationFrame(render);
   }
 
-  // Pointer interaction
+  // --- Pointer & Touch Drag Interactions (Anywhere on screen) ---
   canvas.addEventListener('pointerdown', e => {
     isDragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    velX = 0;
-    velY = 0;
-    bounceTarget = 0.95;
+    hasMoved = false;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    lastPointerX = e.clientX;
+    lastPointerY = e.clientY;
+    lastTime = performance.now();
+    vx = 0;
+    vy = 0;
+    bounceTarget = 0.94;
     try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
   });
 
   canvas.addEventListener('pointermove', e => {
     if (!isDragging) return;
-    const dx = e.clientX - lastX;
-    const dy = e.clientY - lastY;
-    lastX = e.clientX;
-    lastY = e.clientY;
 
-    velX = dx * 0.015;
-    velY = dy * 0.015;
+    const curX = e.clientX;
+    const curY = e.clientY;
+    const dx = curX - lastPointerX;
+    const dy = curY - lastPointerY;
 
+    if (Math.hypot(curX - dragStartX, curY - dragStartY) > 5) {
+      hasMoved = true;
+    }
+
+    posX += dx;
+    posY += dy;
+
+    // Clamp within viewport during drag
+    const curBallSize = canvas.offsetWidth || size;
+    const maxX = window.innerWidth - curBallSize;
+    const maxY = window.innerHeight - curBallSize;
+    posX = Math.max(0, Math.min(maxX, posX));
+    posY = Math.max(0, Math.min(maxY, posY));
+
+    // Calculate instantaneous velocity for toss/flick
+    const now = performance.now();
+    const dt = Math.max(10, now - lastTime);
+    lastTime = now;
+    vx = dx * (16 / dt);
+    vy = dy * (16 / dt);
+
+    // Roll 3D ball in motion direction
     const dist = Math.hypot(dx, dy);
     if (dist > 0) {
-      rotateMatrix([dy, -dx, 0], dist * 0.022);
+      rotateMatrix([dy, -dx, 0], dist * 0.035);
     }
+
+    lastPointerX = curX;
+    lastPointerY = curY;
+    setBallTransform();
   });
 
   function releasePointer(e) {
@@ -341,19 +423,40 @@
     isDragging = false;
     bounceTarget = 1.0;
     try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
+
+    // If clicked/tapped without significant drag, it's a kick!
+    if (!hasMoved) {
+      const rect = canvas.getBoundingClientRect();
+      const ballCenterX = rect.left + rect.width / 2;
+      const ballCenterY = rect.top + rect.height / 2;
+      let kx = ballCenterX - e.clientX;
+      let ky = ballCenterY - e.clientY;
+
+      // If clicked near center, launch with random upward kick
+      if (Math.hypot(kx, ky) < 4) {
+        kx = (Math.random() - 0.5) * 14;
+        ky = -10 - Math.random() * 8;
+      }
+
+      const len = Math.hypot(kx, ky) || 1;
+      const kickSpeed = 16 + Math.random() * 8;
+      vx = (kx / len) * kickSpeed;
+      vy = (ky / len) * kickSpeed;
+      bounceScale = 1.25;
+    } else {
+      // Cap maximum fling velocity
+      const speed = Math.hypot(vx, vy);
+      const maxSpeed = 32;
+      if (speed > maxSpeed) {
+        vx = (vx / speed) * maxSpeed;
+        vy = (vy / speed) * maxSpeed;
+      }
+    }
   }
 
   canvas.addEventListener('pointerup', releasePointer);
   canvas.addEventListener('pointercancel', releasePointer);
 
-  // Click bounce kick
-  canvas.addEventListener('click', () => {
-    bounceScale = 1.18;
-    bounceTarget = 1.0;
-    velX += (Math.random() - 0.5) * 0.08;
-    velY += (Math.random() - 0.5) * 0.08;
-  });
-
-  // Start animation loop
+  // Start Animation Loop
   requestAnimationFrame(render);
 })();
