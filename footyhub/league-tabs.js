@@ -17,14 +17,14 @@ const LEAGUES = {
     name: 'La Liga',
     competition: 'LALIGA',
     hasStats: true,
-    hasPlayers: false,
+    hasPlayers: true,
     bgImages: ['images/laliga-bg-1.jpg', 'images/laliga-bg-2.jpg', 'images/laliga-bg-3.jpg', 'images/laliga-bg-4.jpg', 'images/laliga-bg-5.jpg']
   },
   serieA: {
     name: 'Serie A',
     competition: 'SERIEA',
     hasStats: true,
-    hasPlayers: false,
+    hasPlayers: true,
     bgImages: [
   "images/seriea-bg-1.jpg",
   "images/seriea-bg-2.jpg",
@@ -37,7 +37,7 @@ const LEAGUES = {
     name: 'Bundesliga',
     competition: 'BUNDESLIGA',
     hasStats: true,
-    hasPlayers: false,
+    hasPlayers: true,
     bgImages: [
   "images/bundesliga-bg-1.jpg",
   "images/bundesliga-bg-2.jpg",
