@@ -385,8 +385,10 @@ tbody tr:hover .stat-badge {
   animation: cardFloat 6s ease-in-out infinite;
 }
 #card-ucl { animation-delay: 0s; }
-#card-epl { animation-delay: 1.5s; }
-#card-laliga { animation-delay: 3s; }
+#card-epl { animation-delay: 1.2s; }
+#card-laliga { animation-delay: 2.4s; }
+#card-seriea { animation-delay: 3.6s; }
+#card-bundesliga { animation-delay: 4.8s; }
 
 @keyframes cardFloat {
   0%, 100% { transform: translateY(0); }
@@ -503,6 +505,32 @@ tbody tr:hover .stat-badge {
 .league-card:hover .laliga-icon {
   transform: scale(1.15) rotate(180deg);
   box-shadow: 0 6px 24px rgba(229, 35, 59, 0.75), 0 0 16px rgba(255, 122, 0, 0.5);
+}
+
+/* Serie A Icon */
+.seriea-icon {
+  background: linear-gradient(135deg, #005ce6, #00c6ff);
+  box-shadow: 0 4px 16px rgba(0, 92, 230, 0.55);
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 198, 255, 0.6);
+}
+
+.league-card:hover .seriea-icon {
+  transform: scale(1.15) rotate(-15deg);
+  box-shadow: 0 6px 24px rgba(0, 92, 230, 0.8), 0 0 18px rgba(0, 198, 255, 0.6);
+}
+
+/* Bundesliga Icon */
+.bundesliga-icon {
+  background: linear-gradient(135deg, #d3010c, #ff3838);
+  box-shadow: 0 4px 16px rgba(211, 1, 12, 0.55);
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 56, 56, 0.6);
+}
+
+.league-card:hover .bundesliga-icon {
+  transform: scale(1.15) translateY(-3px) rotate(15deg);
+  box-shadow: 0 6px 24px rgba(211, 1, 12, 0.8), 0 0 18px rgba(255, 56, 56, 0.6);
 }
 
 .disabled-icon {
@@ -1613,6 +1641,47 @@ body[data-league="laliga"] .league-watermark {
   opacity: 0.055;
 }
 
+/* 4. Serie A: Italian Azzurro & Mediterranean Cyan / Emerald */
+body[data-league="seriea"] .aura-orb-1,
+body[data-league="serieA"] .aura-orb-1 {
+  background: radial-gradient(circle, #005ce6 0%, rgba(0, 45, 140, 0.85) 60%, transparent 80%);
+}
+body[data-league="seriea"] .aura-orb-2,
+body[data-league="serieA"] .aura-orb-2 {
+  background: radial-gradient(circle, #00c6ff 0%, rgba(0, 92, 230, 0.45) 50%, transparent 80%);
+}
+body[data-league="seriea"] .aura-orb-3,
+body[data-league="serieA"] .aura-orb-3 {
+  background: radial-gradient(circle, #00b050 0%, rgba(0, 150, 70, 0.25) 50%, transparent 80%);
+}
+body[data-league="seriea"] .floodlight-beam,
+body[data-league="serieA"] .floodlight-beam {
+  background: linear-gradient(180deg, rgba(0, 198, 255, 0.35) 0%, rgba(0, 92, 230, 0.18) 50%, transparent 100%);
+}
+body[data-league="seriea"] .league-watermark,
+body[data-league="serieA"] .league-watermark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,10 88,30 80,75 50,95 20,75 12,30' fill='none' stroke='%2300c6ff' stroke-width='2.2'/%3E%3Cpolygon points='50,22 76,38 70,70 50,84 30,70 24,38' fill='none' stroke='%23005ce6' stroke-width='1.5' stroke-dasharray='3,3'/%3E%3Ccircle cx='50' cy='52' r='8' fill='none' stroke='%2300c6ff' stroke-width='2'/%3E%3C/svg%3E");
+  opacity: 0.06;
+}
+
+/* 5. Bundesliga: German Precision Red, Gold & Steel */
+body[data-league="bundesliga"] .aura-orb-1 {
+  background: radial-gradient(circle, #d3010c 0%, rgba(140, 0, 8, 0.85) 60%, transparent 80%);
+}
+body[data-league="bundesliga"] .aura-orb-2 {
+  background: radial-gradient(circle, #ff2a36 0%, rgba(211, 1, 12, 0.45) 50%, transparent 80%);
+}
+body[data-league="bundesliga"] .aura-orb-3 {
+  background: radial-gradient(circle, #ffcc00 0%, rgba(255, 170, 0, 0.28) 50%, transparent 80%);
+}
+body[data-league="bundesliga"] .floodlight-beam {
+  background: linear-gradient(180deg, rgba(255, 42, 54, 0.35) 0%, rgba(211, 1, 12, 0.18) 50%, transparent 100%);
+}
+body[data-league="bundesliga"] .league-watermark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,8 90,32 90,68 50,92 10,68 10,32' fill='none' stroke='%23ff2a36' stroke-width='2.5'/%3E%3Cpolygon points='50,20 78,38 78,62 50,80 22,62 22,38' fill='none' stroke='%23ffcc00' stroke-width='1.5' stroke-dasharray='4,3'/%3E%3Cpath d='M35,65 L50,30 L65,65 Z' fill='none' stroke='%23ff2a36' stroke-width='2'/%3E%3C/svg%3E");
+  opacity: 0.06;
+}
+
 /* Matches Card Aura Tint by League */
 body[data-league="ucl"] .match-card:hover,
 body[data-league="ucl"] .result-card:hover {
@@ -1630,6 +1699,20 @@ body[data-league="laliga"] .match-card:hover,
 body[data-league="laliga"] .result-card:hover {
   border-color: rgba(255, 122, 0, 0.45);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 22px rgba(229, 35, 59, 0.35);
+}
+
+body[data-league="seriea"] .match-card:hover,
+body[data-league="seriea"] .result-card:hover,
+body[data-league="serieA"] .match-card:hover,
+body[data-league="serieA"] .result-card:hover {
+  border-color: rgba(0, 198, 255, 0.5);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 22px rgba(0, 198, 255, 0.35);
+}
+
+body[data-league="bundesliga"] .match-card:hover,
+body[data-league="bundesliga"] .result-card:hover {
+  border-color: rgba(255, 42, 54, 0.5);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 22px rgba(211, 1, 12, 0.38);
 }
 
 body.ucl-page {

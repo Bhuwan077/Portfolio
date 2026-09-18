@@ -50,8 +50,10 @@ const LEAGUES = {
 
 function getCurrentLeague() {
   const params = new URLSearchParams(window.location.search);
-  const key = params.get('league') || 'ucl';
-  return LEAGUES[key] ? key : 'ucl';
+  const rawKey = params.get('league') || 'ucl';
+  if (LEAGUES[rawKey]) return rawKey;
+  const match = Object.keys(LEAGUES).find(k => k.toLowerCase() === rawKey.toLowerCase());
+  return match || 'ucl';
 }
 
 function getCompetitionCode() {
