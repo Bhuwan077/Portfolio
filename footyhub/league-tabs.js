@@ -23,7 +23,7 @@ const LEAGUES = {
   serieA: {
     name: 'Serie A',
     competition: 'SERIEA',
-    hasStats: false,
+    hasStats: true,
     hasPlayers: false,
     bgImages: [
   "images/seriea-bg-1.jpg",
@@ -36,7 +36,7 @@ const LEAGUES = {
   bundesliga: {
     name: 'Bundesliga',
     competition: 'BUNDESLIGA',
-    hasStats: false,
+    hasStats: true,
     hasPlayers: false,
     bgImages: [
   "images/bundesliga-bg-1.jpg",
