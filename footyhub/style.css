@@ -494,7 +494,7 @@ tbody tr:hover .stat-badge {
   box-shadow: 0 6px 24px rgba(123, 31, 162, 0.75), 0 0 16px rgba(206, 147, 216, 0.5);
 }
 
-/* La Liga Football Icon */
+/* La Liga Icon Circle */
 .laliga-icon {
   background: linear-gradient(135deg, #e5233b, #ff7a00);
   box-shadow: 0 4px 16px rgba(229, 35, 59, 0.5);
@@ -502,35 +502,82 @@ tbody tr:hover .stat-badge {
   text-shadow: 0 0 8px rgba(255, 122, 0, 0.5);
 }
 
-.league-card:hover .laliga-icon {
-  transform: scale(1.15) rotate(180deg);
-  box-shadow: 0 6px 24px rgba(229, 35, 59, 0.75), 0 0 16px rgba(255, 122, 0, 0.5);
-}
-
-/* Serie A Icon */
+/* Serie A Icon Circle */
 .seriea-icon {
   background: linear-gradient(135deg, #005ce6, #00c6ff);
   box-shadow: 0 4px 16px rgba(0, 92, 230, 0.55);
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(0, 198, 255, 0.6);
 }
 
-.league-card:hover .seriea-icon {
-  transform: scale(1.15) rotate(-15deg);
-  box-shadow: 0 6px 24px rgba(0, 92, 230, 0.8), 0 0 18px rgba(0, 198, 255, 0.6);
-}
-
-/* Bundesliga Icon */
+/* Bundesliga Icon Circle */
 .bundesliga-icon {
   background: linear-gradient(135deg, #d3010c, #ff3838);
   box-shadow: 0 4px 16px rgba(211, 1, 12, 0.55);
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(255, 56, 56, 0.6);
 }
 
-.league-card:hover .bundesliga-icon {
-  transform: scale(1.15) translateY(-3px) rotate(15deg);
-  box-shadow: 0 6px 24px rgba(211, 1, 12, 0.8), 0 0 18px rgba(255, 56, 56, 0.6);
+/* SVG League Vector Icons */
+.league-svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+  transition: transform var(--transition-bounce), filter var(--transition);
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.45));
+}
+
+.league-card:hover .ucl-svg {
+  animation: uclStarGleam 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 10px rgba(255, 213, 79, 0.85));
+}
+
+@keyframes uclStarGleam {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(72deg); }
+  100% { transform: scale(1.1) rotate(72deg); }
+}
+
+.league-card:hover .epl-svg {
+  animation: eplLionRoar 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 10px rgba(206, 147, 216, 0.85));
+}
+
+@keyframes eplLionRoar {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.2) translateY(-3px); }
+  100% { transform: scale(1.1) translateY(-1px); }
+}
+
+.league-card:hover .laliga-svg {
+  animation: laligaSlash 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.85));
+}
+
+@keyframes laligaSlash {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(15deg); }
+  100% { transform: scale(1.1) rotate(0deg); }
+}
+
+.league-card:hover .seriea-svg {
+  animation: serieaShieldTilt 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 10px rgba(0, 198, 255, 0.85));
+}
+
+@keyframes serieaShieldTilt {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(-15deg); }
+  100% { transform: scale(1.1) rotate(-6deg); }
+}
+
+.league-card:hover .bundesliga-svg {
+  animation: bundesligaVolley 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.85));
+}
+
+@keyframes bundesligaVolley {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.22) translate(2px, -2px); }
+  100% { transform: scale(1.12) translate(1px, -1px); }
 }
 
 .disabled-icon {
