@@ -25,7 +25,13 @@ const LEAGUES = {
     competition: 'SERIEA',
     hasStats: false,
     hasPlayers: false,
-    bgImages: ['images/serieA-bg-1.jpg', 'images/serieA-bg-2.jpg', 'images/serieA-bg-3.jpg']
+    bgImages: [
+  "images/seriea-bg-1.jpg",
+  "images/seriea-bg-2.jpg",
+  "images/seriea-bg-3.jpg",
+  "images/seriea-bg-4.jpg",
+  "images/seriea-bg-5.jpg",
+]
   },
   bundesliga: {
     name: 'Bundesliga',
