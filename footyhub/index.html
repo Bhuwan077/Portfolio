@@ -3,49 +3,191 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="FootyHub — Live football scores, standings, stats, and lineups for UEFA Champions League and Premier League.">
-  <title>FootyHub — Live Football Stats</title>
+  <meta name="description" content="FootyHub — Live football scores, standings, stats, and 3D lineups for UEFA Champions League, Premier League, La Liga, Serie A, and Bundesliga.">
+  <title>FootyHub — The Cathedral of European Football</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body class="home-page">
+  <!-- Top Broadcast Matchday Ticker Bar -->
+  <header class="broadcast-bar">
+    <div class="broadcast-inner">
+      <div class="broadcast-live-badge">
+        <span class="live-radar-dot"></span>
+        <span class="broadcast-badge-text">MATCHDAY LIVE</span>
+      </div>
+
+      <div class="broadcast-ticker-viewport" aria-label="Live football broadcast ticker">
+        <div class="broadcast-ticker-track">
+          <span class="ticker-item"><span class="ticker-tag ucl-tag">UCL</span> Real Madrid vs Manchester City · European Knockout Clash</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag epl-tag">EPL</span> Arsenal vs Liverpool · The Title Decider at Emirates</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag laliga-tag">ESP</span> El Clásico: FC Barcelona vs Real Madrid · Bernabéu</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag seriea-tag">ITA</span> Derby d'Italia: Inter Milan vs Juventus · San Siro</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag bundesliga-tag">GER</span> Der Klassiker: Bayern Munich vs Borussia Dortmund</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag pulse-tag">PULSE</span> 96 Elite European Clubs · Real-Time Match Centers</span>
+          <span class="ticker-sep">✦</span>
+          <!-- Duplicate items for seamless continuous ticker loop -->
+          <span class="ticker-item"><span class="ticker-tag ucl-tag">UCL</span> Real Madrid vs Manchester City · European Knockout Clash</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag epl-tag">EPL</span> Arsenal vs Liverpool · The Title Decider at Emirates</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag laliga-tag">ESP</span> El Clásico: FC Barcelona vs Real Madrid · Bernabéu</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag seriea-tag">ITA</span> Derby d'Italia: Inter Milan vs Juventus · San Siro</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag bundesliga-tag">GER</span> Der Klassiker: Bayern Munich vs Borussia Dortmund</span>
+          <span class="ticker-sep">✦</span>
+          <span class="ticker-item"><span class="ticker-tag pulse-tag">PULSE</span> 96 Elite European Clubs · Real-Time Match Centers</span>
+          <span class="ticker-sep">✦</span>
+        </div>
+      </div>
+
+      <nav class="broadcast-quick-nav" aria-label="Quick jump navigation">
+        <a href="matches.html" class="quick-nav-pill"><span class="pill-icon">⚡</span> Matches</a>
+        <a href="standings.html" class="quick-nav-pill"><span class="pill-icon">🏆</span> Tables</a>
+        <a href="stats.html" class="quick-nav-pill"><span class="pill-icon">🔥</span> Stats</a>
+        <a href="lineup.html" class="quick-nav-pill"><span class="pill-icon">📋</span> 3D Pitch</a>
+      </nav>
+    </div>
+  </header>
+
   <main class="hero" role="img" aria-label="An animated nighttime football attack ending with a powerful shot into the upper-right corner of the goal.">
+    <!-- Stadium Floodlight Volumetric Beams -->
+    <div class="stadium-floodlights" aria-hidden="true">
+      <div class="floodlight floodlight-left"></div>
+      <div class="floodlight floodlight-right"></div>
+      <div class="floodlight floodlight-center"></div>
+    </div>
+
+    <!-- Background 3D Pitch Canvas -->
     <canvas aria-hidden="true"></canvas>
 
     <div class="hero-overlay">
-      <h1>FootyHub</h1>
-      <p class="subtitle">Pick a competition</p>
+      <!-- Eyebrow Aura Badge -->
+      <div class="hero-eyebrow">
+        <span class="eyebrow-glow-orb"></span>
+        <span class="eyebrow-icon">✦</span>
+        <span class="eyebrow-text">THE CATHEDRAL OF EUROPEAN FOOTBALL</span>
+        <span class="eyebrow-icon">✦</span>
+      </div>
 
+      <!-- Monumental Hero Title -->
+      <h1 class="hero-title">
+        <span class="title-text">FootyHub</span>
+        <span class="title-badge">PRO</span>
+      </h1>
+
+      <p class="subtitle">Where legends collide & history is forged. Real-time scores, tactical 3D lineups & squad analytics across Europe's top 5 competitions.</p>
+
+      <!-- Live Football HUD Metrics -->
+      <div class="hero-hud">
+        <div class="hud-item">
+          <span class="hud-value">5</span>
+          <span class="hud-label">ELITE LEAGUES</span>
+        </div>
+        <div class="hud-sep"></div>
+        <div class="hud-item">
+          <span class="hud-value">96</span>
+          <span class="hud-label">POWER CLUBS</span>
+        </div>
+        <div class="hud-sep"></div>
+        <div class="hud-item">
+          <span class="hud-value live-val">LIVE</span>
+          <span class="hud-label">MATCH PULSE</span>
+        </div>
+        <div class="hud-sep"></div>
+        <div class="hud-item">
+          <span class="hud-value">3D</span>
+          <span class="hud-label">TACTICAL PITCH</span>
+        </div>
+      </div>
+
+      <!-- League Grid: 5 Prestige Matchday Cards -->
       <div class="league-grid">
-        <a href="standings.html" class="league-card" id="card-ucl">
-          <span class="league-card-icon ucl-icon">
-            <svg class="league-svg ucl-svg" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
+        <!-- 1. UEFA Champions League -->
+        <a href="standings.html" class="league-card tilt-card" id="card-ucl" data-tilt-max="14">
+          <div class="card-ambient-aura ucl-aura" aria-hidden="true"></div>
+          <div class="card-header-bar" data-tilt-depth="12">
+            <span class="card-code">№ 01 · UCL</span>
+            <span class="card-status-pill ucl-pill">ROYALTY</span>
+          </div>
+          <div class="league-card-icon ucl-icon" data-tilt-depth="28">
+            <svg class="league-svg ucl-svg" viewBox="0 0 32 32" width="30" height="30" fill="none" aria-hidden="true">
               <polygon points="16,3 19,11.5 28,12 21,17.5 23.5,26 16,21 8.5,26 11,17.5 4,12 13,11.5" fill="#ffd54f"/>
               <circle cx="16" cy="16" r="14" stroke="#ffd54f" stroke-width="1.2" stroke-dasharray="3,3" fill="none"/>
-              <polygon points="16,1 17,4 20,4 17.5,5.8 18.5,8.5 16,7 13.5,8.5 14.5,5.8 12,4 15,4" fill="#ffffff" opacity="0.9"/>
+              <polygon points="16,1 17,4 20,4 17.5,5.8 18.5,8.5 16,7 13.5,8.5 14.5,5.8 12,4 15,4" fill="#ffffff" opacity="0.95"/>
             </svg>
-          </span>
-          <span class="league-card-name">UEFA Champions League</span>
+          </div>
+          <div class="card-info" data-tilt-depth="15">
+            <span class="league-card-name">Champions League</span>
+            <span class="league-card-desc">The pinnacle of European club prestige</span>
+          </div>
+          <div class="card-footer-meta" data-tilt-depth="12">
+            <span class="club-count">36 Clubs</span>
+            <span class="card-enter-action">Enter Hub →</span>
+          </div>
         </a>
-        <a href="standings.html?league=epl" class="league-card" id="card-epl">
-          <span class="league-card-icon epl-icon">♛</span>
-          <span class="league-card-name">Premier League</span>
+
+        <!-- 2. Premier League -->
+        <a href="standings.html?league=epl" class="league-card tilt-card" id="card-epl" data-tilt-max="14">
+          <div class="card-ambient-aura epl-aura" aria-hidden="true"></div>
+          <div class="card-header-bar" data-tilt-depth="12">
+            <span class="card-code">№ 02 · EPL</span>
+            <span class="card-status-pill epl-pill">CROWN JEWEL</span>
+          </div>
+          <div class="league-card-icon epl-icon" data-tilt-depth="28">
+            <span class="epl-crown-glyph">♛</span>
+          </div>
+          <div class="card-info" data-tilt-depth="15">
+            <span class="league-card-name">Premier League</span>
+            <span class="league-card-desc">Fastest & fiercest · 20 clubs, 1 throne</span>
+          </div>
+          <div class="card-footer-meta" data-tilt-depth="12">
+            <span class="club-count">20 Clubs</span>
+            <span class="card-enter-action">Enter Hub →</span>
+          </div>
         </a>
-        <a href="standings.html?league=laliga" class="league-card" id="card-laliga">
-          <span class="league-card-icon laliga-icon">
-            <svg class="league-svg laliga-svg" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
+
+        <!-- 3. La Liga -->
+        <a href="standings.html?league=laliga" class="league-card tilt-card" id="card-laliga" data-tilt-max="14">
+          <div class="card-ambient-aura laliga-aura" aria-hidden="true"></div>
+          <div class="card-header-bar" data-tilt-depth="12">
+            <span class="card-code">№ 03 · ESP</span>
+            <span class="card-status-pill laliga-pill">EL CLÁSICO</span>
+          </div>
+          <div class="league-card-icon laliga-icon" data-tilt-depth="28">
+            <svg class="league-svg laliga-svg" viewBox="0 0 32 32" width="30" height="30" fill="none" aria-hidden="true">
               <path d="M7 6 L13 6 L13 20 L22 20 L22 26 L7 26 Z" fill="#ffffff"/>
               <path d="M15 4 L21 4 L21 15 L27 15 L27 21 L15 21 Z" fill="#ffd700"/>
               <circle cx="27" cy="8.5" r="2.5" fill="#ffffff"/>
             </svg>
-          </span>
-          <span class="league-card-name">La Liga</span>
+          </div>
+          <div class="card-info" data-tilt-depth="15">
+            <span class="league-card-name">La Liga</span>
+            <span class="league-card-desc">Pure flair, passion & technical artistry</span>
+          </div>
+          <div class="card-footer-meta" data-tilt-depth="12">
+            <span class="club-count">20 Clubs</span>
+            <span class="card-enter-action">Enter Hub →</span>
+          </div>
         </a>
-        <a href="standings.html?league=serieA" class="league-card" id="card-seriea">
-          <span class="league-card-icon seriea-icon">
-            <svg class="league-svg seriea-svg" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
+
+        <!-- 4. Serie A -->
+        <a href="standings.html?league=serieA" class="league-card tilt-card" id="card-seriea" data-tilt-max="14">
+          <div class="card-ambient-aura seriea-aura" aria-hidden="true"></div>
+          <div class="card-header-bar" data-tilt-depth="12">
+            <span class="card-code">№ 04 · ITA</span>
+            <span class="card-status-pill seriea-pill">CALCIO</span>
+          </div>
+          <div class="league-card-icon seriea-icon" data-tilt-depth="28">
+            <svg class="league-svg seriea-svg" viewBox="0 0 32 32" width="30" height="30" fill="none" aria-hidden="true">
               <polygon points="16,3 27,10 24,25 16,30 8,25 5,10" fill="#003399" stroke="#00c6ff" stroke-width="1.4"/>
               <path d="M16 7 L21.5 22 L18.5 22 L17.2 18 L14.8 18 L13.5 22 L10.5 22 Z" fill="#ffffff"/>
               <polygon points="16,11 17.6,15.5 14.4,15.5" fill="#003399"/>
@@ -53,12 +195,26 @@
               <rect x="14.7" y="24" width="2.6" height="2" rx="0.5" fill="#ffffff"/>
               <rect x="17.4" y="24" width="2.6" height="2" rx="0.5" fill="#ce2b37"/>
             </svg>
-          </span>
-          <span class="league-card-name">Serie A</span>
+          </div>
+          <div class="card-info" data-tilt-depth="15">
+            <span class="league-card-name">Serie A</span>
+            <span class="league-card-desc">Tactical mastery & iconic Italian heritage</span>
+          </div>
+          <div class="card-footer-meta" data-tilt-depth="12">
+            <span class="club-count">20 Clubs</span>
+            <span class="card-enter-action">Enter Hub →</span>
+          </div>
         </a>
-        <a href="standings.html?league=bundesliga" class="league-card" id="card-bundesliga">
-          <span class="league-card-icon bundesliga-icon">
-            <svg class="league-svg bundesliga-svg" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
+
+        <!-- 5. Bundesliga -->
+        <a href="standings.html?league=bundesliga" class="league-card tilt-card" id="card-bundesliga" data-tilt-max="14">
+          <div class="card-ambient-aura bundesliga-aura" aria-hidden="true"></div>
+          <div class="card-header-bar" data-tilt-depth="12">
+            <span class="card-code">№ 05 · GER</span>
+            <span class="card-status-pill bundesliga-pill">INTENSITY</span>
+          </div>
+          <div class="league-card-icon bundesliga-icon" data-tilt-depth="28">
+            <svg class="league-svg bundesliga-svg" viewBox="0 0 32 32" width="30" height="30" fill="none" aria-hidden="true">
               <circle cx="11" cy="9.5" r="2.2" fill="#ffffff"/>
               <path d="M12 11.5 L18 16 L16 21 L10 15.5 Z" fill="#ffffff"/>
               <path d="M17 16 L24 13 L23 11 L16 14 Z" fill="#ffffff"/>
@@ -68,8 +224,36 @@
               <polygon points="26,8 27.5,9 27,10.5 25,10.5 24.5,9" fill="#d3010c"/>
               <line x1="21.5" y1="7" x2="23.5" y2="8" stroke="#ffcc00" stroke-width="1.2" stroke-linecap="round"/>
             </svg>
-          </span>
-          <span class="league-card-name">Bundesliga</span>
+          </div>
+          <div class="card-info" data-tilt-depth="15">
+            <span class="league-card-name">Bundesliga</span>
+            <span class="league-card-desc">High tempo, electric goals & stadium roar</span>
+          </div>
+          <div class="card-footer-meta" data-tilt-depth="12">
+            <span class="club-count">18 Clubs</span>
+            <span class="card-enter-action">Enter Hub →</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Feature Launchpad Dock -->
+      <div class="hero-feature-dock">
+        <span class="dock-label">DIRECT ACCESS:</span>
+        <a href="matches.html" class="dock-pill">
+          <span class="dock-pill-icon">⚡</span>
+          <span class="dock-pill-text">Live Match Center</span>
+        </a>
+        <a href="standings.html" class="dock-pill">
+          <span class="dock-pill-icon">🏆</span>
+          <span class="dock-pill-text">Full Tables & Zones</span>
+        </a>
+        <a href="stats.html" class="dock-pill">
+          <span class="dock-pill-icon">🔥</span>
+          <span class="dock-pill-text">Top Scorers & Assists</span>
+        </a>
+        <a href="lineup.html" class="dock-pill">
+          <span class="dock-pill-icon">📋</span>
+          <span class="dock-pill-text">3D Tactical Lineups</span>
         </a>
       </div>
     </div>
@@ -78,7 +262,7 @@
     <canvas id="ball-3d-canvas" width="90" height="90" aria-label="Interactive 3D Football"></canvas>
   </main>
 
-  <script src="tilt-3d.js?v=1"></script>
+  <script src="tilt-3d.js?v=2"></script>
   <script src="hero-animation.js?v=2"></script>
   <script src="ball-3d.js?v=5"></script>
 </body>
