@@ -108,6 +108,8 @@ async function loadMatches() {
       ? data.finished.map(m => resultCardHTML(m)).join('')
       : '<p class="empty-note">No finished matches yet.</p>';
     animateCards(finishedList);
+
+    if (window.FootyHubTilt) window.FootyHubTilt.init();
   } catch (err) {
     console.error('Failed to load matches:', err);
     upcomingList.innerHTML = '<p class="empty-note">Could not load matches. The server may be waking up — try refreshing in a minute.</p>';

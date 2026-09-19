@@ -59,6 +59,35 @@
   --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* 3D Tilt Card Base & Glare Layer */
+.tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.tilt-glare-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.tilt-glare-shine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220%;
+  height: 220%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.12) 30%, transparent 65%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
 
 /* ============================================
    1. Reset & Base
@@ -393,6 +422,10 @@ tbody tr:hover .stat-badge {
 @keyframes cardFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
+}
+
+.league-card:hover {
+  animation-play-state: paused;
 }
 
 /* Glass Sheen Light Sweep on Hover */
@@ -1067,6 +1100,123 @@ a.result-card { display: flex; }
   }
 }
 
+/* 3D Top 3 Podium Showcase (Stats Page) */
+.podium-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 820px;
+  margin: 0 auto 32px;
+  align-items: flex-end;
+}
+
+.podium-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px 20px;
+  border-radius: var(--radius);
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.podium-card-gold {
+  order: 2;
+  border-color: rgba(251, 191, 36, 0.45);
+  background: linear-gradient(180deg, rgba(251, 191, 36, 0.12) 0%, rgba(15, 23, 42, 0.8) 100%);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5), 0 0 30px rgba(251, 191, 36, 0.2);
+  padding-top: 32px;
+}
+
+.podium-card-silver {
+  order: 1;
+  border-color: rgba(203, 213, 225, 0.35);
+  background: linear-gradient(180deg, rgba(203, 213, 225, 0.08) 0%, rgba(15, 23, 42, 0.8) 100%);
+}
+
+.podium-card-bronze {
+  order: 3;
+  border-color: rgba(217, 119, 6, 0.35);
+  background: linear-gradient(180deg, rgba(217, 119, 6, 0.08) 0%, rgba(15, 23, 42, 0.8) 100%);
+}
+
+.podium-medal {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+  transform: translateZ(20px);
+}
+
+.podium-rank {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  transform: translateZ(16px);
+}
+
+.podium-card-gold .podium-rank {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fde68a;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+}
+
+.podium-card-silver .podium-rank {
+  background: rgba(203, 213, 225, 0.18);
+  color: #f1f5f9;
+  border: 1px solid rgba(203, 213, 225, 0.35);
+}
+
+.podium-card-bronze .podium-rank {
+  background: rgba(217, 119, 6, 0.2);
+  color: #fcd34d;
+  border: 1px solid rgba(217, 119, 6, 0.4);
+}
+
+.podium-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+  transform: translateZ(18px);
+}
+
+.podium-team {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  transform: translateZ(12px);
+}
+
+.podium-count {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 4px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transform: translateZ(24px);
+}
+
+.podium-card-gold .podium-count {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.15));
+  border-color: rgba(251, 191, 36, 0.5);
+  color: #fbbf24;
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.35);
+}
+
 
 /* ============================================
    10. Player Filter
@@ -1234,102 +1384,240 @@ a.result-card { display: flex; }
   box-shadow: 0 0 10px rgba(45, 90, 61, 0.3);
 }
 
-.pitch {
-  background: linear-gradient(180deg, #1f5538, #173d2e, #1a4532);
-  padding: 32px 16px;
-  position: relative;
+/* 3D Tactical Perspective Pitch Stage */
+.pitch-perspective-stage {
+  perspective: 1100px;
+  perspective-origin: 50% 15%;
+  padding: 24px 16px 36px;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 0%, rgba(20, 75, 45, 0.45) 0%, transparent 75%);
 }
 
-/* Tactical field lines with subtle luminous ambient pulse */
-.pitch::before {
-  content: '';
+.pitch,
+.pitch-3d {
+  width: 100%;
+  max-width: 640px;
+  transform: rotateX(20deg) scale(0.97);
+  transform-style: preserve-3d;
+  border-radius: 18px;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.65),
+    0 0 35px rgba(25, 110, 65, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  background: #143d28;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  padding: 38px 20px 46px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.pitch-perspective-stage:hover .pitch,
+.pitch-perspective-stage:hover .pitch-3d {
+  transform: rotateX(16deg) scale(0.99);
+  box-shadow:
+    0 35px 75px rgba(0, 0, 0, 0.75),
+    0 0 45px rgba(35, 140, 80, 0.4);
+}
+
+/* Photorealistic Alternating Mowing Turf Stripes */
+.pitch-turf-stripes {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    #17482f 0px,
+    #17482f 42px,
+    #133e27 42px,
+    #133e27 84px
+  );
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+/* Luminous Chalk Field Markings */
+.pitch-lines {
+  position: absolute;
+  inset: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.38);
+  border-radius: 4px;
+  pointer-events: none;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+.pitch-halfway-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.pitch-center-circle {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80px;
-  height: 80px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 96px;
+  height: 96px;
+  border: 1.5px solid rgba(255, 255, 255, 0.38);
   border-radius: 50%;
-  pointer-events: none;
-  animation: pitchCirclePulse 4s ease-in-out infinite;
+  animation: centerCircleGlow 4s ease-in-out infinite;
 }
 
-@keyframes pitchCirclePulse {
-  0%, 100% { border-color: rgba(255, 255, 255, 0.08); }
-  50% { border-color: rgba(255, 255, 255, 0.16); }
+@keyframes centerCircleGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 255, 255, 0.1); }
+  50% { box-shadow: 0 0 20px rgba(74, 222, 128, 0.35); }
 }
 
-.pitch::after {
-  content: '';
+.pitch-penalty-box-top {
   position: absolute;
-  top: 50%;
-  left: 8%;
-  right: 8%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.08);
-  pointer-events: none;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 64px;
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.pitch-penalty-box-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 64px;
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.pitch-formation-grid {
+  position: relative;
+  z-index: 3;
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
 .pitch-row {
   display: flex;
   justify-content: space-evenly;
-  margin-bottom: 24px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  transform-style: preserve-3d;
 }
 
-.pitch-row:last-child { margin-bottom: 0; }
-
+/* 3D Upright Player Tokens */
 .pitch-player {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
-  width: 80px;
-  transition: transform var(--transition-bounce);
+  gap: 4px;
+  width: 82px;
   cursor: pointer;
+  transform: rotateX(-20deg); /* Upright against 3D pitch */
+  transform-style: preserve-3d;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .pitch-player:hover {
-  transform: translateY(-5px);
+  transform: rotateX(-20deg) translate3d(0, -10px, 22px) scale(1.18);
 }
 
-.pitch-player-avatar {
+.pitch-player-shadow {
+  position: absolute;
+  bottom: 18px;
   width: 36px;
-  height: 36px;
+  height: 10px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, transparent 70%);
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(210,230,220,0.85));
-  color: #143022;
+  pointer-events: none;
+  transform: rotateX(65deg);
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.pitch-player:hover .pitch-player-shadow {
+  transform: rotateX(65deg) scale(1.4);
+  opacity: 0.4;
+}
+
+.pitch-player-token {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.72em;
-  font-weight: 700;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
-  transition: transform var(--transition-bounce), box-shadow var(--transition);
+  z-index: 2;
+}
+
+.pitch-player-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff 0%, #d8e6df 100%);
+  color: #0b291a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.5),
+    0 0 14px rgba(74, 222, 128, 0.3);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
 .pitch-player:hover .pitch-player-avatar {
-  transform: scale(1.22);
+  border-color: #4ade80;
+  transform: scale(1.08);
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.5),
-    0 0 16px rgba(74, 222, 128, 0.6);
+    0 8px 25px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(74, 222, 128, 0.85);
+}
+
+.pitch-player-num {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: #10b981;
+  color: #ffffff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .pitch-player-label {
-  color: #fff;
-  font-size: 0.68em;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #ffffff;
   text-align: center;
-  line-height: 1.25;
-  font-weight: 500;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
-  transition: color var(--transition);
+  white-space: nowrap;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+  background: rgba(10, 20, 15, 0.65);
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .pitch-player:hover .pitch-player-label {
-  color: #a8e6b8;
+  color: #a7f3d0;
+  border-color: rgba(74, 222, 128, 0.4);
 }
 
 .substitutes-list {
@@ -1956,11 +2244,36 @@ body.ucl-page .pitch-player-avatar {
   .stat-subtabs { gap: 6px; }
   .stat-subtab { padding: 8px 14px; font-size: 0.78em; }
 
+  .podium-showcase {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .podium-card {
+    padding: 18px 10px 14px;
+  }
+  .podium-medal {
+    font-size: 1.8rem;
+  }
+  .podium-name {
+    font-size: 0.9rem;
+  }
+  .podium-count {
+    font-size: 1.25rem;
+    padding: 3px 12px;
+  }
+
   .section-toggle { max-width: 100%; }
   .section-heading { max-width: 100%; }
 
+  .pitch-perspective-stage {
+    padding: 16px 8px 24px;
+  }
+  .pitch, .pitch-3d {
+    padding: 24px 12px 30px;
+    transform: rotateX(14deg) scale(0.98);
+  }
   .pitch-player { width: 65px; }
-  .pitch-player-avatar { width: 32px; height: 32px; }
+  .pitch-player-avatar { width: 34px; height: 34px; }
   .pitch-player-label { font-size: 0.62em; }
 }
 
@@ -1975,11 +2288,38 @@ body.ucl-page .pitch-player-avatar {
     height: 72px;
   }
 
+  .podium-showcase {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .podium-card-gold {
+    order: 1;
+    padding-top: 20px;
+  }
+  .podium-card-silver {
+    order: 2;
+  }
+  .podium-card-bronze {
+    order: 3;
+  }
+
+  .pitch, .pitch-3d {
+    transform: none;
+    border-radius: 12px;
+    padding: 18px 8px 22px;
+  }
+  .pitch-player {
+    transform: none;
+    width: 55px;
+  }
+  .pitch-player:hover {
+    transform: translateY(-4px) scale(1.08);
+  }
+
   .league-grid { grid-template-columns: 1fr; }
 
   .tabs { justify-content: flex-start; }
 
-  .pitch-player { width: 55px; }
   .pitch-player-avatar { width: 28px; height: 28px; font-size: 0.6em; }
   .pitch-player-label { font-size: 0.58em; }
 

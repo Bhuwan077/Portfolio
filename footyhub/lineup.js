@@ -9,9 +9,13 @@ function playerHTML(p) {
     .toUpperCase();
 
   return `
-    <div class="pitch-player">
-      <div class="pitch-player-avatar">${initials}</div>
-      <div class="pitch-player-label">${p.number ?? ''} ${p.name}</div>
+    <div class="pitch-player" title="${p.name || ''} #${p.number ?? ''}">
+      <div class="pitch-player-shadow"></div>
+      <div class="pitch-player-token">
+        <div class="pitch-player-avatar">${initials}</div>
+        ${p.number != null && p.number !== '' ? `<span class="pitch-player-num">${p.number}</span>` : ''}
+      </div>
+      <div class="pitch-player-label">${p.name || ''}</div>
     </div>
   `;
 }
@@ -36,13 +40,24 @@ function substitutesHTML(subs) {
 
 function teamPanelHTML(teamName, formation, initialLineup, substitutes) {
   return `
-    <div class="team-lineup-panel fade-in-up">
+    <div class="team-lineup-panel fade-in-up" data-tilt data-tilt-max="6">
       <div class="team-lineup-header">
         <span>${teamName}</span>
         <span class="formation-badge">${formation || ''}</span>
       </div>
-      <div class="pitch">
-        ${pitchRowsHTML(initialLineup)}
+      <div class="pitch-perspective-stage">
+        <div class="pitch-3d">
+          <div class="pitch-turf-stripes"></div>
+          <div class="pitch-lines">
+            <div class="pitch-center-circle"></div>
+            <div class="pitch-halfway-line"></div>
+            <div class="pitch-penalty-box-top"></div>
+            <div class="pitch-penalty-box-bottom"></div>
+          </div>
+          <div class="pitch-formation-grid">
+            ${pitchRowsHTML(initialLineup)}
+          </div>
+        </div>
       </div>
       ${substitutesHTML(substitutes)}
     </div>
@@ -90,6 +105,8 @@ async function loadLineup() {
     panels.forEach((panel, i) => {
       panel.style.setProperty('--delay', `${i * 0.15}s`);
     });
+
+    if (window.FootyHubTilt) window.FootyHubTilt.init();
   } catch (err) {
     console.error('Failed to load lineup:', err);
     container.innerHTML = `<p class="empty-note">Could not load lineup. The server may be waking up — try refreshing in a minute.</p>`;

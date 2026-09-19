@@ -52,6 +52,26 @@
   let bounceScale = 1.0;
   let bounceTarget = 1.0;
 
+  // High-Speed Sparks & Impact Particles
+  const sparks = [];
+  function addSparks(count, originX, originY, baseVx, baseVy, color = '#70b0ff') {
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1.2 + Math.random() * 3.5;
+      sparks.push({
+        x: originX,
+        y: originY,
+        vx: baseVx * 0.25 + Math.cos(angle) * speed,
+        vy: baseVy * 0.25 + Math.sin(angle) * speed,
+        life: 1.0,
+        decay: 0.05 + Math.random() * 0.05,
+        size: 1.5 + Math.random() * 2,
+        color
+      });
+    }
+    if (sparks.length > 40) sparks.splice(0, sparks.length - 40);
+  }
+
   function setBallTransform() {
     canvas.style.transform = `translate3d(${Math.round(posX)}px, ${Math.round(posY)}px, 0)`;
   }
@@ -317,7 +337,28 @@
 
     ctx.restore();
 
-    // 6. Free-Floating Movement & Physics Step
+    // 6. Draw Speed & Impact Spark Particles
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const p = sparks[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= p.decay;
+      if (p.life <= 0) {
+        sparks.splice(i, 1);
+        continue;
+      }
+      ctx.save();
+      ctx.globalAlpha = p.life * 0.85;
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, Math.max(0.8, p.size * p.life), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // 7. Free-Floating Movement & Physics Step
     const curBallSize = canvas.offsetWidth || size;
     const maxX = window.innerWidth - curBallSize;
     const maxY = window.innerHeight - curBallSize;
@@ -333,26 +374,37 @@
         vx *= 0.968;
         vy *= 0.968;
 
+        // High-velocity trailing sparks
+        if (speed > 5.5 && Math.random() < 0.65) {
+          const nVx = vx / speed;
+          const nVy = vy / speed;
+          addSparks(2, cx - nVx * (currentR * 0.8), cy - nVy * (currentR * 0.8), -nVx * 2, -nVy * 2, '#70b0ff');
+        }
+
         // Boundary Ricochet Bounces
         const restitution = 0.74;
         if (posX <= 0) {
           posX = 0;
           vx = -vx * restitution;
-          bounceScale = 0.9;
+          bounceScale = 0.88;
+          addSparks(8, cx - currentR * 0.7, cy, vx, vy, '#4ade80');
         } else if (posX >= maxX) {
           posX = maxX;
           vx = -vx * restitution;
-          bounceScale = 0.9;
+          bounceScale = 0.88;
+          addSparks(8, cx + currentR * 0.7, cy, vx, vy, '#4ade80');
         }
 
         if (posY <= 0) {
           posY = 0;
           vy = -vy * restitution;
-          bounceScale = 0.9;
+          bounceScale = 0.88;
+          addSparks(8, cx, cy - currentR * 0.7, vx, vy, '#4ade80');
         } else if (posY >= maxY) {
           posY = maxY;
           vy = -vy * restitution;
-          bounceScale = 0.9;
+          bounceScale = 0.88;
+          addSparks(8, cx, cy + currentR * 0.7, vx, vy, '#4ade80');
         }
 
         // 3D rolling rotation in motion direction
@@ -451,6 +503,7 @@
       vx = (kx / len) * kickSpeed;
       vy = (ky / len) * kickSpeed;
       bounceScale = 1.25;
+      addSparks(12, cx, cy, vx * 0.35, vy * 0.35, '#ffd700');
     } else {
       // Cap maximum fling velocity
       const speed = Math.hypot(vx, vy);

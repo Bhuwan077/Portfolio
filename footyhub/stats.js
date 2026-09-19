@@ -9,12 +9,47 @@ const COLUMN_LABELS = {
 
 let statsData = null;
 
+function renderPodium(rows, key) {
+  const container = document.getElementById('podium-showcase');
+  if (!container) return;
+
+  if (!rows || rows.length < 3) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const top3 = rows.slice(0, 3);
+  const ranks = [
+    { idx: 0, medal: '🥇', rank: '#1', type: 'gold' },
+    { idx: 1, medal: '🥈', rank: '#2', type: 'silver' },
+    { idx: 2, medal: '🥉', rank: '#3', type: 'bronze' }
+  ];
+
+  container.innerHTML = ranks.map(r => {
+    const p = top3[r.idx];
+    if (!p) return '';
+    return `
+      <div class="podium-card podium-card-${r.type} tilt-card fade-in-up" data-tilt data-tilt-max="10">
+        <div class="podium-medal">${r.medal}</div>
+        <span class="podium-rank">${r.rank}</span>
+        <div class="podium-name">${p.player_name}</div>
+        <div class="podium-team">${p.team_name || ''}</div>
+        <div class="podium-count">${p.count} <span style="font-size:0.55em; font-weight:500; opacity:0.8;">${COLUMN_LABELS[key]}</span></div>
+      </div>
+    `;
+  }).join('');
+
+  if (window.FootyHubTilt) window.FootyHubTilt.init();
+}
+
 function renderTable(key) {
   const tbody = document.getElementById('stats-body');
   const columnLabel = document.getElementById('stat-column-label');
   columnLabel.textContent = COLUMN_LABELS[key];
 
   const rows = statsData ? statsData[key] : [];
+  renderPodium(rows, key);
+
   if (!rows || rows.length === 0) {
     tbody.innerHTML = `<tr><td colspan="4" class="empty-note">No data yet.</td></tr>`;
     return;
