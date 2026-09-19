@@ -3,177 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="FootyHub — European Football Portal. Real-time scores, standings, stats, and 3D tactical pitch lineups for UCL, Premier League, La Liga, Serie A, and Bundesliga.">
-  <title>FootyHub — The European Football Dashboard</title>
+  <meta name="description" content="FootyHub — Live football scores, standings, stats, and lineups for UEFA Champions League and Premier League.">
+  <title>FootyHub — Live Football Stats</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
-<body class="dashboard-home">
+<body class="home-page">
+  <main class="hero" role="img" aria-label="An animated nighttime football attack ending with a powerful shot into the upper-right corner of the goal.">
+    <canvas aria-hidden="true"></canvas>
 
-  <!-- 1. Sticky Glass Navbar -->
-  <header class="dash-navbar">
-    <div class="dash-nav-inner">
-      <a href="index.html" class="dash-brand">
-        <span class="brand-ball-icon">⚽</span>
-        <span class="brand-text">Footy<span class="brand-accent">Hub</span></span>
-      </a>
+    <div class="hero-overlay">
+      <h1>FootyHub</h1>
+      <p class="subtitle">Pick a competition</p>
 
-      <div class="dash-live-badge">
-        <span class="pulse-radar"></span>
-        <span>2025/26 LIVE</span>
-      </div>
-
-      <nav class="dash-nav-links" aria-label="Main Navigation">
-        <a href="matches.html" class="dash-nav-link"><span class="nav-icon">⚡</span> Matches</a>
-        <a href="standings.html" class="dash-nav-link"><span class="nav-icon">🏆</span> Tables</a>
-        <a href="stats.html" class="dash-nav-link"><span class="nav-icon">🔥</span> Stats</a>
-        <a href="lineup.html" class="dash-nav-link"><span class="nav-icon">📋</span> 3D Lineups</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="dash-container">
-
-    <!-- 2. Hero Section: Featured Matchday Showcase ("The Main Event") -->
-    <section class="marquee-showcase-section">
-      <div class="marquee-card tilt-card" data-tilt data-tilt-max="6">
-        <div class="marquee-header">
-          <span class="marquee-tag">⭐ MATCH OF THE WEEK · CHAMPIONS LEAGUE</span>
-          <span class="marquee-status-pill"><span class="live-indicator-dot"></span> LIVE 76'</span>
-        </div>
-
-        <div class="marquee-clash">
-          <!-- Home Team -->
-          <div class="clash-team home-side">
-            <img src="https://a.espncdn.com/i/teamlogos/soccer/500/86.png" alt="Real Madrid Crest" class="clash-crest" loading="lazy">
-            <span class="clash-team-name">Real Madrid</span>
-            <span class="clash-form">Form: <span class="form-w">W</span><span class="form-w">W</span><span class="form-w">W</span><span class="form-d">D</span><span class="form-w">W</span></span>
-          </div>
-
-          <!-- Scoreboard Center -->
-          <div class="clash-score-center">
-            <div class="clash-score">
-              <span class="score-digit">2</span>
-              <span class="score-dash">:</span>
-              <span class="score-digit">1</span>
-            </div>
-            <span class="clash-venue">📍 Santiago Bernabéu · Madrid</span>
-            <div class="clash-momentum-bar" title="Win Probability: Real Madrid 48% | Draw 24% | Man City 28%">
-              <div class="bar-segment home-seg" style="width: 48%"></div>
-              <div class="bar-segment draw-seg" style="width: 24%"></div>
-              <div class="bar-segment away-seg" style="width: 28%"></div>
-            </div>
-            <div class="clash-odds-label">
-              <span>RMA 48%</span>
-              <span>DRAW 24%</span>
-              <span>MCI 28%</span>
-            </div>
-          </div>
-
-          <!-- Away Team -->
-          <div class="clash-team away-side">
-            <img src="https://a.espncdn.com/i/teamlogos/soccer/500/382.png" alt="Manchester City Crest" class="clash-crest" loading="lazy">
-            <span class="clash-team-name">Manchester City</span>
-            <span class="clash-form">Form: <span class="form-w">W</span><span class="form-w">W</span><span class="form-d">D</span><span class="form-w">W</span><span class="form-w">W</span></span>
-          </div>
-        </div>
-
-        <div class="marquee-actions">
-          <a href="lineup.html" class="dash-btn btn-primary">
-            <span>📋 Inspect 3D Tactical Lineups</span>
-            <span class="btn-arrow">→</span>
-          </a>
-          <a href="matches.html" class="dash-btn btn-secondary">
-            <span>⚡ Open Match Center</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Choose Your Competition: 5 Holographic League Cards -->
-    <section class="dash-section">
-      <div class="section-title-row">
-        <div>
-          <h2 class="dash-section-title">Elite Competitions</h2>
-          <p class="dash-section-sub">Select a league to explore live standings, fixtures, player stats & 3D lineups</p>
-        </div>
-        <a href="standings.html" class="section-view-all">Full League Tables →</a>
-      </div>
-
-      <div class="competitions-grid">
-        <!-- 1. Champions League -->
-        <a href="standings.html" class="comp-card tilt-card comp-ucl" data-tilt data-tilt-max="10">
-          <div class="comp-card-glow"></div>
-          <div class="comp-card-top">
-            <span class="comp-tag ucl-tag">UCL</span>
-            <span class="comp-clubs">36 Clubs</span>
-          </div>
-          <div class="comp-card-icon-wrap" data-tilt-depth="22">
-            <svg class="league-svg ucl-svg" viewBox="0 0 32 32" width="36" height="36" fill="none" aria-hidden="true">
+      <div class="league-grid">
+        <a href="standings.html" class="league-card" id="card-ucl">
+          <span class="league-card-icon ucl-icon">
+            <svg class="league-svg ucl-svg" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
               <polygon points="16,3 19,11.5 28,12 21,17.5 23.5,26 16,21 8.5,26 11,17.5 4,12 13,11.5" fill="#ffd54f"/>
               <circle cx="16" cy="16" r="14" stroke="#ffd54f" stroke-width="1.2" stroke-dasharray="3,3" fill="none"/>
-              <polygon points="16,1 17,4 20,4 17.5,5.8 18.5,8.5 16,7 13.5,8.5 14.5,5.8 12,4 15,4" fill="#ffffff" opacity="0.95"/>
+              <polygon points="16,1 17,4 20,4 17.5,5.8 18.5,8.5 16,7 13.5,8.5 14.5,5.8 12,4 15,4" fill="#ffffff" opacity="0.9"/>
             </svg>
-          </div>
-          <h3 class="comp-name">Champions League</h3>
-          <p class="comp-desc">The crown jewel of European football prestige</p>
-          <div class="comp-action">
-            <span>Explore Hub</span>
-            <span class="comp-arrow">→</span>
-          </div>
+          </span>
+          <span class="league-card-name">UEFA Champions League</span>
         </a>
-
-        <!-- 2. Premier League -->
-        <a href="standings.html?league=epl" class="comp-card tilt-card comp-epl" data-tilt data-tilt-max="10">
-          <div class="comp-card-glow"></div>
-          <div class="comp-card-top">
-            <span class="comp-tag epl-tag">EPL</span>
-            <span class="comp-clubs">20 Clubs</span>
-          </div>
-          <div class="comp-card-icon-wrap" data-tilt-depth="22">
-            <span class="epl-crown-badge">♛</span>
-          </div>
-          <h3 class="comp-name">Premier League</h3>
-          <p class="comp-desc">Fastest & fiercest title race on the planet</p>
-          <div class="comp-action">
-            <span>Explore Hub</span>
-            <span class="comp-arrow">→</span>
-          </div>
+        <a href="standings.html?league=epl" class="league-card" id="card-epl">
+          <span class="league-card-icon epl-icon">♛</span>
+          <span class="league-card-name">Premier League</span>
         </a>
-
-        <!-- 3. La Liga -->
-        <a href="standings.html?league=laliga" class="comp-card tilt-card comp-laliga" data-tilt data-tilt-max="10">
-          <div class="comp-card-glow"></div>
-          <div class="comp-card-top">
-            <span class="comp-tag laliga-tag">ESP</span>
-            <span class="comp-clubs">20 Clubs</span>
-          </div>
-          <div class="comp-card-icon-wrap" data-tilt-depth="22">
-            <svg class="league-svg laliga-svg" viewBox="0 0 32 32" width="36" height="36" fill="none" aria-hidden="true">
+        <a href="standings.html?league=laliga" class="league-card" id="card-laliga">
+          <span class="league-card-icon laliga-icon">
+            <svg class="league-svg laliga-svg" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
               <path d="M7 6 L13 6 L13 20 L22 20 L22 26 L7 26 Z" fill="#ffffff"/>
               <path d="M15 4 L21 4 L21 15 L27 15 L27 21 L15 21 Z" fill="#ffd700"/>
               <circle cx="27" cy="8.5" r="2.5" fill="#ffffff"/>
             </svg>
-          </div>
-          <h3 class="comp-name">La Liga</h3>
-          <p class="comp-desc">Pure flair, passion & technical artistry</p>
-          <div class="comp-action">
-            <span>Explore Hub</span>
-            <span class="comp-arrow">→</span>
-          </div>
+          </span>
+          <span class="league-card-name">La Liga</span>
         </a>
-
-        <!-- 4. Serie A -->
-        <a href="standings.html?league=serieA" class="comp-card tilt-card comp-seriea" data-tilt data-tilt-max="10">
-          <div class="comp-card-glow"></div>
-          <div class="comp-card-top">
-            <span class="comp-tag seriea-tag">ITA</span>
-            <span class="comp-clubs">20 Clubs</span>
-          </div>
-          <div class="comp-card-icon-wrap" data-tilt-depth="22">
-            <svg class="league-svg seriea-svg" viewBox="0 0 32 32" width="36" height="36" fill="none" aria-hidden="true">
+        <a href="standings.html?league=serieA" class="league-card" id="card-seriea">
+          <span class="league-card-icon seriea-icon">
+            <svg class="league-svg seriea-svg" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
               <polygon points="16,3 27,10 24,25 16,30 8,25 5,10" fill="#003399" stroke="#00c6ff" stroke-width="1.4"/>
               <path d="M16 7 L21.5 22 L18.5 22 L17.2 18 L14.8 18 L13.5 22 L10.5 22 Z" fill="#ffffff"/>
               <polygon points="16,11 17.6,15.5 14.4,15.5" fill="#003399"/>
@@ -181,24 +53,12 @@
               <rect x="14.7" y="24" width="2.6" height="2" rx="0.5" fill="#ffffff"/>
               <rect x="17.4" y="24" width="2.6" height="2" rx="0.5" fill="#ce2b37"/>
             </svg>
-          </div>
-          <h3 class="comp-name">Serie A</h3>
-          <p class="comp-desc">Tactical cathedrals & historic Calcio heritage</p>
-          <div class="comp-action">
-            <span>Explore Hub</span>
-            <span class="comp-arrow">→</span>
-          </div>
+          </span>
+          <span class="league-card-name">Serie A</span>
         </a>
-
-        <!-- 5. Bundesliga -->
-        <a href="standings.html?league=bundesliga" class="comp-card tilt-card comp-bundesliga" data-tilt data-tilt-max="10">
-          <div class="comp-card-glow"></div>
-          <div class="comp-card-top">
-            <span class="comp-tag bundesliga-tag">GER</span>
-            <span class="comp-clubs">18 Clubs</span>
-          </div>
-          <div class="comp-card-icon-wrap" data-tilt-depth="22">
-            <svg class="league-svg bundesliga-svg" viewBox="0 0 32 32" width="36" height="36" fill="none" aria-hidden="true">
+        <a href="standings.html?league=bundesliga" class="league-card" id="card-bundesliga">
+          <span class="league-card-icon bundesliga-icon">
+            <svg class="league-svg bundesliga-svg" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
               <circle cx="11" cy="9.5" r="2.2" fill="#ffffff"/>
               <path d="M12 11.5 L18 16 L16 21 L10 15.5 Z" fill="#ffffff"/>
               <path d="M17 16 L24 13 L23 11 L16 14 Z" fill="#ffffff"/>
@@ -208,298 +68,18 @@
               <polygon points="26,8 27.5,9 27,10.5 25,10.5 24.5,9" fill="#d3010c"/>
               <line x1="21.5" y1="7" x2="23.5" y2="8" stroke="#ffcc00" stroke-width="1.2" stroke-linecap="round"/>
             </svg>
-          </div>
-          <h3 class="comp-name">Bundesliga</h3>
-          <p class="comp-desc">High-tempo pressing & the roar of the Yellow Wall</p>
-          <div class="comp-action">
-            <span>Explore Hub</span>
-            <span class="comp-arrow">→</span>
-          </div>
+          </span>
+          <span class="league-card-name">Bundesliga</span>
         </a>
       </div>
-    </section>
+    </div>
 
-    <!-- 4. European Marquee Matchweek Strip -->
-    <section class="dash-section">
-      <div class="section-title-row">
-        <div>
-          <h2 class="dash-section-title">Matchweek Highlights</h2>
-          <p class="dash-section-sub">Real-time scores and upcoming clashes across the top 5 leagues</p>
-        </div>
-        <a href="matches.html" class="section-view-all">All Fixtures & Results →</a>
-      </div>
-
-      <div class="matchweek-grid">
-        <!-- Match 1 (EPL Live) -->
-        <a href="matches.html" class="dash-match-card tilt-card" data-tilt data-tilt-max="8">
-          <div class="match-card-meta">
-            <span class="meta-comp">Premier League · MW 28</span>
-            <span class="meta-status live-status"><span class="live-indicator-dot"></span> LIVE 68'</span>
-          </div>
-          <div class="match-card-row">
-            <div class="match-card-team">
-              <img src="https://a.espncdn.com/i/teamlogos/soccer/500/359.png" alt="Arsenal" class="team-mini-crest">
-              <span class="team-name">Arsenal</span>
-            </div>
-            <span class="match-score-pill live-pill">1</span>
-          </div>
-          <div class="match-card-row">
-            <div class="match-card-team">
-              <img src="https://a.espncdn.com/i/teamlogos/soccer/500/364.png" alt="Liverpool" class="team-mini-crest">
-              <span class="team-name">Liverpool</span>
-            </div>
-            <span class="match-score-pill live-pill">0</span>
-          </div>
-        </a>
-
-        <!-- Match 2 (La Liga FT) -->
-        <a href="matches.html" class="dash-match-card tilt-card" data-tilt data-tilt-max="8">
-          <div class="match-card-meta">
-            <span class="meta-comp">La Liga · El Clásico</span>
-            <span class="meta-status ft-status">FT</span>
-          </div>
-          <div class="match-card-row">
-            <div class="match-card-team">
-              <img src="https://a.espncdn.com/i/teamlogos/soccer/500/83.png" alt="Barcelona" class="team-mini-crest">
-              <span class="team-name">FC Barcelona</span>
-            </div>
-            <span class="match-score-pill ft-pill">3</span>
-          </div>
-          <div class="match-card-row">
-            <div class="match-card-team">
-              <img src="https://a.espncdn.com/i/teamlogos/soccer/500/86.png" alt="Real Madrid" class="team-mini-crest">
-              <span class="team-name">Real Madrid</span>
-            </div>
-            <span class="match-score-pill ft-pill">1</span>
-          </div>
-        </a>
-
-        <!-- Match 3 (Serie A FT) -->
-        <a href="matches.html" class="dash-match-card tilt-card" data-tilt data-tilt-max="8">
-          <div class="match-card-meta">
-            <span class="meta-comp">Serie A · Derby d'Italia</span>
-            <span class="meta-status ft-status">FT</span>
-          </div>
-          <div class="match-card-row">
-            <div class="match-card-team">
-              <img src="https://a.espncdn.com/i/teamlogos/soccer/500/110.png" alt="Inter Milan" class="team-mini-crest">
-              <span class="team-name">Inter Milan</span>
-            </div>
-            <span class="match-score-pill ft-pill">2</span>
-          </div>
-          <div class="match-card-row">
-            <div class="match-card-team">
-              <img src="https://a.espncdn.com/i/teamlogos/soccer/500/111.png" alt="Juventus" class="team-mini-crest">
-              <span class="team-name">Juventus</span>
-            </div>
-            <span class="match-score-pill ft-pill">0</span>
-          </div>
-        </a>
-
-        <!-- Match 4 (Bundesliga FT) -->
-        <a href="matches.html" class="dash-match-card tilt-card" data-tilt data-tilt-max="8">
-          <div class="match-card-meta">
-            <span class="meta-comp">Bundesliga · Der Klassiker</span>
-            <span class="meta-status ft-status">FT</span>
-          </div>
-          <div class="match-card-row">
-            <div class="match-card-team">
-              <img src="https://a.espncdn.com/i/teamlogos/soccer/500/132.png" alt="Bayern Munich" class="team-mini-crest">
-              <span class="team-name">Bayern Munich</span>
-            </div>
-            <span class="match-score-pill ft-pill">3</span>
-          </div>
-          <div class="match-card-row">
-            <div class="match-card-team">
-              <img src="https://a.espncdn.com/i/teamlogos/soccer/500/124.png" alt="Borussia Dortmund" class="team-mini-crest">
-              <span class="team-name">Dortmund</span>
-            </div>
-            <span class="match-score-pill ft-pill">2</span>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- 5. Split Section: Top Ballers & Interactive 3D Tactical Pitch Preview -->
-    <section class="dash-split-section">
-      <!-- Left: Top Ballers Podium -->
-      <div class="split-col-stats">
-        <div class="section-title-row">
-          <div>
-            <h2 class="dash-section-title">Golden Boot Leaders</h2>
-            <p class="dash-section-sub">Top European goalscorers of the 2025/26 season</p>
-          </div>
-          <a href="stats.html" class="section-view-all">Full Stats →</a>
-        </div>
-
-        <div class="podium-showcase">
-          <!-- Silver (#2) -->
-          <div class="podium-card podium-card-silver tilt-card" data-tilt data-tilt-max="10">
-            <div class="podium-medal">🥈</div>
-            <span class="podium-rank">#2</span>
-            <div class="podium-name">Erling Haaland</div>
-            <div class="podium-team">Manchester City</div>
-            <div class="podium-count">26 <span class="podium-unit">Goals</span></div>
-          </div>
-
-          <!-- Gold (#1) -->
-          <div class="podium-card podium-card-gold tilt-card" data-tilt data-tilt-max="10">
-            <div class="podium-medal">🥇</div>
-            <span class="podium-rank">#1</span>
-            <div class="podium-name">Kylian Mbappé</div>
-            <div class="podium-team">Real Madrid</div>
-            <div class="podium-count">28 <span class="podium-unit">Goals</span></div>
-          </div>
-
-          <!-- Bronze (#3) -->
-          <div class="podium-card podium-card-bronze tilt-card" data-tilt data-tilt-max="10">
-            <div class="podium-medal">🥉</div>
-            <span class="podium-rank">#3</span>
-            <div class="podium-name">Harry Kane</div>
-            <div class="podium-team">Bayern Munich</div>
-            <div class="podium-count">24 <span class="podium-unit">Goals</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: Interactive 3D Tactical Pitch Preview -->
-      <div class="split-col-pitch">
-        <div class="section-title-row">
-          <div>
-            <h2 class="dash-section-title">3D Tactical Pitch</h2>
-            <p class="dash-section-sub">Real Madrid 4-3-3 Lineup · Hover player tokens to elevate</p>
-          </div>
-          <a href="lineup.html" class="section-view-all">Open 3D Builder →</a>
-        </div>
-
-        <div class="pitch-preview-wrapper tilt-card" data-tilt data-tilt-max="6">
-          <div class="pitch-perspective-stage">
-            <div class="pitch-3d">
-              <div class="pitch-turf-stripes"></div>
-              <div class="pitch-lines">
-                <div class="pitch-center-circle"></div>
-                <div class="pitch-halfway-line"></div>
-                <div class="pitch-penalty-box-top"></div>
-                <div class="pitch-penalty-box-bottom"></div>
-              </div>
-              <div class="pitch-formation-grid">
-                <!-- Attackers -->
-                <div class="pitch-row">
-                  <div class="pitch-player" title="Vinícius Jr #7">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">VJ</div><span class="pitch-player-num">7</span></div>
-                    <div class="pitch-player-label">Vinícius</div>
-                  </div>
-                  <div class="pitch-player" title="Kylian Mbappé #9">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">KM</div><span class="pitch-player-num">9</span></div>
-                    <div class="pitch-player-label">Mbappé</div>
-                  </div>
-                  <div class="pitch-player" title="Rodrygo #11">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">RO</div><span class="pitch-player-num">11</span></div>
-                    <div class="pitch-player-label">Rodrygo</div>
-                  </div>
-                </div>
-                <!-- Midfielders -->
-                <div class="pitch-row">
-                  <div class="pitch-player" title="Jude Bellingham #5">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">JB</div><span class="pitch-player-num">5</span></div>
-                    <div class="pitch-player-label">Bellingham</div>
-                  </div>
-                  <div class="pitch-player" title="Fede Valverde #8">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">FV</div><span class="pitch-player-num">8</span></div>
-                    <div class="pitch-player-label">Valverde</div>
-                  </div>
-                  <div class="pitch-player" title="Eduardo Camavinga #6">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">EC</div><span class="pitch-player-num">6</span></div>
-                    <div class="pitch-player-label">Camavinga</div>
-                  </div>
-                </div>
-                <!-- Defenders -->
-                <div class="pitch-row">
-                  <div class="pitch-player" title="Ferland Mendy #23">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">FM</div><span class="pitch-player-num">23</span></div>
-                    <div class="pitch-player-label">Mendy</div>
-                  </div>
-                  <div class="pitch-player" title="Antonio Rüdiger #22">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">AR</div><span class="pitch-player-num">22</span></div>
-                    <div class="pitch-player-label">Rüdiger</div>
-                  </div>
-                  <div class="pitch-player" title="Éder Militão #3">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">EM</div><span class="pitch-player-num">3</span></div>
-                    <div class="pitch-player-label">Militão</div>
-                  </div>
-                  <div class="pitch-player" title="Dani Carvajal #2">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">DC</div><span class="pitch-player-num">2</span></div>
-                    <div class="pitch-player-label">Carvajal</div>
-                  </div>
-                </div>
-                <!-- Goalkeeper -->
-                <div class="pitch-row">
-                  <div class="pitch-player" title="Thibaut Courtois #1">
-                    <div class="pitch-player-shadow"></div>
-                    <div class="pitch-player-token"><div class="pitch-player-avatar">TC</div><span class="pitch-player-num">1</span></div>
-                    <div class="pitch-player-label">Courtois</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <!-- Free-floating interactive 3D football (draggable anywhere) -->
+    <canvas id="ball-3d-canvas" width="90" height="90" aria-label="Interactive 3D Football"></canvas>
   </main>
 
-  <!-- 6. Developer Portfolio Footer -->
-  <footer class="dash-footer">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <span class="footer-brand">⚽ FootyHub</span>
-        <p class="footer-desc">Professional European Football Platform with real-time stats, isometric 3D pitch tactics, and high-performance glassmorphism.</p>
-        <div class="footer-tech-tags">
-          <span class="tech-tag">HTML5</span>
-          <span class="tech-tag">CSS3 Grid/Flex</span>
-          <span class="tech-tag">Vanilla JS ES6+</span>
-          <span class="tech-tag">WebGL 3D Physics</span>
-          <span class="tech-tag">Zero Dependencies</span>
-        </div>
-      </div>
-      <div class="footer-nav">
-        <div class="footer-col">
-          <span class="footer-heading">Leagues</span>
-          <a href="standings.html">Champions League</a>
-          <a href="standings.html?league=epl">Premier League</a>
-          <a href="standings.html?league=laliga">La Liga</a>
-          <a href="standings.html?league=serieA">Serie A</a>
-          <a href="standings.html?league=bundesliga">Bundesliga</a>
-        </div>
-        <div class="footer-col">
-          <span class="footer-heading">Features</span>
-          <a href="matches.html">Live Match Center</a>
-          <a href="standings.html">League Standings</a>
-          <a href="stats.html">Golden Boot & Assists</a>
-          <a href="lineup.html">3D Tactical Lineups</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>FootyHub Portfolio Project · Designed for High Performance & Precision</span>
-    </div>
-  </footer>
-
-  <!-- Free-floating interactive 3D physics football -->
-  <canvas id="ball-3d-canvas" width="90" height="90" aria-label="Interactive 3D Football"></canvas>
-
-  <script src="tilt-3d.js?v=3"></script>
-  <script src="ball-3d.js?v=6"></script>
+  <script src="tilt-3d.js?v=1"></script>
+  <script src="hero-animation.js?v=2"></script>
+  <script src="ball-3d.js?v=5"></script>
 </body>
 </html>
