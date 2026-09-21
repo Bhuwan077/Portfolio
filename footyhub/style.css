@@ -418,6 +418,7 @@ tbody tr:hover .stat-badge {
 #card-laliga { animation-delay: 2.4s; }
 #card-seriea { animation-delay: 3.6s; }
 #card-bundesliga { animation-delay: 4.8s; }
+#card-quiz { animation-delay: 6s; }
 
 @keyframes cardFloat {
   0%, 100% { transform: translateY(0); }
@@ -549,6 +550,18 @@ tbody tr:hover .stat-badge {
   color: #ffffff;
 }
 
+/* Football Quiz Icon Circle */
+.quiz-icon {
+  background: linear-gradient(135deg, #059669, #10b981);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.55);
+  color: #ffffff;
+}
+
+.league-card:hover .quiz-icon {
+  transform: scale(1.15) rotate(-6deg);
+  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.75), 0 0 16px rgba(52, 211, 153, 0.6);
+}
+
 /* SVG League Vector Icons */
 .league-svg {
   width: 28px;
@@ -611,6 +624,17 @@ tbody tr:hover .stat-badge {
   0% { transform: scale(1) translate(0, 0); }
   50% { transform: scale(1.22) translate(2px, -2px); }
   100% { transform: scale(1.12) translate(1px, -1px); }
+}
+
+.league-card:hover .quiz-svg {
+  animation: quizPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.85));
+}
+
+@keyframes quizPop {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(-12deg); }
+  100% { transform: scale(1.1) rotate(0deg); }
 }
 
 .disabled-icon {
@@ -1762,21 +1786,51 @@ a.result-card { display: flex; }
 
 .hero-overlay .league-grid {
   margin: 0;
-  max-width: 620px;
+  width: 100%;
+  max-width: 480px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
 }
 
 .hero-overlay .league-card {
   background: rgba(12, 16, 28, 0.72);
   backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 22px 16px 20px;
+  border-radius: 16px;
+  box-sizing: border-box;
 }
 
 .hero-overlay .league-card:hover {
   background: rgba(18, 24, 42, 0.88);
-  border-color: transparent;
-  box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.5),
-    0 0 28px var(--accent-glow);
+}
+
+/* Individual card hover glows */
+#card-ucl:hover {
+  border-color: rgba(255, 213, 79, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(26, 58, 186, 0.4);
+}
+#card-epl:hover {
+  border-color: rgba(206, 147, 216, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(123, 31, 162, 0.4);
+}
+#card-laliga:hover {
+  border-color: rgba(255, 122, 0, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(229, 35, 59, 0.4);
+}
+#card-seriea:hover {
+  border-color: rgba(0, 198, 255, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(0, 92, 230, 0.4);
+}
+#card-bundesliga:hover {
+  border-color: rgba(255, 82, 82, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(211, 1, 12, 0.4);
+}
+#card-quiz:hover {
+  border-color: rgba(52, 211, 153, 0.5);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(16, 185, 129, 0.4);
 }
 
 
@@ -2226,20 +2280,95 @@ body.ucl-page .pitch-player-avatar {
   table { font-size: 0.85em; }
   th, td { padding: 8px 6px; }
 
-  .hero-overlay { padding: 0 5%; }
-  .hero-overlay h1 { font-size: 2.2em; }
-  #ball-3d-canvas {
-    width: 80px;
-    height: 80px;
+  /* Full-Screen Hero Mobile Viewport & Natural Center */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
   }
 
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: max(16px, env(safe-area-inset-top)) 14px max(24px, env(safe-area-inset-bottom));
+    width: 100%;
+    max-width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+
+  .hero-overlay h1 {
+    font-size: clamp(1.85rem, 5vw, 2.5rem);
+    text-align: center;
+    margin: 0;
+  }
+
+  .hero-overlay .subtitle {
+    text-align: center;
+    margin: 4px 0 16px;
+    font-size: 0.9rem;
+  }
+
+  .hero-overlay .league-grid,
   .league-grid {
-    grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    box-sizing: border-box;
   }
 
-  .league-card { padding: 20px 14px 18px; }
-  .league-card-icon { width: 44px; height: 44px; font-size: 1.25em; }
+  .hero-overlay .league-card,
+  .league-card {
+    padding: 14px 8px 12px;
+    gap: 8px;
+    border-radius: 14px;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .league-card-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 1.15em;
+    margin: 0 auto;
+  }
+
+  .league-svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .league-card-name {
+    font-size: 0.8rem;
+    line-height: 1.25;
+    word-break: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+    white-space: normal;
+  }
+
+  #ball-3d-canvas {
+    width: 72px;
+    height: 72px;
+  }
 
   .stat-subtabs { gap: 6px; }
   .stat-subtab { padding: 8px 14px; font-size: 0.78em; }
@@ -2282,10 +2411,59 @@ body.ucl-page .pitch-player-avatar {
 
   h1 { font-size: 1.18em; }
 
-  .hero-overlay h1 { font-size: 1.85em; }
+  .hero-overlay {
+    padding: max(20px, env(safe-area-inset-top)) 12px max(32px, env(safe-area-inset-bottom));
+  }
+
+  .hero-overlay h1 {
+    font-size: 1.95em;
+  }
+
+  .hero-overlay .subtitle {
+    font-size: 0.88em;
+    margin: 4px 0 16px;
+  }
+
+  .hero-overlay .league-grid,
+  .league-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .hero-overlay .league-card,
+  .league-card {
+    padding: 13px 8px 11px;
+    gap: 8px;
+    border-radius: 12px;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .league-card-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .league-svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .league-card-name {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    word-break: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+  }
+
   #ball-3d-canvas {
-    width: 72px;
-    height: 72px;
+    width: 68px;
+    height: 68px;
   }
 
   .podium-showcase {
@@ -2316,8 +2494,6 @@ body.ucl-page .pitch-player-avatar {
     transform: translateY(-4px) scale(1.08);
   }
 
-  .league-grid { grid-template-columns: 1fr; }
-
   .tabs { justify-content: flex-start; }
 
   .pitch-player-avatar { width: 28px; height: 28px; font-size: 0.6em; }
@@ -2327,6 +2503,29 @@ body.ucl-page .pitch-player-avatar {
   .team { font-size: 0.85em; gap: 6px; }
   .vs { padding: 0 8px; }
   .score { padding: 0 8px; }
+}
+
+@media (max-width: 340px) {
+  .hero-overlay .league-grid,
+  .league-grid {
+    gap: 6px;
+  }
+  .hero-overlay .league-card,
+  .league-card {
+    padding: 10px 4px 8px;
+    border-radius: 10px;
+  }
+  .league-card-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .league-svg {
+    width: 18px;
+    height: 18px;
+  }
+  .league-card-name {
+    font-size: 0.72rem;
+  }
 }
 
 
