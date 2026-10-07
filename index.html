@@ -171,16 +171,16 @@
     /* Mobile nav overlay */
     .mobile-nav {
       position: fixed; inset: 0; z-index: 550;
-      background: rgba(12,10,32,0.97); backdrop-filter: blur(30px);
+      background: rgba(9, 10, 15, 0.98); backdrop-filter: blur(24px);
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
-      opacity: 0; pointer-events: none; transition: opacity .4s;
+      opacity: 0; pointer-events: none; transition: opacity .3s ease;
     }
     .mobile-nav.open { opacity: 1; pointer-events: all; }
     .mobile-nav a {
       font-family: "Bebas Neue", sans-serif; font-size: 2.5rem; letter-spacing: .05em;
-      color: var(--text); text-decoration: none; transition: color .3s;
+      color: var(--text); text-decoration: none; transition: color .2s ease;
     }
-    .mobile-nav a:hover { color: var(--neon-cyan); }
+    .mobile-nav a:hover { color: var(--accent-bright); }
 
     /* ─── HERO ─── */
     #hero {
@@ -871,11 +871,10 @@
       <div class="orbit orbit-2"></div>
       <div class="hero-photo-frame">
         <img 
-          src="avatar.jpg" 
+          src="profile.png" 
           alt="Bhuwan Kashyap Adhikari" 
           loading="eager"
           decoding="async"
-          onerror="if(this.src.indexOf('avatars.githubusercontent.com')===-1)this.src='https://avatars.githubusercontent.com/u/108018200?v=4'"
         />
       </div>
     </div>
