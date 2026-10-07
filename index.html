@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bhuwan "Kashyap" Adhikari — Portfolio</title>
+  <title>Bhuwan "Kashyap" Adhikari — Robotics, AI & Engineering Portfolio</title>
+  <meta name="description" content="Portfolio of Bhuwan 'Kashyap' Adhikari — Engineering student, former President of Robokath Robotics Club, building autonomous robotics, computer vision, and machine learning systems." />
+  <meta name="author" content="Bhuwan Kashyap Adhikari" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta property="og:title" content="Bhuwan Kashyap Adhikari — Portfolio" />
+  <meta property="og:description" content="Engineering student specializing in robotics, machine learning, and autonomous systems." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://tnuguievqklrdtkkcwhg.supabase.co" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -1029,11 +1039,11 @@
         <span class="tag">ER Diagram</span><span class="tag">FIFA Data</span>
       </div>
       <div class="project-links">
-        <a href="https://github.com/Bhuwan077/worldcup-db" target="_blank" class="proj-link primary">⌥ GitHub</a>
+        <a href="https://github.com/Bhuwan077/worldcup-db" target="_blank" rel="noopener noreferrer" class="proj-link primary">⌥ GitHub</a>
       </div>
     </div>
 
-    <div class="project-card variant-c" onclick="if(!event.target.closest('a')) window.open('https://bhuwanadhikari007.com.np/roadguard-ai/', '_blank')" style="cursor:pointer;">
+    <div class="project-card variant-c" onclick="if(!event.target.closest('a')) window.open('https://bhuwanadhikari007.com.np/roadguard-ai/', '_blank', 'noopener,noreferrer')" style="cursor:pointer;">
       <div class="shimmer"></div>
       <div class="project-top">
         <span class="project-num">Project 04</span>
@@ -1047,8 +1057,8 @@
         <span class="tag">Supabase</span><span class="tag">JavaScript</span>
       </div>
       <div class="project-links">
-        <a href="https://bhuwanadhikari007.com.np/roadguard-ai/" target="_blank" class="proj-link primary">⌥ Live Demo</a>
-        <a href="https://github.com/Bhuwan077/roadguard-ai-backend" target="_blank" class="proj-link">⌥ GitHub</a>
+        <a href="https://bhuwanadhikari007.com.np/roadguard-ai/" target="_blank" rel="noopener noreferrer" class="proj-link primary">⌥ Live Demo</a>
+        <a href="https://github.com/Bhuwan077/roadguard-ai-backend" target="_blank" rel="noopener noreferrer" class="proj-link">⌥ GitHub</a>
       </div>
     </div>
 
@@ -1113,7 +1123,7 @@
 <div class="section-divider"></div>
 
 <!-- CONTACT -->
-<section id="contact" id="contact-section">
+<section id="contact">
   <p class="section-eyebrow"><span class="num">05</span> &mdash; Contact</p>
   <div class="contact-layout">
     <div>
@@ -1136,14 +1146,14 @@
         </div>
         <span class="contact-link-arrow">&#8599;</span>
       </a>
-      <a href="https://github.com/Bhuwan077" target="_blank" class="contact-link">
+      <a href="https://github.com/Bhuwan077" target="_blank" rel="noopener noreferrer" class="contact-link">
         <div>
           <div class="contact-link-label">GitHub</div>
           <div class="contact-link-val">github.com/Bhuwan077</div>
         </div>
         <span class="contact-link-arrow">&#8599;</span>
       </a>
-      <a href="https://www.linkedin.com/in/bhuwan-adhikari-10b563278/" target="_blank" class="contact-link">
+      <a href="https://www.linkedin.com/in/bhuwan-adhikari-10b563278/" target="_blank" rel="noopener noreferrer" class="contact-link">
         <div>
           <div class="contact-link-label">LinkedIn</div>
           <div class="contact-link-val">linkedin.com/in/bhuwan-adhikari</div>
@@ -1322,25 +1332,66 @@ document.querySelectorAll('.btn').forEach(btn=>{
 
   function getIssuerStyle(issuer){return issuerMap[(issuer||'').toLowerCase()]||{cls:'forage',color:'#7c3aed',bg:'rgba(124,58,237,.1)',border:'rgba(124,58,237,.2)'};}
 
+  function escapeHTML(str){
+    var p=document.createElement('p');
+    p.textContent=str||'';
+    return p.innerHTML;
+  }
+
   function buildCard(cert){
     const st=getIssuerStyle(cert.issuer),card=document.createElement('div');
     card.className='cert-card '+st.cls;card.dataset.category=cert.category||'';
-    card.innerHTML='<span class="cert-issuer-badge '+st.cls+'">'+(cert.issuer||'')+'</span><div class="cert-name">'+(cert.name||'')+'</div><div class="cert-date">'+(cert.issued_date||'')+'</div>';
+    var badge=document.createElement('span');
+    badge.className='cert-issuer-badge '+st.cls;
+    badge.textContent=cert.issuer||'';
+    var nameEl=document.createElement('div');
+    nameEl.className='cert-name';
+    nameEl.textContent=cert.name||'';
+    var dateEl=document.createElement('div');
+    dateEl.className='cert-date';
+    dateEl.textContent=cert.issued_date||'';
+    card.appendChild(badge);card.appendChild(nameEl);card.appendChild(dateEl);
     card.addEventListener('click',function(){openModal(cert,st);});return card;
   }
 
   function openModal(cert,st){
     var color=cert.color||st.color;
-    document.getElementById('cert-modal-badge').innerHTML='<span class="cert-issuer-badge" style="background:'+st.bg+';color:'+st.color+';border:1px solid '+st.border+';border-radius:50px">'+(cert.issuer||'')+'</span>';
+    var badgeWrap=document.getElementById('cert-modal-badge');
+    badgeWrap.innerHTML='';
+    var badgeSpan=document.createElement('span');
+    badgeSpan.className='cert-issuer-badge';
+    badgeSpan.style.background=st.bg;badgeSpan.style.color=st.color;badgeSpan.style.border='1px solid '+st.border;badgeSpan.style.borderRadius='50px';
+    badgeSpan.textContent=cert.issuer||'';
+    badgeWrap.appendChild(badgeSpan);
+
     document.getElementById('cert-modal-name').textContent=cert.name||'';
     document.getElementById('cert-modal-date').textContent=cert.issued_date||'';
     document.getElementById('cert-modal-desc').textContent=cert.description||'';
     var btn=document.getElementById('cert-modal-btn');
-    btn.href=(cert.credential_url&&cert.credential_url!=='#')?cert.credential_url:'#';
+    var rawUrl=(cert.credential_url||'').trim();
+    var isSafeUrl=/^https?:\/\//i.test(rawUrl);
+    btn.href=isSafeUrl?rawUrl:'#';
     btn.style.color=color;btn.style.borderColor=color;
-    if(!cert.credential_url||cert.credential_url==='#'){btn.style.opacity='0.4';btn.style.pointerEvents='none';}else{btn.style.opacity='';btn.style.pointerEvents='';}
+    btn.setAttribute('rel','noopener noreferrer');
+    if(!isSafeUrl){btn.style.opacity='0.4';btn.style.pointerEvents='none';}else{btn.style.opacity='';btn.style.pointerEvents='';}
     var previewEl=document.getElementById('cert-modal-preview');
-    if(cert.image_url){previewEl.style.display='';var isImg=/\.(png|jpg|jpeg|gif|webp)$/i.test(cert.image_url);if(isImg){previewEl.innerHTML='<img src="'+cert.image_url+'" alt="'+(cert.name||'')+'" />';}else{previewEl.innerHTML='<iframe src="'+cert.image_url+'" title="'+(cert.name||'')+'"></iframe>';}}else{previewEl.style.display='none';previewEl.innerHTML='';}
+    previewEl.innerHTML='';
+    if(cert.image_url && /^https?:\/\//i.test(cert.image_url)){
+      previewEl.style.display='';
+      var isImg=/\.(png|jpg|jpeg|gif|webp)(\?.*)?$/i.test(cert.image_url);
+      if(isImg){
+        var img=document.createElement('img');
+        img.src=cert.image_url;img.alt=cert.name||'Certificate preview';img.loading='lazy';
+        previewEl.appendChild(img);
+      } else {
+        var frame=document.createElement('iframe');
+        frame.src=cert.image_url;frame.title=cert.name||'Certificate document';
+        frame.setAttribute('sandbox','allow-scripts allow-same-origin');
+        previewEl.appendChild(frame);
+      }
+    } else {
+      previewEl.style.display='none';
+    }
     modal.setAttribute('aria-hidden','false');modal.classList.add('open');
   }
 
