@@ -556,10 +556,11 @@
     .cert-card.udemy::before { background: #ec4899; }
     .cert-card.deloitte::before { background: #84cc16; }
 
+    .cert-top-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:.7rem; }
     .cert-issuer-badge {
       display:inline-block; font-family:"DM Mono",monospace; font-size:.6rem;
       letter-spacing:.08em; text-transform:uppercase; padding:.25rem .65rem;
-      margin-bottom:.7rem; font-weight:500; border-radius:var(--radius-sm);
+      font-weight:500; border-radius:var(--radius-sm);
     }
     .cert-issuer-badge.aws { background:rgba(245,158,11,.1); color:#fbbf24; border:1px solid rgba(245,158,11,.25); }
     .cert-issuer-badge.google { background:rgba(59,130,246,.1); color:#93c5fd; border:1px solid rgba(59,130,246,.25); }
@@ -568,6 +569,12 @@
     .cert-issuer-badge.ibm { background:rgba(6,182,212,.1); color:#67e8f9; border:1px solid rgba(6,182,212,.25); }
     .cert-issuer-badge.udemy { background:rgba(236,72,153,.1); color:#f472b6; border:1px solid rgba(236,72,153,.25); }
     .cert-issuer-badge.deloitte { background:rgba(132,204,22,.1); color:#bef264; border:1px solid rgba(132,204,22,.25); }
+
+    .cert-view-badge {
+      font-family:"DM Mono",monospace; font-size:.58rem; letter-spacing:.05em;
+      color:var(--muted); opacity:0.8; transition:color .2s, opacity .2s;
+    }
+    .cert-card:hover .cert-view-badge { color:var(--accent-bright); opacity:1; }
 
     .cert-name { font-size:.9rem; font-weight:500; color:var(--text); line-height:1.45; margin-bottom:.5rem; }
     .cert-date { font-family:"DM Mono",monospace; font-size:.62rem; color:var(--muted); letter-spacing:.08em; }
@@ -592,43 +599,58 @@
 
     /* ─── CERT MODAL ─── */
     .cert-modal-overlay {
-      position:fixed; inset:0; background:rgba(12,10,32,.9);
-      backdrop-filter:blur(16px); z-index:9999;
+      position:fixed; inset:0; background:rgba(8,10,16,.88);
+      backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); z-index:9999;
       display:flex; align-items:center; justify-content:center;
-      opacity:0; pointer-events:none; transition:opacity .4s;
+      opacity:0; pointer-events:none; transition:opacity .35s ease;
+      padding:1.5rem;
     }
     .cert-modal-overlay.open { opacity:1; pointer-events:all; }
     .cert-modal-box {
-      background: var(--surface-solid); border:1px solid rgba(108,99,255,0.15);
+      background: var(--surface-solid); border:1px solid rgba(255,255,255,0.1);
       border-radius: var(--radius);
-      padding:2.5rem; max-width:480px; width:90%; position:relative;
-      transform:translateY(30px) scale(0.95);
-      transition:transform .4s cubic-bezier(.25,.8,.25,1);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      padding:2rem 2.2rem; max-width:680px; width:100%; max-height:90vh;
+      overflow-y:auto; position:relative;
+      transform:translateY(24px) scale(0.97);
+      transition:transform .35s cubic-bezier(.16,1,.3,1);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
     }
     .cert-modal-overlay.open .cert-modal-box { transform:translateY(0) scale(1); }
     .cert-modal-close {
-      position:absolute; top:1rem; right:1rem;
-      background:none; border:none; color:var(--muted);
-      font-size:1.1rem; cursor:pointer; transition:color .2s, transform .3s;
-      width:32px; height:32px; border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
+      position:absolute; top:1.2rem; right:1.2rem;
+      background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--muted);
+      font-size:1.1rem; cursor:pointer; transition:color .2s, transform .2s, background .2s;
+      width:34px; height:34px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; z-index:5;
     }
-    .cert-modal-close:hover { color:var(--text); transform: rotate(90deg); background: rgba(255,255,255,0.05); }
-    .cert-modal-badge-wrap { margin-bottom:1.2rem; }
-    .cert-modal-name { font-family:"Bebas Neue",sans-serif; font-size:1.6rem; letter-spacing:.04em; color:var(--text); margin-bottom:.4rem; line-height:1.2; }
-    .cert-modal-date { font-family:"DM Mono",monospace; font-size:.65rem; color:var(--muted); letter-spacing:.1em; margin-bottom:1.2rem; }
-    .cert-modal-desc { font-size:.85rem; color:var(--text-secondary); line-height:1.7; margin-bottom:1.6rem; }
+    .cert-modal-close:hover { color:#ffffff; transform: rotate(90deg); background: rgba(255,255,255,0.12); }
+    .cert-modal-badge-wrap { margin-bottom:1rem; }
+    .cert-modal-name { font-family:"Bebas Neue",sans-serif; font-size:1.75rem; letter-spacing:.04em; color:var(--text); margin-bottom:.3rem; line-height:1.2; }
+    .cert-modal-date { font-family:"DM Mono",monospace; font-size:.68rem; color:var(--muted); letter-spacing:.1em; margin-bottom:1.2rem; }
+    .cert-modal-preview {
+      width:100%; min-height:240px; max-height:460px; height:auto; margin-bottom:1.4rem;
+      border:1px solid var(--glass-border); border-radius:var(--radius-sm);
+      background:rgba(0,0,0,0.45); overflow:hidden; display:flex; align-items:center; justify-content:center;
+    }
+    .cert-modal-preview img { width:100%; height:auto; max-height:440px; object-fit:contain; display:block; margin:0 auto; }
+    .cert-modal-preview iframe { width:100%; height:420px; border:none; display:block; background:#fff; }
+    .cert-modal-desc { font-size:.88rem; color:var(--text-secondary); line-height:1.7; margin-bottom:1.6rem; }
+    .cert-modal-actions { display:flex; gap:.8rem; flex-wrap:wrap; align-items:center; }
     .cert-modal-verify {
-      display:inline-block; font-family:"DM Mono",monospace;
-      font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
-      padding:.6rem 1.4rem; text-decoration:none; border:1px solid; border-radius:50px;
-      transition:all .3s;
+      display:inline-flex; align-items:center; gap:.4rem; font-family:"DM Mono",monospace;
+      font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+      padding:.65rem 1.4rem; text-decoration:none; border:1px solid; border-radius:50px;
+      transition:all .25s ease; font-weight:500;
     }
-    .cert-modal-verify:hover { opacity:.8; transform: translateY(-2px); }
-    .cert-modal-preview { width:100%; height:320px; margin-bottom:1.4rem; border:1px solid var(--glass-border); border-radius:var(--radius-sm); background:rgba(0,0,0,0.3); overflow:hidden; }
-    .cert-modal-preview img { width:100%; height:100%; object-fit:contain; }
-    .cert-modal-preview iframe { width:100%; height:100%; border:none; }
+    .cert-modal-verify:hover { opacity:.85; transform: translateY(-2px); }
+    .cert-modal-pdf-link {
+      display:inline-flex; align-items:center; gap:.4rem; font-family:"DM Mono",monospace;
+      font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+      padding:.65rem 1.3rem; text-decoration:none; border:1px solid var(--border);
+      border-radius:50px; color:var(--text-secondary); background:rgba(255,255,255,0.03);
+      transition:all .25s ease;
+    }
+    .cert-modal-pdf-link:hover { color:#fff; border-color:var(--text-secondary); transform:translateY(-2px); }
 
     /* ─── CONTACT ─── */
     .contact-layout { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
@@ -1099,7 +1121,10 @@
     <div id="cert-modal-date" class="cert-modal-date"></div>
     <div id="cert-modal-preview" class="cert-modal-preview" style="display:none"></div>
     <div id="cert-modal-desc" class="cert-modal-desc"></div>
-    <a id="cert-modal-btn" href="#" target="_blank" rel="noopener" class="cert-modal-verify">Verify Credential &#x2197;</a>
+    <div class="cert-modal-actions">
+      <a id="cert-modal-btn" href="#" target="_blank" rel="noopener noreferrer" class="cert-modal-verify">Verify Credential &#x2197;</a>
+      <a id="cert-modal-pdf" href="#" target="_blank" rel="noopener noreferrer" class="cert-modal-pdf-link" style="display:none">View Document &#x2197;</a>
+    </div>
   </div>
 </div>
 
@@ -1324,16 +1349,30 @@ document.querySelectorAll('.btn').forEach(btn=>{
   function buildCard(cert){
     const st=getIssuerStyle(cert.issuer),card=document.createElement('div');
     card.className='cert-card '+st.cls;card.dataset.category=cert.category||'';
+    var topRow=document.createElement('div');
+    topRow.className='cert-top-row';
     var badge=document.createElement('span');
     badge.className='cert-issuer-badge '+st.cls;
     badge.textContent=cert.issuer||'';
+    topRow.appendChild(badge);
+
+    var viewBadge=document.createElement('span');
+    viewBadge.className='cert-view-badge';
+    var imgUrl = cert.image_url || '';
+    if (imgUrl) {
+      viewBadge.textContent = /\.(pdf)(\?.*)?$/i.test(imgUrl) ? '📄 PDF' : '🖼️ Preview';
+    } else {
+      viewBadge.textContent = 'View ↗';
+    }
+    topRow.appendChild(viewBadge);
+
     var nameEl=document.createElement('div');
     nameEl.className='cert-name';
     nameEl.textContent=cert.name||'';
     var dateEl=document.createElement('div');
     dateEl.className='cert-date';
     dateEl.textContent=cert.issued_date||'';
-    card.appendChild(badge);card.appendChild(nameEl);card.appendChild(dateEl);
+    card.appendChild(topRow);card.appendChild(nameEl);card.appendChild(dateEl);
     card.addEventListener('click',function(){openModal(cert,st);});return card;
   }
 
@@ -1350,6 +1389,7 @@ document.querySelectorAll('.btn').forEach(btn=>{
     document.getElementById('cert-modal-name').textContent=cert.name||'';
     document.getElementById('cert-modal-date').textContent=cert.issued_date||'';
     document.getElementById('cert-modal-desc').textContent=cert.description||'';
+
     var btn=document.getElementById('cert-modal-btn');
     var rawUrl=(cert.credential_url||'').trim();
     var isSafeUrl=/^https?:\/\//i.test(rawUrl);
@@ -1357,23 +1397,46 @@ document.querySelectorAll('.btn').forEach(btn=>{
     btn.style.color=color;btn.style.borderColor=color;
     btn.setAttribute('rel','noopener noreferrer');
     if(!isSafeUrl){btn.style.opacity='0.4';btn.style.pointerEvents='none';}else{btn.style.opacity='';btn.style.pointerEvents='';}
+
+    var pdfBtn=document.getElementById('cert-modal-pdf');
     var previewEl=document.getElementById('cert-modal-preview');
     previewEl.innerHTML='';
-    if(cert.image_url && /^https?:\/\//i.test(cert.image_url)){
-      previewEl.style.display='';
-      var isImg=/\.(png|jpg|jpeg|gif|webp)(\?.*)?$/i.test(cert.image_url);
-      if(isImg){
-        var img=document.createElement('img');
-        img.src=cert.image_url;img.alt=cert.name||'Certificate preview';img.loading='lazy';
-        previewEl.appendChild(img);
-      } else {
+
+    var mediaUrl = (cert.image_url || '').trim();
+    if(mediaUrl && /^https?:\/\//i.test(mediaUrl)){
+      previewEl.style.display='flex';
+      var isPdf = /\.(pdf)(\?.*)?$/i.test(mediaUrl);
+      var isImg = /\.(png|jpg|jpeg|gif|webp|svg)(\?.*)?$/i.test(mediaUrl) || mediaUrl.includes('thumb_blob') || mediaUrl.includes('thumb_image');
+
+      if (isPdf) {
         var frame=document.createElement('iframe');
-        frame.src=cert.image_url;frame.title=cert.name||'Certificate document';
-        frame.setAttribute('sandbox','allow-scripts allow-same-origin');
+        frame.src=mediaUrl;
+        frame.title=cert.name||'Certificate document';
+        frame.setAttribute('loading','lazy');
         previewEl.appendChild(frame);
+        if(pdfBtn){
+          pdfBtn.href=mediaUrl;
+          pdfBtn.style.display='inline-flex';
+          pdfBtn.textContent='Open PDF in New Tab ↗';
+        }
+      } else {
+        var img=document.createElement('img');
+        img.src=mediaUrl;
+        img.alt=cert.name||'Certificate preview';
+        img.loading='eager';
+        img.onerror=function(){
+          previewEl.style.display='none';
+        };
+        previewEl.appendChild(img);
+        if(pdfBtn){
+          pdfBtn.href=mediaUrl;
+          pdfBtn.style.display='inline-flex';
+          pdfBtn.textContent='Open Full Image ↗';
+        }
       }
     } else {
       previewEl.style.display='none';
+      if(pdfBtn) pdfBtn.style.display='none';
     }
     modal.setAttribute('aria-hidden','false');modal.classList.add('open');
   }
@@ -1399,30 +1462,33 @@ document.querySelectorAll('.btn').forEach(btn=>{
   grid.innerHTML='<div class="cert-loading">Loading certificates&hellip;</div>';
 
   var CERTS=[
-    {name:'AWS Cloud Quest: Machine Learning \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'AI / ML',color:'#ff9900',credential_url:'#',description:'Hands-on AWS Cloud Quest role building and deploying machine learning solutions on AWS.'},
-    {name:'AWS Cloud Quest: Generative AI Practitioner \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'AI / ML',color:'#ff9900',credential_url:'https://www.credly.com/badges/dd398919-ca80-4d96-b61e-5cdbd338a29d/public_url',description:'Hands-on AWS Cloud Quest role focused on building generative AI solutions on AWS.'},
-    {name:'AWS Cloud Quest: Data Analytics \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'Data',color:'#ff9900',credential_url:'#',description:'Hands-on AWS Cloud Quest role building data analytics pipelines and dashboards on AWS.'},
-    {name:'AWS Cloud Quest: Security \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'Cloud',color:'#ff9900',credential_url:'#',description:'Hands-on AWS Cloud Quest role implementing security best practices and controls on AWS.'},
-    {name:'AWS Cloud Quest: Solutions Architect \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'Cloud',color:'#ff9900',credential_url:'#',description:'Hands-on AWS Cloud Quest role designing resilient, scalable cloud architectures on AWS.'},
-    {name:'AWS Cloud Quest: Serverless Developer \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'Cloud',color:'#ff9900',credential_url:'#',description:'Hands-on AWS Cloud Quest role building serverless applications with Lambda and managed services.'},
-    {name:'AWS Solutions Architect Associate',issuer:'Udemy',issued_date:'May 2026',category:'Cloud',color:'#a435f0',credential_url:'#',description:'Course preparing for the AWS Certified Solutions Architect \u2013 Associate exam, covering core AWS services and architecture.'},
-    {name:'Web Development Fundamentals',issuer:'IBM',issued_date:'May 2026',category:'Web Dev',color:'#3b82f6',credential_url:'#',description:'IBM credential covering web development and front-end development fundamentals. Skills: Web Development, Front-End Development, +3 skills.'},
-    {name:'Getting Started with Docker',issuer:'Simplilearn',issued_date:'May 2026',category:'DevOps',color:'#22c55e',credential_url:'#',description:'Introduction to containerization with Docker \u2014 images, containers, and basic orchestration.'},
-    {name:'Work Meets Play: Metrics in Motion',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade challenge. Credential ID 23373798.'},
-    {name:'Arcade Voyage: AI and Cloud Deployment',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade challenge on AI and cloud deployment. Credential ID 23325145.'},
-    {name:'Arcade Base Camp March 2026',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade challenge. Credential ID 23350890.'},
-    {name:'Arcade Adventure: Security, Data, and Cloud Operations',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade challenge on security, data, and cloud operations.'},
-    {name:'Arcade Trail: Automation and Analytics',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade challenge on automation and analytics. Credential ID 23093177.'},
-    {name:'Arcade March 2026 Sprint 4',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade sprint. Credential ID 22832765.'},
-    {name:'Holi-istic Infrastructures',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade challenge on cloud infrastructure.'},
-    {name:'Arcade March 2026 Sprint 2',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade sprint. Credential ID 22727165.'},
-    {name:'Arcade March 2026 Sprint 1',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade sprint. Credential ID 22724232.'},
-    {name:'Skills At The Pitch',issuer:'Google',issued_date:'Feb 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',description:'Google Cloud Arcade challenge.'},
-    {name:'AWS Academy Graduate \u2014 Cloud Foundations',issuer:'Amazon Web Services (AWS)',issued_date:'Nov 2025',category:'Cloud',color:'#ff9900',credential_url:'https://www.credly.com/badges/9f0fea66-1703-4caf-b00a-8f41d6942662/public_url',description:'Foundational AWS certification covering core cloud concepts, services, and architecture.'},
-    {name:'Google Skill Badge: BigQuery for Data Analysts',issuer:'Google Developer Experts',issued_date:'Nov 2025',category:'Data',color:'#4285f4',credential_url:'#',description:'Skill badge for querying and analyzing data with BigQuery. Skills: Data Analysis, Google Sheets, +3 skills.'},
-    {name:'Machine Learning using Python',issuer:'Simplilearn',issued_date:'Nov 2025',category:'AI / ML',color:'#22c55e',credential_url:'#',description:'Hands-on machine learning course covering supervised, unsupervised learning and model evaluation using Python. Skills: Machine Learning, scikit-learn, +1 skill.'},
-    {name:'AWS \u2014 Solutions Architecture Job Simulation',issuer:'Forage',issued_date:'Nov 2025',category:'Cloud',color:'#7c3aed',credential_url:'#',description:'Virtual job simulation designing scalable AWS solutions for real-world business scenarios. Credential ID FfLsirNugQx8nKXzX.'},
-    {name:'Deloitte Australia \u2014 Data Analytics Job Simulation',issuer:'Forage',issued_date:'Nov 2025',category:'Data',color:'#86bc25',credential_url:'#',description:'Virtual job simulation analyzing data and building dashboards for Deloitte Australia client scenarios.'},
+    {name:'AWS Academy Graduate \u2014 Cloud Foundations',issuer:'Amazon Web Services (AWS)',issued_date:'Nov 2025',category:'Cloud',color:'#ff9900',credential_url:'https://www.credly.com/badges/9f0fea66-1703-4caf-b00a-8f41d6942662/public_url',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/Cloud%20Foundations.pdf',description:'Foundational AWS certification covering core cloud concepts, services, and architecture.'},
+    {name:'Machine Learning using Python',issuer:'Simplilearn',issued_date:'Nov 2025',category:'AI / ML',color:'#22c55e',credential_url:'https://www.simplilearn.com/skillup-certificate-landing?token=eyJjb3Vyc2VfaWQiOiI2ODciLCJjZXJ0aWZpY2F0ZV91cmwiOiJodHRwczpcL1wvY2VydGlmaWNhdGVzLnNpbXBsaWNkbi5uZXRcL3NoYXJlXC85Mzg5Mzc2Xzk2OTQ1MDUxNzYzMDEzODEzOTA1LnBuZyIsInVzZXJuYW1lIjoiQmh1d2FuIEFkaGlrYXJpIn0%3D&referrer=https%3A%2F%2Flms.simplilearn.com%2Fcourses%2F2789%2FMachine-Learning-using-Python%2Fcertificate%2Fdownload-skillup&%24web_only=true',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/Machine%20learning%20using%20python.png',description:'Hands-on machine learning course covering supervised, unsupervised learning and model evaluation using Python.'},
+    {name:'AWS \u2014 Solutions Architecture Job Simulation',issuer:'Forage',issued_date:'Nov 2025',category:'Cloud',color:'#7c3aed',credential_url:'#',image_url:null,description:'Virtual job simulation designing scalable AWS solutions for real-world business scenarios. Credential ID FfLsirNugQx8nKXzX.'},
+    {name:'Deloitte Australia \u2014 Data Analytics Job Simulation',issuer:'Forage',issued_date:'Nov 2025',category:'Data',color:'#86bc25',credential_url:'#',image_url:null,description:'Practical data analytics simulation involving forensic data analysis and dashboard creation.'},
+    {name:'Google Skill Badge: BigQuery for Data Analysts',issuer:'Google Developer Experts',issued_date:'Nov 2025',category:'Data',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud skill badge for querying and analyzing large datasets using BigQuery.'},
+    {name:'Arcade Adventure: Analytics & Automation',issuer:'Google',issued_date:'Feb 2026',category:'Data',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade challenge covering analytics and automation workflows.'},
+    {name:'Arcade Base Camp February 2026',issuer:'Google',issued_date:'Feb 2026',category:'Data',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade foundational challenge completed in February 2026.'},
+    {name:'Google Arcade',issuer:'Google',issued_date:'Feb 2026',category:'Data',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade program completion badge.'},
+    {name:'Holi-istic Infrastructures',issuer:'Google',issued_date:'Mar 2026',category:'Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud infrastructure challenge covering compute, networking, and storage.'},
+    {name:'Arcade March 2026 \u2014 Sprint 2 & Sprint 4',issuer:'Google',issued_date:'Mar 2026',category:'Data',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade March 2026 sprint challenges completed.'},
+    {name:'AWS Cloud Quest: Generative AI Practitioner \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'AI / ML',color:'#ff9900',credential_url:'https://www.credly.com/badges/dd398919-ca80-4d96-b61e-5cdbd338a29d/public_url',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/Generative%20AI%20Practitioner%20certificate.pdf',description:'Hands-on AWS Cloud Quest role focused on building generative AI solutions on AWS.'},
+    {name:'AWS Cloud Quest: Solutions Architect \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'Cloud',color:'#ff9900',credential_url:'https://www.credly.com/badges/89c88a45-fe9b-4f61-b505-a9c6c0ae36ed/public_url',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/Solution%20Architect%20certificate.pdf',description:'AWS Cloud Quest role covering core solutions architecture patterns and best practices.'},
+    {name:'AWS Cloud Quest: Serverless Developer \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'Cloud',color:'#ff9900',credential_url:'https://www.credly.com/badges/1c4d1d1d-cd25-446c-93b9-89ee9a761adb/public_url',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/Serverless%20developer%20certificate.pdf',description:'AWS Cloud Quest role focused on building serverless applications using Lambda, API Gateway, and DynamoDB.'},
+    {name:'AWS Cloud Quest: Machine Learning \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'AI / ML',color:'#ff9900',credential_url:'https://www.credly.com/badges/9de25082-4fc4-4515-8e53-271d9dcfb5d0/public_url',image_url:'https://images.credly.com/images/0bbd6fa0-937a-4933-9581-d25dd860bb33/linkedin_thumb_blob',description:'Hands-on AWS Cloud Quest role building and deploying machine learning solutions on AWS.'},
+    {name:'AWS Cloud Quest: Data Analytics \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'Data',color:'#ff9900',credential_url:'https://www.credly.com/badges/c44f3a2c-ce18-416a-a38c-f7c7ec3bfaa6/public_url',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/Data%20Analytics%20certificate.pdf',description:'Hands-on AWS Cloud Quest role building data analytics pipelines and dashboards on AWS.'},
+    {name:'AWS Cloud Quest: Security \u2014 Training Badge',issuer:'Amazon Web Services (AWS)',issued_date:'May 2026',category:'Cloud',color:'#ff9900',credential_url:'https://www.credly.com/badges/9424c8d6-b925-4bf4-9526-83869d86192e/public_url',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/AWS%20Cloud%20Quest%20Security%20certificate.pdf',description:'Hands-on AWS Cloud Quest role implementing security best practices and controls on AWS.'},
+    {name:'AWS Solutions Architect Associate',issuer:'Udemy',issued_date:'May 2026',category:'Cloud',color:'#a435f0',credential_url:'#',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/AWS%20Solutions%20Architect.pdf',description:'Course preparing for the AWS Certified Solutions Architect \u2013 Associate exam, covering core AWS services and architecture.'},
+    {name:'Web Development Fundamentals',issuer:'IBM',issued_date:'May 2026',category:'Web Dev',color:'#3b82f6',credential_url:'https://www.credly.com/badges/f4ed8d3e-d09b-4b70-b9d0-ebcb1548c230/public_url',image_url:'https://images.credly.com/images/0c1c6eed-818c-4f78-bfaa-7ea8704c863a/linkedin_thumb_image.png',description:'IBM credential covering web development and front-end development fundamentals.'},
+    {name:'Getting Started with Docker',issuer:'Simplilearn',issued_date:'May 2026',category:'DevOps',color:'#22c55e',credential_url:'#',image_url:'https://tnuguievqklrdtkkcwhg.supabase.co/storage/v1/object/public/certificates/Getting%20Started%20with%20Docker%20certificate.pdf',description:'Introduction to containerization with Docker \u2014 images, containers, and basic orchestration.'},
+    {name:'Work Meets Play: Metrics in Motion',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade challenge.'},
+    {name:'Arcade Voyage: AI and Cloud Deployment',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade challenge on AI and cloud deployment.'},
+    {name:'Arcade Base Camp March 2026',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade challenge.'},
+    {name:'Arcade Adventure: Security, Data, and Cloud Operations',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade challenge on security, data, and cloud operations.'},
+    {name:'Arcade Trail: Automation and Analytics',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade challenge on automation and analytics.'},
+    {name:'Arcade March 2026 Sprint 4',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade sprint.'},
+    {name:'Arcade March 2026 Sprint 1',issuer:'Google',issued_date:'Mar 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade sprint.'},
+    {name:'Skills At The Pitch',issuer:'Google',issued_date:'Feb 2026',category:'Google Cloud',color:'#4285f4',credential_url:'#',image_url:null,description:'Google Cloud Arcade challenge.'}
   ];
 
   function render(certs){grid.innerHTML='';buildFilters(certs);certs.forEach(function(cert){grid.appendChild(buildCard(cert));});}
@@ -1433,7 +1499,16 @@ document.querySelectorAll('.btn').forEach(btn=>{
       var res=await fetch(SUPA_URL+'/rest/v1/certificates?select=*&order=id.asc',{headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}});
       if(!res.ok)throw new Error('fetch failed');
       var live=await res.json();
-      if(Array.isArray(live)&&live.length>=CERTS.length){render(live);}
+      if(Array.isArray(live)&&live.length>=CERTS.length){
+        // Merge image_url fallbacks if live cert does not specify one
+        live.forEach(function(lc){
+          if(!lc.image_url){
+            var match=CERTS.find(function(c){return c.name.toLowerCase()===lc.name.toLowerCase();});
+            if(match && match.image_url) lc.image_url=match.image_url;
+          }
+        });
+        render(live);
+      }
     }catch(e){/* keep embedded list */}
   })();
 })();
